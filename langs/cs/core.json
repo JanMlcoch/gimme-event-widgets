@@ -1,0 +1,160 @@
+{
+  "apiCallError": "Nefunguje volání na potřebné webové služby. Tato situace může nastat pokud používáte pluginy na blokování reklam (například uBlockOrigin).",
+  "defaultCurrency": "CZK",
+  "datePicker": {
+    "closeText": "Zavřít",
+    "prevText": "&#x3c;Dříve",
+    "nextText": "Později&#x3e;",
+    "currentText": "Nyní",
+    "monthNames": [
+      "leden",
+      "únor",
+      "březen",
+      "duben",
+      "květen",
+      "červen",
+      "červenec",
+      "srpen",
+      "září",
+      "říjen",
+      "listopad",
+      "prosinec"
+    ],
+    "monthNamesShort": [
+      "led",
+      "úno",
+      "bře",
+      "dub",
+      "kvě",
+      "čer",
+      "čvc",
+      "srp",
+      "zář",
+      "říj",
+      "lis",
+      "pro"
+    ],
+    "dayNames": [
+      "neděle",
+      "pondělí",
+      "úterý",
+      "středa",
+      "čtvrtek",
+      "pátek",
+      "sobota"
+    ],
+    "dayNamesShort": [
+      "ne",
+      "po",
+      "út",
+      "st",
+      "čt",
+      "pá",
+      "so"
+    ],
+    "dayNamesMin": [
+      "ne",
+      "po",
+      "út",
+      "st",
+      "čt",
+      "pá",
+      "so"
+    ],
+    "weekHeader": "Týd",
+    "dateFormat": "d.m.yy",
+    "dartDateFormat": "d.M.yyyy",
+    "firstDay": 1,
+    "isRTL": false,
+    "showMonthAfterYear": false,
+    "yearSuffix": ""
+  },
+  "timeFormats": {
+    "weekHeader": "Týd",
+    "dateFormat": "d.m.yy",
+    "dartDateFormat": "d.M.yyyy",
+    "shortDateFormat": "d.M."
+  },
+  "rightNavbar": {
+    "login": "Přihlášení",
+    "signUp": "Registrace",
+    "addEvent": "Přidej akci",
+    "map": "Mapa"
+  },
+  "login": {
+    "signIn": "Přihlásit se",
+    "loginText": "Login",
+    "passText": "Heslo",
+    "submitText": "Login",
+    "wrongLogin": "Chybný login nebo heslo",
+    "forgot": "Zapoměli jste své heslo?",
+    "forever": "Přihlásit trvale",
+    "facebook": {
+      "errorConnected": "Něco se pokazilo při Facebook přihlašování",
+      "errorNotInApp": "Nejste přihlášení do FB aplikace GimmeEvent",
+      "errorNotInFB": "Nejste přihlášeni na Facebook, prosím přihlašte se"
+    }
+  },
+  "signUp": {
+    "header": "Uživatelské nastavení"
+  },
+  "manageOrganizers": {
+    "header": "Organizátoři",
+    "add": "Přidat organizátora:",
+    "descriptionLabel": "Popis",
+    "createOrganizer": "Vytvořit organizátora",
+    "useOrganizer": "Vybrat organizátora",
+    "search": "Hledat:",
+    "listOfOrganizers": "Organizátoři události",
+    "noOrganizerLabel": "... událost nemá organizátora...",
+    "organizerName": "Jméno",
+    "organizerAddress": "Adresa",
+    "organizerIdentificationNumber": "IČO",
+    "contact": "Kontakt",
+    "cancel": "Zrušit"
+  },
+  "managePlaces": {
+    "listOfEvents": "Místa události",
+    "search": "Najdi a přidej místo",
+    "createPlace": "Vytvoř místo",
+    "usePlace": "Vyber",
+    "placeName": "Jméno",
+    "gps": "GPS",
+    "descriptionLabel": "Popis místa",
+    "mapFlag": "Toto místo použij v mapě jako výchozí",
+    "cancel": "Zrušit",
+    "noPlaceLabel": "Událost bez místa",
+    "showInMap": "Ukaž na mapě",
+    "invalidNumberOfPlaces": "Musí být vybráno alespoň jedno místo"
+  },
+  "forms": {
+    "cannotBeEmpty": "Položka musí být vyplněna"
+  },
+  "resetPassword": {
+    "resetPassword": "Resetovat heslo",
+    "newPassword": "Nové heslo",
+    "newPasswordAgain": "Zopakovat heslo",
+    "setNewPassword": "Nastav nové heslo"
+  },
+  "confirmUser": {
+    "confirmUser": "Děkujeme za vaši registraci. Přejeme mnoho příjemných chvil strávených v naší aplikaci.",
+    "wrongToken": "Váš potvrzující kód je chybný, použijte odkaz v obdrženém emailu. Přetrvávají-li potíže, napište nám.",
+    "continueToApp": "Pokračovat do aplikace"
+  },
+  "ui": {
+    "imagePicker": {
+      "change": "Změň",
+      "unsupported": "Nepodporovaný formát obrázku",
+      "sendImage": "Nahrát obrázek"
+    }
+  },
+  "smartSelect": {
+    "tagsLabel": "Tagy",
+    "invalidNumberOfTags": "Musí být vybrán alespoň jeden tag",
+    "findTag": "Najít tag"
+  },
+  "plannedEvents": {
+    "title": "Plánované akce",
+    "dateFormat": "d.M.yy"
+  }
+}

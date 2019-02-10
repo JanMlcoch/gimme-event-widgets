@@ -1,0 +1,37 @@
+{
+  "userSettings": {
+    "base": {
+      "userSettingsHeader": "Uživatelské nastavení",
+      "name": "Jméno",
+      "surname": "Příjmení",
+      "email": "Email",
+      "language": "Jazyk",
+      "city": "Město",
+      "changePassword": "Změnit heslo",
+      "oldPassword": "Staré heslo",
+      "newPassword": "Nové heslo",
+      "newPasswordAgain": "Nové heslo znovu",
+      "setNewPassword": "Nastavit heslo",
+      "deleteAccount": "Deaktivovat účet",
+      "deleteAccountBtn": "Deaktivovat",
+      "changeImage": "Změnit",
+      "yourDetails": "Vaše detaily"
+    },
+    "myEvents": {
+      "userEventsHeader": "My events",
+      "findEvent": "Najít událost",
+      "addEvent": "Přidat událost",
+      "dateFormat": "d. M. yyyy"
+    },
+    "placesAndOrganizers": {
+      "userPlacesAndOrganizersHeader": "Places and organizers",
+      "usedInEvent": "Místo je již využito v některé události"
+    },
+    "personalPreferences": {
+      "userPersonalPreferencesHeader": "Preferences"
+    },
+    "calendar": {
+      "userCalendarHeader": "Calendar"
+    }
+  }
+}

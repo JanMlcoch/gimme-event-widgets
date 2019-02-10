@@ -1,0 +1,269 @@
+/*Layout add event block START*/
+.addEventLeftColumn {
+    width: 49%;
+    min-width: 730px;
+    border: 1px solid black;
+    float: left;
+    height: 800px;
+    overflow: auto;
+    padding: 0 15px;
+}
+.sendButtonDisabled{
+    color: silver;
+}
+.appActivePlace{
+    border: 3px solid green;
+}
+
+.manageEventTabs{
+    width: 100%;
+}
+.modifyEventBase{
+    padding: 5px;
+}
+
+.tabLabel{
+    border: 2px solid black;
+    width: 15%;
+    height: 24px;
+    padding: 2px;
+    display: inline-block;
+    cursor: pointer;
+    font-size: 12px;
+    overflow: hidden;
+}
+
+.addEventLeftColumn .akcButton{
+    margin: 7px 9px;
+}
+.addEventLeftColumn h1{
+    font-size: 17pt;
+    margin: 10px 0 10px 0;
+}
+.addEventLeftColumn h2, label{
+    font-size: 10pt;
+    max-width: 100%;
+    font-weight: 600;
+    margin: 5px 0;
+}
+
+.addEventRightColumn {
+    width: 49%;
+    min-width: 500px;
+    border: 1px solid black;
+    float: left;
+}
+
+/*Layout add event block END*/
+
+/*Left part of add event block START*/
+.addEventLeftColumn input[type="text"]{
+    width: 110px;
+    height: 26px;
+}
+.eventLongInput{
+    width: 350px !important;
+}
+.eventShortInput{
+    width: 55px !important;
+}
+.eventDataBlock{
+    width: 340px;
+    border-left: 2px solid #28aadc;
+    padding: 0 0 0 5px;
+}
+.eventDataContent{
+    width: 160px;
+    margin: 0 0 0 5px;
+}
+.eventLabelWidth{
+    width: 70px;
+}
+.eventBaseInfoBlock{
+    width: 450px;
+}
+.eventImageBlock{
+    width: 190px;
+}
+.eventNameBlock{
+    width: 470px;
+}
+.eventNameBlock label{
+    width: 70px;
+}
+.eventOrganizerBlock{
+    width: 550px;
+}
+.eventPrivateBlock{
+    width: 190px;
+}
+.eventTagsBlock{
+    width: 450px;
+}
+#eventTags{
+    width: 200px;
+}
+.eventLanguageBlock{
+    width: 240px;
+}
+.eventTagsListBlock{
+    color: gray;
+    margin: 5px 15px;
+    width: 710px;
+    height: 70px;
+    overflow: auto;
+    border: 1px solid gray;
+    background-color: #eeeeee;
+}
+
+.eventTagsListBlock .appSsChosenTagTarget{
+    display: inline-flex;
+    padding: 1px 5px;
+    margin: 4px 5px 0 5px;
+    overflow: hidden;
+    background: #ffffff;
+    color: #3498db;
+    font-size: 10pt;
+    font-weight: 200;
+    border: 2px solid #28aadc;
+}
+.eventTagsListBlock .appSsChosenTagTarget:hover{
+    background-color: #28aadc;
+    cursor: pointer;
+    color: #ffffff;
+}
+
+.eventSocialBlock{
+    width: 340px;
+}
+.eventGalleryBlock{
+    width: 340px;
+}
+
+.eventPlaceNotSelected {
+    color: #28aadc;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+/*Left part of add event block END*/
+
+/*Right part of add event block START*/
+.tabsNav{
+    height: 36px;
+    margin: 8px 0 0 35px;
+    padding: 0;
+}
+.tabsNav li {
+    float: left;
+    display: inline-block;
+    list-style-type: none;
+}
+
+.tabsContent {
+    /*box-sizing: border-box;*/
+    /*margin: 35px 0 0 0;*/
+    border: 1px solid black;
+}
+
+#appPlaceCreateMapCont {
+    width: 300px;
+    height: 300px;
+}
+
+#appPlaceCreateMap {
+    width: 300px;
+    height: 300px;
+    position: relative;
+}
+
+.appPlacesInEvent, .appAddNewPlaceInEvent{
+    padding: 15px;
+}
+.appAddNewPlaceInEvent input{
+    width: 250px;
+}
+
+/*Right part of add event block END*/
+
+/*Image cropper START*/
+#appEventImage {
+    cursor: pointer;
+    width: 180px;
+}
+
+.eventImageBlock {
+    width: 200px;
+    margin: 0 0 0 50px;
+    position: relative;
+}
+
+.eventImageSelected img{
+    max-height: 100px;
+    max-width: 300px;
+    border: 1px solid lightblue;
+}
+.eventImageToSelect{
+    border-radius: 10px;
+    border: 2px dashed #28aadc;
+    background-color: #fefefe;
+    padding: 35px 0 0 10px;
+    height: 100px;
+    width: 200px;
+    display: inline-flex;
+}
+.eventImageToSelect:hover {
+    background-color: #eee;
+    cursor: pointer;
+}
+
+.imageCancelButton {
+    width: 20px;
+    height: 20px;
+    background: rgba(100,200,200,0.5);
+    position: absolute;
+    top: 0;
+    left: 0;
+    padding: 0 5px;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+/*Image cropper END*/
+
+#cropper {
+    display: none;
+}
+
+
+.appManagePriceBorderColor0{
+    outline: solid gold 2px;
+}
+.appManagePriceBorderColor1{
+    outline: solid green 2px;
+}
+.appManagePriceBorderColor2{
+    outline: solid blue 2px;
+}
+.appManagePriceBorderColor3{
+    outline: solid purple 2px;
+}
+.appManagePriceBorderColor4{
+    outline: solid teal 2px;
+}
+.appManagePriceBorderColor5{
+    outline: solid cyan 2px;
+}
+.appManagePriceBorderColor6{
+    outline: solid black 2px;
+}
+.appManagePriceBorderColor7{
+    outline: solid gray 2px;
+}
+.appManagePriceBorderColor8{
+    outline: solid pink 2px;
+}
+.appManagePriceBorderColor9{
+    outline: solid magenta 2px;
+}
+

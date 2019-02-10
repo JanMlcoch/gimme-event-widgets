@@ -1,0 +1,161 @@
+{
+  "apiCallError": "A call to required web service is blocked. That could happen, if you use some blocking plugins, for example uBlock Origin.",
+  "defaultCurrency": "USD",
+  "datePicker": {
+    "closeText": "Done",
+    "prevText": "Prev",
+    "nextText": "Next",
+    "currentText": "Today",
+    "monthNames": [
+      "January",
+      "February",
+      "March",
+      "April",
+      "May",
+      "June",
+      "July",
+      "August",
+      "September",
+      "October",
+      "November",
+      "December"
+    ],
+    "monthNamesShort": [
+      "Jan",
+      "Feb",
+      "Mar",
+      "Apr",
+      "May",
+      "Jun",
+      "Jul",
+      "Aug",
+      "Sep",
+      "Oct",
+      "Nov",
+      "Dec"
+    ],
+    "dayNames": [
+      "Sunday",
+      "Monday",
+      "Tuesday",
+      "Wednesday",
+      "Thursday",
+      "Friday",
+      "Saturday"
+    ],
+    "dayNamesShort": [
+      "Sun",
+      "Mon",
+      "Tue",
+      "Wed",
+      "Thu",
+      "Fri",
+      "Sat"
+    ],
+    "dayNamesMin": [
+      "Su",
+      "Mo",
+      "Tu",
+      "We",
+      "Th",
+      "Fr",
+      "Sa"
+    ],
+    "weekHeader": "Wk",
+    "dateFormat": "m/d/yy",
+    "dartDateFormat": "M/d/yyyy",
+    "timeFormat": "HH:mm",
+    "firstDay": 0,
+    "isRTL": false,
+    "showMonthAfterYear": false,
+    "yearSuffix": ""
+  },
+  "timeFormats": {
+    "weekHeader": "Wk",
+    "dateFormat": "m/d/yy",
+    "dartDateFormat": "M/d/yyyy",
+    "shortDateFormat": "d/M"
+  },
+  "rightNavbar": {
+    "login": "Přihlášení",
+    "signUp": "Registrace",
+    "addEvent": "Přidej akci",
+    "map": "Mapa"
+  },
+  "login": {
+    "signIn": "Sign in",
+    "loginText": "Login",
+    "passText": "Password",
+    "submitText": "Login",
+    "wrongLogin": "Wrong login or password",
+    "forgot": "Forgot your password?",
+    "forever": "Keep me signed in",
+    "facebook": {
+      "errorConnected": "Something went wrong with Facebook login",
+      "errorNotInApp": "You are not logged into FB application GimmeEvent",
+      "errorNotInFB": "You are not logged into Facebook, please log-in"
+    }
+  },
+  "signUp": {
+    "header": "User settings"
+  },
+  "manageOrganizers": {
+    "header": "Organizers manager",
+    "add": "Add organizer:",
+    "descriptionLabel": "Description",
+    "createOrganizer": "Create organizer",
+    "useOrganizer": "Use organizer",
+    "search": "Search:",
+    "listOfOrganizers": "Organizers in event",
+    "noOrganizerLabel": "... no organizer in event...",
+    "organizerName": "Name",
+    "organizerAddress": "Address",
+    "organizerIdentificationNumber": "Identification number",
+    "contact": "Contact",
+    "cancel": "Cancel"
+  },
+  "managePlaces": {
+    "listOfEvents": "Places in event",
+    "search": "Search to add place",
+    "createPlace": "Create place",
+    "usePlace": "Use this",
+    "placeName": "Name",
+    "gps": "GPS",
+    "descriptionLabel": "Place description",
+    "mapFlag": "Use in map",
+    "cancel": "Cancel",
+    "noPlaceLabel": "Event has no place yet",
+    "showInMap": "Show in map",
+    "invalidNumberOfPlaces": "At least one place has to be chosen"
+  },
+  "forms": {
+    "cannotBeEmpty": "Cannot be empty"
+  },
+  "resetPassword": {
+    "resetPassword": "Reset password",
+    "newPassword": "New password",
+    "newPasswordAgain": "New password again",
+    "setNewPassword": "Set new password"
+  },
+  "confirmUser": {
+    "confirmUser": "Thanks for your registration, enjoy our application",
+    "wrongToken": "Your confirmation code is wrong, please use link from registration email",
+    "continueToApp": "Continue to app"
+  },
+  "ui": {
+    "imagePicker": {
+      "change": "Change",
+      "unsupported": "Unsupported file type",
+      "sendImage": "Send image"
+    }
+  },
+  "smartSelect": {
+    "tagsLabel": "Tags",
+    "invalidNumberOfTags": "At least one tag has to be chosen",
+    "findTag": "Find tag"
+  },
+  "plannedEvents": {
+    "title": "Planned events",
+    "dateFormat": "m/d/yy"
+  }
+}

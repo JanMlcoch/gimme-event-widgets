@@ -1,0 +1,24 @@
+todo: process method of Task (?)
+todo: inteligent default priority management
+todo: mass event sorting IN_PROCESS
+todo: runner failsafe
+todo: runner doc failsafe (done?)
+todo: optimize GPS distance counting
+todo: what to do with sidos event
+todo: what to do with sidos user
+todo: import relations from tagMaster
+todo: solve update imprint waiting for info being able to overwrite more recent tag changes (TaskScheduler)
+todo: sort factorization
+todo: sort all events
+todo: make sidos detectable
+todo: discuss computor
+todo: import relations
+todo: upgrade scheduler tests
+todo: make sidos tests tests again
+todo: make gateway tests
+todo: create content SIDOS tests
+todo: discuss SIDOS validation (and envelope+task structure)
+todo: better testing of SIDOS entities
+todo: better testing of Computor
+todo: make responder not load his own storage (!)
+todo: create test db connection for GW2SIDOS storage (!)

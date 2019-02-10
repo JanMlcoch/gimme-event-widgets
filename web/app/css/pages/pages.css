@@ -1,0 +1,95 @@
+/* Forgotten password START */
+.centralBlock {
+  width: 400px;
+  text-align: center;
+}
+
+.centralBlock h2, h3 {
+  margin: 20px auto 20px auto;
+}
+
+.forgottenId {
+  margin: 2px auto 16px auto;
+  font-weight: bold;
+}
+
+#forgottenPasswordInput {
+  margin: 18px auto 0 auto;
+  height: 40px;
+  width: 250px;
+}
+
+.forgottenFindIt {
+  margin: 20px auto;
+}
+
+.forgottenPasswordBlock .confirmed {
+  color: green;
+}
+
+.forgottenPasswordBlock .error {
+  color: red;
+}
+
+/* Forgotten password END */
+
+/* Test Manager START */
+.test-manager-button {
+  display: inline-block;
+  padding: 4px;
+  border: 2px solid #656565;
+  margin: 2px;
+  position: relative;
+  cursor: pointer;
+}
+
+.test-manager-button-success {
+  background-color: #44ff44;
+}
+
+.test-manager-button-fail {
+  background-color: #ff4444;
+}
+
+.test-manager-button-ignored {
+  color: #888888;
+  background-color: #bbbbbb;
+}
+
+.test-manager-description, .test-manager-result {
+  position: absolute;
+  display: none;
+  padding: 3px;
+  text-align: left;
+  z-index: 5;
+  min-width: 200px;
+  left: -50px;
+}
+
+.test-manager-description {
+  background-color: white;
+  border: 1px solid #aaaaaa;
+}
+
+.test-manager-result {
+  background-color: #ffcc66;
+  border: 1px solid #996600;
+  font-family: monospace;
+}
+
+.test-manager-button:hover .test-manager-result,
+.test-manager-button:hover .test-manager-description {
+  display: block;
+}
+
+.test-manager-group {
+  font-size: large;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+#test_manager_heading {
+  cursor: pointer;
+}
+
+/* Test Manager END */

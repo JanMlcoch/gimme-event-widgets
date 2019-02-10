@@ -1,0 +1,71 @@
+{
+  "userSettings": {
+    "base": {
+      "userSettingsHeader": "User settings",
+      "name": "Name",
+      "surname": "Surname",
+      "email": "Email",
+      "language": "Language",
+      "city": "City",
+      "changePassword": "Change password",
+      "oldPassword": "Old password",
+      "newPassword": "New password",
+      "newPasswordAgain": "New password again",
+      "setNewPassword": "Set password",
+      "deleteAccount": "Deactivate Account",
+      "deleteAccountBtn": "Deactivate",
+      "changeImage": "Change",
+      "yourDetails": "Your details"
+    },
+    "myEvents": {
+      "userEventsHeader": "My events",
+      "findEvent": "Find event",
+      "addEvent": "Add event",
+      "deleteEvent": "Delete",
+      "editEvent": "Edit",
+      "cloneEvent": "Clone",
+      "futureEvents": "Events in future",
+      "pastEvents": "Events in past",
+      "confirmDelete": "Are you sure to delete this event?:",
+      "dateFormat": "mm/dd/yyyy",
+      "showMore": "Show more",
+      "showLess": "Show less",
+      "showAllEvents": "Show all events"
+    },
+    "placesAndOrganizers": {
+      "userPlacesAndOrganizersHeader": "Places and organizers",
+      "findPlace": "Find place",
+      "addPlace": "Add place",
+      "noDescription": "No description",
+      "edit": "edit",
+      "delete": "delete",
+      "placeGPS": "GPS:",
+      "placeName": "Name:",
+      "placeDescription": "Description:",
+      "confirmEdit": "Confirm:",
+      "cancelEdit": "Cancel:",
+      "confirmDelete": "Are you sure to delete this place?:",
+      "usedInEvent": "Warning: Place is used in event",
+      "selectInMap": "Select in map"
+    },
+    "personalPreferences": {
+      "userPersonalPreferencesHeader": "Preferences",
+      "preferencesTags": "Tags",
+      "favoriteGenres": "Favorite genres"
+    },
+    "calendar": {
+      "userCalendarHeader": "Calendar",
+      "calendarUrl": "Calendar url",
+      "calendarFrequency": "Count of events showed monthly",
+      "upTo3events": "1 to 3 events",
+      "upTo6events": "4 to 6 events",
+      "upTo10events": "7 to 10 events",
+      "upTo15events": "11 to 15 events",
+      "upTo20events": "16 to 20 events"
+    },
+    "social": {
+      "userSocialHeader": "Social",
+      "gPlus": "Google+"
+    }
+  }
+}

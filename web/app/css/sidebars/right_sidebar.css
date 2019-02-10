@@ -1,0 +1,27 @@
+
+#sidebar-right {
+    float: right;
+    opacity: 1;
+    transition: opacity .2s ease-in-out;
+    width: 140px;
+    padding-left: 5px;
+    position: absolute;
+    top: 0;
+}
+
+.menu-title {
+    text-align: center;
+}
+.nav-custom {
+    list-style-type: none;
+    padding-left: 0;
+}
+
+.nav-custom li {
+    margin-top: 5px;
+}
+
+.hidden-custom {
+    opacity: 0 !important;
+    display: none;
+}

@@ -1,0 +1,40 @@
+{
+  "navbar":{
+    "signIn":"Přihlásit",
+    "signUp":"Zaregistrovat",
+    "addEvent":"Přidat událost",
+    "userSettings":"Nastavení",
+    "recommendedEvents":"Doporučené",
+    "plannedEvents":"Plánované",
+    "test":"Test",
+    "logOut":"Odhlásit",
+    "userLoginLabel": "Přihlášen",
+    "registration": {
+      "signInWith": "Přihlásit se pomocí",
+      "signUp": "Registrovat se",
+      "newAccount": "Vytvořit nový účet",
+      "gPlus": "G+",
+      "login": "Login *",
+      "loginDuplicate": "Vaše přihlašovací jméno je již použito",
+      "emailDuplicate": "Váš email je již použit",
+      "facebook": "Facebook",
+      "firstName": "Jméno",
+      "surname": "Příjmení",
+      "email": "Email *",
+      "password1": "Heslo *",
+      "password2": "Zopakujte heslo *",
+      "licence": "Souhlasíte s",
+      "licenceInner": "licenčními podmínkami (které tuším ještě nemáme napsané)",
+      "createAccount": "Vytvořit účet",
+      "next": "Další",
+      "notValid": "Některé položky formuláře jsou vyplněny chybně",
+      "emailUsed": "Váš email je již použit (duplicita)",
+      "nameCannotBeEmpty": "Jméno i příjmení musí být vyplněno",
+      "invalidEmail": "Email není platný",
+      "notSamePassword": "Hesla se musí shodovat",
+      "minimalCharacters": "Heslo musí mít aplespoň 5 znaků",
+      "usedEmail": "Váš email je již použit (duplicita2)",
+      "usedLogin": "Vaše přihlašovací jméno je již použito (duplicita2)"
+    }
+  }
+}

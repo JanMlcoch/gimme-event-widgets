@@ -1,0 +1,108 @@
+
+/*#navbar{*/
+    /*margin-top: 7px;*/
+/*}*/
+
+#navbar .nav{
+    margin-top: 7px;
+}
+.navbar-custom-top {
+    margin-bottom: 0;
+    position: fixed;
+    transition: width .2s ease-in-out;
+    border-bottom: 1px solid #28aadc;
+    background: #f5f5f5;
+    height: 50px;
+}
+
+.navbar-custom-top.open-sidebar-right {
+    left: -140px;
+}
+
+.navbar-collapse-custom {
+    float: right;
+}
+
+.navbar-collapse-custom ul li {
+    margin-right: 5px;
+}
+
+.navbar-toggle {
+    background-color: #337ab7;
+}
+
+.navbar-header {
+    padding: 5px 5px 0 10px;
+}
+
+.icon-bar{
+    background-color: black;
+}
+.icon-settings{
+    width: 45px;
+    cursor: pointer;
+    margin: 2px;
+}
+.container {
+    transition: width .2s ease-in-out;
+    margin: 0;
+    padding: 0;
+    height: 100%;
+}
+
+.container.open-sidebar-right {
+    left: -200px;
+}
+
+.appNavbarWidgetUserLogin{
+    text-decoration: underline;
+}
+
+.logoImg{
+    height: 40px;
+    float: left;
+}
+
+.logoText{
+    font-family: "Fira sans extrabolditalic", "Fira sans", Verdana, Tahoma, sans-serif;
+    font-size: 26px;
+
+    margin: 2px 6px;
+    display: block;
+    float: left;
+    color: #2b2b2a;
+}
+@media (min-width: 768px){
+    .logoText{
+        width: 0;
+        overflow: hidden;
+    }
+}
+
+@media (min-width: 992px) {
+    .logoText {
+        width: 160px;
+    }
+}
+
+@media (min-width: 1200px){
+    .logoText{
+        width: 160px;
+    }
+}
+
+.headerBlock:first-of-type{
+    border-left: 1px solid #ddd;
+}
+.headerBlock{
+    float: left;
+    width: 50px;
+    height: 48px;
+    border-right: 1px solid #ddd;
+}
+
+.headerBlock div{
+    width: 100%;
+    text-align: center;
+    padding-top: 15px;
+}

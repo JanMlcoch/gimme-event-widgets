@@ -1,0 +1,40 @@
+{
+  "navbar":{
+    "signIn":"Sign In",
+    "signUp":"Sign Up",
+    "addEvent":"Add Event",
+    "userSettings":"Settings",
+    "recommendedEvents":"Recommended",
+    "plannedEvents":"Planned",
+    "test":"Test",
+    "logOut":"Log out",
+    "userLoginLabel": "Logged as",
+    "registration": {
+      "signInWith": "Sign in with",
+      "signUp": "Sign up",
+      "newAccount": "Create new account",
+      "gPlus": "G+",
+      "login": "Login *",
+      "loginDuplicate": "Login just used",
+      "emailDuplicate": "Email just used",
+      "facebook": "Facebook",
+      "firstName": "First name",
+      "surname": "Surname",
+      "email": "Email *",
+      "password1": "Password *",
+      "password2": "Password again *",
+      "licence": "You agree with",
+      "licenceInner": "licence agreenement",
+      "createAccount": "Create account",
+      "next": "Next",
+      "notValid": "Some values in input are not valid",
+      "emailUsed": "This email is already used",
+      "nameCannotBeEmpty": "Neither name nor surname can be empty",
+      "invalidEmail": "Invalid email address",
+      "notSamePassword": "Passwords have to be same",
+      "minimalCharacters": "Password must be at least 5 characters",
+      "usedEmail": "This email is already used",
+      "usedLogin": "This login is already used"
+    }
+  }
+}

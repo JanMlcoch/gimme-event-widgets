@@ -1,0 +1,33 @@
+name: akcnik
+version: 0.1.1
+description: Application Gimme event, best aplication for suggesting events
+dependencies:
+  browser: any
+  dart_to_js_script_rewriter: any
+  mustache_no_mirror: any
+  path: any
+  shelf: any
+  shelf_auth: any
+  shelf_route: any
+  shelf_exception_handler: any
+  postgresql: any
+  dbcrypt: any
+  intl: any
+  http: any
+  image: "1.1.16"
+  crypto: any
+  css_animation:
+  range_slider: any
+  validator: any
+  mailer: any
+  stack_trace: any
+  googleapis_auth: any
+  google_maps: ">=2.0.0 <3.0.0"
+# test: any
+#  http: "^0.11.3+3"
+dev_dependencies:
+  test: "^0.12.0"
+dependency_overrides:
+transformers:
+
+

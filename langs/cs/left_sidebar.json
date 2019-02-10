@@ -1,0 +1,34 @@
+{
+  "leftSidebar": {
+    "removePlaceFilter": "Zrušit filtr míst",
+    "closeSidebar": "Skrýt sidebar",
+    "events": {
+      "emptyEventsText": "Nenalezeny žádné události",
+      "unknownPlace": "Neznámé místo",
+      "bestRecommendation": "Doporučujeme",
+      "goodRecommendation": "Akce, které by vám mohly být blízké",
+      "casualRecommendation": "Mohly by se vám také líbit"
+    },
+    "eventsFilter": {
+      "inputPlaceholder": "filter"
+    },
+    "eventDetail": {
+      "loading": "Načítání",
+      "backToList": "Zpět k akcím",
+      "doCenterMap": "Vycentrovat mapu",
+      "webpageLink": "Link",
+      "fbLink": "FB",
+      "admission": "Poplatky",
+      "admissionNote": "Poznámka",
+      "organizer": "Organizátor",
+      "noOrganizers": "Neznámý organizátor",
+      "contactUs": "Kontaktujte nás",
+      "email": "Email",
+      "phone": "Telefon",
+      "defaultFlag": "Základní cena",
+      "from": "Od",
+      "to": "Do",
+      "date": "Konání"
+    }
+  }
+}

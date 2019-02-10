@@ -1,0 +1,83 @@
+/* Time picker START */
+.datePart:first-of-type {
+    border-top: none;
+    padding-top: 0;
+}
+
+.datePart {
+    border-bottom: 1px solid silver;
+    padding-top: 8px;
+    padding-bottom: 3px;
+}
+
+.timePickerCont {
+    position: absolute;
+    /*width: 164px;*/
+    padding: 10px;
+    margin: 2px -30px;
+    max-width: 240px;
+    border: 1px solid silver;
+    background-color: white;
+    text-align: center;
+
+    -webkit-box-shadow: 2px 0px 30px 0px rgba(0, 0, 0, 0.5);
+    -moz-box-shadow: 2px 0px 30px 0px rgba(0, 0, 0, 0.5);
+    box-shadow: 2px 0px 30px 0px rgba(0, 0, 0, 0.5);
+}
+
+.timePickerValue {
+    width: 48px;
+    height: 24px;
+    font-size: 13px;
+    cursor: pointer;
+    /*background-color: whitesmoke;*/
+    display: inline-block;
+    /*border: 1px solid #28aadc;*/
+    border-top: 1px solid #28aadc;
+    margin: 4px;
+    padding: 4px;
+    text-align: center;
+}
+
+.timePickerValue:hover {
+    font-weight: bold;
+}
+/* Time picker END */
+
+
+/* Rating box START */
+.eventDetailRating{
+    height: 24px;
+}
+
+.eventDetailRating .ratingStars{
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.eventDetailRating .ratingItem{
+    height: 24px;
+    width: 24px;
+    float: left;
+    cursor: pointer;
+    background: url(../../images/ui/stars.png);
+}
+
+.eventDetailRating:hover .ratingItem.selected {
+    background-position: 0 0;
+}
+
+.eventDetailRating:hover .ratingItem.active {
+    background-position: -24px 0;
+}
+
+.eventDetailRating .ratingItem.active, .eventDetailRating .ratingItem:hover, .eventDetailRating .ratingItem.selected {
+    background-position: -24px 0;
+}
+
+
+
+
+/* Rating box END */
+

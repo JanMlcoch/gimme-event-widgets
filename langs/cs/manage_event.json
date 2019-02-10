@@ -1,0 +1,139 @@
+{
+  "manageEvent":{
+    "notLogged": "Je nám líto, Vaše přihlášení vypršelo ",
+    "base": "Základní",
+    "extended": "Rozšířený",
+    "paymentAndOrganizers": "Poplatky a pořadatelé",
+    "places": "Místa",
+    "social": "Sociální",
+    "gallery": "Galerie",
+    "save": "Uložit",
+    "createSuccessFull": "Událost byla vytořena",
+    "createError": "Při úpravě události došlo k chybě",
+    "notValid": "Událost není platná",
+    "edit": "Upravit",
+    "returnToEdit": "Zpět k úpravě",
+    "newEvent": "Vytvořit novou událost",
+    "baseLangs": {
+      "eventNameLabel": "Název události",
+      "eventFromLabel": "Od",
+      "eventFromTimeLabel": "Začátek",
+      "eventToLabel": "Do",
+      "eventToTimeLabel": "Konec",
+      "imageLabel": "Obrázek / plakát",
+      "eventAnnotationLabel": "Anotace",
+      "eventAnnotationTitle": "Stručný popis akce, do 200 znaků",
+      "findAndSelectPlaceOnMap": "Zobraz mapu pro přidání místa",
+      "eventTagsLabel": "Tagy",
+      "eventImageLabel": "Přidat obrázek"
+    },
+    "extendedLangs": {
+      "eventQuickOrganizerLabel": "Organizátor",
+      "eventQuickOrganizerCreateButton": "Vytvořit",
+      "eventDescriptionLabel": "Popis",
+      "eventDescriptionTitle": "Úplný popis akce",
+      "eventLanguageLabel": "Jazyk",
+      "eventFbEventLabel": "FB událost",
+      "eventWebpageLabel": "Webová stránka",
+      "eventFbLinkNotValid": "Odkaz na Facebook není v platném tvaru.",
+      "eventWebLinkNotValid": "Odkaz na web není v platném tvaru.",
+      "eventPhysicalDemandsLabel": "Fyzická náročnost",
+      "eventPhysicalDemand1": "1 - jednoduchá",
+      "eventPhysicalDemand2": "2 - středně náročná",
+      "eventPhysicalDemand3": "3 - těžká",
+      "eventPhysicalDemand4": "4 - výzva",
+      "eventPhysicalDemand5": "5 - hardcore",
+      "eventPhysicalDemand6": "5+  boží"
+    },
+    "placesLangs": {
+      "errors": {
+        "tooShort": "Příliš krátké",
+        "used": "Místo se stejným názvem už existuje."
+      },
+      "eventPlaces": "Event places",
+      "clickToMapLabel": "Kliknout na mapu a vybrat místo.",
+      "createPlaceLabel": "Vytvořit místo",
+      "eventPlacesLabel": "Místo události",
+      "eventCreateNewPlace": "Vytvořit nové místo",
+      "eventPlaceNameLabel": "Jméno",
+      "eventPlaceDescriptionLabel": "Popis",
+      "eventPlaceAddressLabel": "Adresa",
+      "eventPlaceGPSLabel": "GPS",
+      "eventPlacesEditButton": "Upravit",
+      "eventPlacesSaveButton": "Uložit",
+      "eventPlacesRemoveButton": "Odstranit",
+      "eventPlacesFindPlace": "Najít místo",
+      "eventPlacesHintsLabel": "Rady",
+      "eventPlacesUseHint": "Použití",
+      "showInMapText": "Zobrazit na mapě",
+      "dontShowInMapText": "Nezobrazovat na mapě",
+      "mapPlace": "Zobrazit na mapě",
+      "noDescription": "Žádný popis pro tuto akci"
+    },
+    "paymentsAndOrganizersLangs": {
+      "eventAdmissionHeading": "Vstupné",
+      "eventAdmissionLabel": "Vstupné na událost",
+      "eventAddAdmission": "Přidat vstupné",
+      "eventAddAdmissionFlagLabel": "Kategorie",
+      "eventAddAdmissionValueLabel": "Cena",
+      "eventAddAdmissionCurrencyLabel": "Měna",
+      "eventAddAdmissionDescriptionLabel": "Popis",
+      "eventAddAdmissionButton": "Přidat",
+      "eventAdmissionEditButton": "Upravit",
+      "eventAdmissionRemoveButton": "Odstranit",
+      "eventOrganizerLabel": "Pořadatelé",
+      "eventOrganizerHeading": "Organizátoři",
+      "eventOrganizerEditButton": "Upravit",
+      "eventOrganizerRemoveButton": "Odstranit",
+      "eventOrganizerFindOrganizer": "Najít organizátora",
+      "eventCreateNewOrganizer": "Vytvořit nového organizátora",
+      "eventOrganizerAddButton": "Vytvořit a přidat k akci",
+      "eventOrganizerIdLabel": "Id",
+      "eventOrganizerDescriptionLabel": "Popis",
+      "eventOrganizerContactLabel": "Kontakt",
+      "eventOrganizerEmailLabel": "Email",
+      "eventCostEditButton": "Upravit",
+      "eventCostSaveButton": "Uložit"
+    },
+    "galleryLangs": {
+
+    },
+    "socialLangs": {
+      "eventPrivateLabel": "Osobní",
+      "eventSocialNetworksLabel": "Social sítě",
+      "eventSocialNetworksGoogle": "Google +",
+      "eventSocialNetworksFacebook": "Facebook",
+      "eventSocialNetworksFlickr": "Flickr",
+      "eventVideoLabel": "Video",
+      "eventSocialMaxParticipantsLabel": "Max účastníci",
+      "eventSocialExpectedParticipantsLabel": "Očekávaní účastníci",
+      "eventSocialFbLinkLabel": "Fb odkaz",
+      "eventSocialGLinkLabel": "G+ odkaz",
+      "eventSocialTwitterLinkLabel": "Twitter odkaz",
+      "eventSocialPinterestLinkLabel": "Pinterest odkaz",
+      "eventSocialInstagramLinkLabel": "Instagram odkaz",
+      "eventSocialInviteFriendsButton": "Pozvat přátele"
+    },
+    "quickPlace":{
+      "create": "Vytvořit",
+      "descriptionLabel": "Popis:",
+      "showInMap": "Ukaž na mapě",
+      "eventPlaceLabel": "Místa",
+      "findPlace": "Najít místo"
+    },
+    "validators":{
+      "base": {
+        "tooShortName": "Jméno musí mít minimálně 3 znaky",
+        "dateInvalidFormat": "Datum nemá platný formát",
+        "timeInvalidFormat": "Čas nemá platný formát",
+        "endBeforeStart": "Událost nemůže skončit předtím, než začne"
+      }
+    },
+    "facebook": {
+      "loadEvents": "Načíst události z Facebooku",
+      "importEvent": "Importovat do GimmeEvent",
+      "imported": "Již importováno",
+      "dateFormat": "d. M."
+    }
+  }
+}

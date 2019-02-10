@@ -1,0 +1,501 @@
+/*Layout and center container START*/
+@font-face {
+    font-family: "Fira sans";
+    src: url('fonts/firasans-regular.otf') format("opentype");
+    src: url('fonts/firasans-regular.woff') format('woff');
+    src: url('fonts/firasans-regular.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: "Fira sans bolditalic";
+    src: url('fonts/firasans-bolditalic.otf') format("opentype");
+    src: url('fonts/firasans-bolditalic.woff') format('woff');
+    src: url('fonts/firasans-bolditalic.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: "Fira sans extrabolditalic";
+    src: url('fonts/firasans-extrabolditalic.ttf') format('truetype');
+    src: url('fonts/firasans-extrabolditalic.ttf') format('truetype');
+    src: url('fonts/firasans-extrabolditalic.ttf') format('truetype');
+}
+
+html, body, #content {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+
+#pageContainer {
+    width: 0;
+    height: 0;
+    margin: 0;
+    padding: 0;
+}
+
+#appMap {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+#ui-datepicker-div {
+    z-index: 10000 !important;
+}
+
+body {
+    overflow: hidden;
+    font-size: 9pt;
+}
+
+p {
+    padding: 3px 10px;
+}
+
+label {
+    font-size: 9pt;
+}
+
+h2 {
+    font-size: 25px;
+}
+
+h2, h3 {
+    margin-bottom: 20px;
+}
+
+.appCentralWidgetsCont {
+    z-index: 2;
+    position: fixed;
+    top: 50px;
+    height: calc(100% - 50px);
+    width: 100%;
+
+    background: white;
+    -webkit-box-shadow: 2px 0px 30px 0px rgba(0, 0, 0, 0.5);
+    -moz-box-shadow: 2px 0px 30px 0px rgba(0, 0, 0, 0.5);
+    box-shadow: 2px 0px 30px 0px rgba(0, 0, 0, 0.5);
+}
+
+.fullWidth {
+    width: 100%;
+}
+
+#pageContainer {
+    z-index: 10;
+    position: relative;
+}
+
+.appContent {
+    margin-top: 50px;
+}
+
+/*Layout and center container END*/
+
+/*Default classes for all page START*/
+.hidden {
+    display: none;
+}
+
+.displayFlex {
+    display: flex;
+}
+
+.hover {
+    border: 3px solid green !important;
+}
+
+.highlight {
+    border: 3px solid lawngreen !important;
+}
+
+.invalid {
+    border: 2px solid red;
+}
+
+.floatLeft {
+    float: left;
+}
+
+.floatRight {
+    float: right;
+}
+
+.clear {
+    clear: both;
+}
+
+.block {
+    display: block;
+}
+
+.heightGap {
+    height: 5px;
+}
+
+.shift {
+    margin-left: 25px;
+}
+
+.bold {
+    font-weight: bold;
+}
+
+/*Default classes for all page END*/
+
+/* Default form styles START*/
+
+.inputWithLabel{
+    margin: 2px 0;
+}
+.inputWithLabel label{
+    width: 90px;
+}
+.inputWithLabel input{
+    margin: 0 40px 0 0;
+}
+.inputWithLongLabel{
+    margin: 2px 0;
+}
+.inputWithLongLabel label{
+    width: 130px;
+}
+.inputWithLongLabel input{
+    margin: 0 20px 0 0;
+}
+.eventLongInput{
+    width: 320px !important;
+}
+.eventShortInput {
+    width: 100px !important;
+}
+
+/* Default form styles END */
+
+
+
+
+/*Smart select styles START*/
+#ssContainer {
+    width: 200px;
+}
+
+.appSsTagOptionsTarget {
+    position: absolute;
+    z-index: 100000;
+    background-color: white;
+    width: 200px;
+    border: 1px solid gray;
+}
+
+.appSsOptionContainer {
+    height: 25px;
+    padding: 4px 2px;
+}
+
+.appChosenTagsTarget {
+    border: 1px solid gray;
+    padding: 5px;
+    margin: 5px 0;
+    width: 500px;
+    height: 80px;
+    border-radius: 5px;
+    overflow-y: auto;
+}
+
+.appSsChosenTagCont {
+    display: inline-block;
+    margin: 0 3px 5px 0;
+    border: 1px solid gray;
+    padding: 2px 8px;
+    border-radius: 15px;
+}
+
+.appSsOptionOnHover {
+    background-color: #28aadc;
+}
+
+.appSsOptionActive {
+    background-color: #28aadc;
+}
+
+.appRemoveChosenTagButton {
+    width: 16px;
+    height: 16px;
+    margin: 1px 0 0 7px;
+    font-size: 7pt;
+    padding: 0;
+    border-radius: 8px;
+}
+
+.appTagLabelInSsOption {
+    font-size: 8pt;
+    font-style: italic;
+}
+
+.appSsOptionsOpen {
+    z-index: 10000;
+    min-width: 150px;
+    background-color: white;
+    position: absolute;
+    border: 1px solid gray;
+}
+
+.appTagNameInSsOption {
+    cursor: default;
+    padding: 1px 4px;
+}
+
+/*Smart select styles END*/
+
+/* Quick places styles START */
+.tagSmartSelectContainer {
+    width: 800px;
+}
+
+.appSsTagContainer {
+    display: inline-block;
+}
+
+.appQuickPlaceCreateInputCont {
+    width: 520px;
+}
+
+/* Quick places styles END */
+
+/*Footer START*/
+
+.footer {
+    margin: 3px 0 30px 0;
+}
+
+.footer .footerCredits {
+    text-align: center;
+    margin: 3px 0;
+}
+
+.footerNav {
+    text-align: center;
+}
+
+.footerNav ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.footerNav ul li {
+    display: inline;
+}
+
+/*Footer END*/
+
+/*UI elements START*/
+.akcButton {
+    background: #ffffff;
+    color: #3498db;
+    font-size: 10pt;
+    font-weight: 200;
+    padding: 7px 13px;
+    border: solid #28aadc 2px;
+    text-decoration: none;
+    cursor: pointer;
+    outline: none;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+}
+
+.akcButton:hover {
+    color: #ffffff;
+    background: #28aadc;
+    text-decoration: none;
+}
+
+.akcButton.active {
+    color: #ffffff;
+    background: #28aadc;
+    text-decoration: none;
+}
+
+.akcButton.positive {
+    color: #ffffff;
+    border-color: #51CB57;
+    background: #71EB77;
+    text-decoration: none;
+}
+.akcButton.negative {
+    color: #ffffff;
+    border-color: #CB5151;
+    background: #EB7171;
+    text-decoration: none;
+}
+
+.akcButton[disabled], .akcButton.disabled {
+    background-color: lightgray;
+    color: gray;
+}
+
+.akcButton.small {
+    padding: 2px 7px;
+}
+
+.akcHr {
+    border-top: solid #28aadc 2px;
+}
+
+.akcInput {
+    border: solid #28aadc 1px;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+    padding: 5px;
+}
+
+.akcInput.invalid {
+    border-color: red;
+}
+
+.akcInput.invalid:focus {
+    outline: none;
+    /*border: 2px solid red*/
+    -webkit-box-shadow: 0px 0px 2px 0px red;
+    -moz-box-shadow: 0px 0px 2px 0px red;
+    box-shadow: 0px 0px 2px 0px red;
+}
+
+.errorMessage {
+    height: 15px;
+    font-size: 8pt;
+    color: red;
+    text-align: center;
+    width: 100%;
+    max-width: 430px;
+}
+
+.infoBlock {
+    margin: 5px 30px;
+    padding: 15px;
+    width: 80%;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+}
+
+.infoBlock button {
+    color: black;
+}
+
+.infoBlock.successful {
+    border-color: green;
+    color: green;
+    background-color: #ddffaa;
+}
+
+.infoBlock.failed {
+    border-color: red;
+    color: red;
+    background-color: pink;
+}
+
+/*UI elements END*/
+
+/* UI dialog START */
+.ui-dialog {
+    -webkit-box-shadow: 0px 0px 31px -3px rgba(0, 0, 0, 0.75);
+    -moz-box-shadow: 0px 0px 31px -3px rgba(0, 0, 0, 0.75);
+    box-shadow: 0px 0px 31px -3px rgba(0, 0, 0, 0.75);
+}
+
+/* UI dialog END */
+
+.appRemovePlaceFilter {
+    margin: 10px;
+    font-size: 2em;
+    border: 1px solid silver;
+    border-bottom: 3px solid silver;
+    border-right: 3px solid silver;
+    padding: 5px;
+    width: 265px;
+    cursor: pointer;
+    text-align: center;
+}
+
+.userSettingsImage .imagePickerCont .eventImageToSelect {
+    position: relative;
+    top: -100px;
+    left: 0;
+    width: 100px;
+    height: 100px;
+    opacity: 0;
+    overflow: hidden;
+    z-index: 100;
+    cursor: pointer;
+}
+
+.userSettingsImage .imagePickerCont .eventImageToSelect input {
+    cursor: pointer;
+}
+
+.userSettingsImage .imagePickerCont {
+    width: 100px;
+    height: 100px;
+    overflow: hidden;
+}
+
+/* Bootstrap edit */
+.col-lg-1, .col-lg-10, .col-lg-11, .col-lg-12, .col-lg-2, .col-lg-3, .col-lg-4, .col-lg-5, .col-lg-6, .col-lg-7, .col-lg-8, .col-lg-9, .col-md-1, .col-md-10, .col-md-11, .col-md-12, .col-md-2, .col-md-3, .col-md-4, .col-md-5, .col-md-6, .col-md-7, .col-md-8, .col-md-9, .col-sm-1, .col-sm-10, .col-sm-11, .col-sm-12, .col-sm-2, .col-sm-3, .col-sm-4, .col-sm-5, .col-sm-6, .col-sm-7, .col-sm-8, .col-sm-9, .col-xs-1, .col-xs-10, .col-xs-11, .col-xs-12, .col-xs-2, .col-xs-3, .col-xs-4, .col-xs-5, .col-xs-6, .col-xs-7, .col-xs-8, .col-xs-9 {
+    padding-right: 5px;
+    padding-left: 5px;
+}
+
+.gmapSearchInput {
+    padding: 6px;
+    background-color: white;
+    width: 350px;
+    height: 40px;
+    margin: 6px;
+    font-size: 20px;
+}
+
+.topMapMessage{
+    position: absolute;
+    top: 60px;
+    left: 430px;
+    background-color: white;
+    border: 1px solid silver;
+    z-index: 100;
+    padding: 10px;
+    font-size: 23px;
+    color: silver;
+    opacity: 0;
+    display:none;
+}
+
+
+.leftMedium .left{
+    width: 650px;
+}
+
+.leftMedium gimme-map{
+    margin-left: 650px;
+}
+
+.leftSmall .left{
+    width: 450px;
+}
+
+.leftSmall gimme-map{
+    margin-left: 450px;
+}
+
+.leftLarge .left{
+    width: 800px;
+}
+
+.leftLarge gimme-map{
+    margin-left: 800px;
+}

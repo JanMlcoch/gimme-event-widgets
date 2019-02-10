@@ -1,0 +1,29 @@
+
+/* Forms START */
+.ng-valid[required] {
+    border-left: 5px solid #42A948 !important;  /* green */
+}
+
+.ng-invalid.ng-dirty {
+    border-left: 5px solid #a94442 !important; /* red */
+    margin-bottom: 0 !important;
+}
+
+/*.ng-invalid {*/
+    /*margin-bottom: 0 !important;*/
+/*}*/
+
+.ng-valid {
+    margin-bottom: 20px !important;
+}
+
+.alert {
+    height: 16px !important;
+    padding: 0 !important;
+    margin: 2px !important;
+}
+
+
+
+
+/* Forms END */

@@ -1,0 +1,1 @@
+<p>{{common.contact.text}} <a href="{{{common.contact.email}}}" target="_blank">{{common.contact.label}}</a>.</p>

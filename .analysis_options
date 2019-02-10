@@ -1,0 +1,20 @@
+analyzer:
+  strong-mode: true
+  exclude:
+    - lib/resources.dart
+linter:
+  rules:
+    - hash_and_equals
+    - avoid_empty_else
+    - camel_case_types
+    - always_declare_return_types
+    - camel_case_types
+    - empty_constructor_bodies
+    - implementation_imports
+#    - lowercase_with_underscores
+    - library_prefixes
+    - non_constant_identifier_names
+    - super_goes_last
+    - type_init_formals
+    - unnecessary_brace_in_string_interp
+    - avoid_init_to_null

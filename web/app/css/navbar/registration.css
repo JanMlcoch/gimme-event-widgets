@@ -1,0 +1,86 @@
+/* Dialog styles START */
+.registrationCont{
+    padding: 15px 10px;
+}
+.registrationCont h2{
+    margin: 6px 3px;
+    font-size: 14pt;
+}
+.noTitleStuff .ui-dialog-titlebar {
+     display:none
+}
+
+/* Dialog styles END */
+
+/* Login START */
+.appLoginWidget{
+    width: 220px;
+}
+.appLoginWidget div{
+    float: left;
+}
+.appLoginWidget a{
+    float: right;
+}
+.appLoginWidgetInputs{
+    width: 150px;
+    height: 60px;
+    margin: 0 0 5px 0;
+}
+.appLoginWidgetInputs input{
+    width: 150px;
+    height: 30px;
+}
+.appLoginWidgetConfirm{
+    width: 70px;
+    height: 60px;
+}
+.appLoginWidgetConfirm input{
+     height:  60px;
+ }
+.appLoginWidgetForever{
+    margin: 0 0 12px 0;
+}
+/* Login END */
+
+/* Sign up START */
+.appSignUpCont button{
+    width: 150px;
+    height: 40px;
+    margin-top: 4px;
+}
+.appSignUpCont hr{
+    width: 110%;
+    margin-left: -5%;
+}
+.appSignUpDots{
+    width: 83px;
+}
+.appSignUpDots div{
+    width: 10px;
+    height: 10px;
+    border-radius: 5px;
+    border: 1px solid #28aadc;
+    margin: 0 7px 15px 7px;
+    display: inline-block;
+}
+.appSignUpDots div.full{
+    background-color: #28aadc;
+}
+.appSignUpData{
+    width: 250px;
+}
+.appSignUpData input{
+    height: 40px;
+    width: 100%;
+    margin: 2px 0;
+}
+.appSignUpButtons button{
+    float: right;
+    margin: 15px 0 15px 5px;
+}
+.appSignUpData input.half{
+    width: 50%;
+}
+
+/* Sign up END */

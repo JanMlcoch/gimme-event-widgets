@@ -1,0 +1,35 @@
+{
+  "mailer": {
+    "server_site": "http://akcnik.cz",
+    "on_portal": " na portálu Akčník.cz",
+    "server_name": "Akčník.cz",
+    "common": {
+      "here": "ZDE",
+      "contact": {
+        "text": "V případě jakýchkoliv otázek či připomínek nás kontaktujte na",
+        "email": "mailto:akcnikservice@gmail.com",
+        "label": "akcnikservice@gmail.com"
+      },
+      "after_note": {
+        "text_pre": "Přejeme Vám spoustu zábavy a věříme, že Vám",
+        "text_post": "pomůže s hledáním cesty za zážitky."
+      }
+    },
+    "reset_password": {
+      "header": "Obnova hesla",
+      "text_click_on": "Pro změnu hesla klikněte na",
+      "url": "/app/#reset_password?token="
+    },
+    "confirm_user": {
+      "header": "Potvrzení registrace",
+      "text": "děkujeme za registraci na portálu Akčník.cz. K úplnému dokončení registrace stačí potvrdit Váš e-mail klikem",
+      "url": "/app/#confirm_user?token="
+    },
+    "recommended_events": {
+      "header": "Doporučené akce",
+      "pre_text": "Náš SIDOS stroj Vám doporučil tyto akce:",
+      "from": "Začátek",
+      "post_text": "Doufáme, že nabídnuté akce se Vám líbí."
+    }
+  }
+}

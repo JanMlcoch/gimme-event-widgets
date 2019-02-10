@@ -1,0 +1,1041 @@
+--
+-- PostgreSQL database dump
+--
+
+-- Dumped from database version 8.4.2
+-- Dumped by pg_dump version 9.5.1
+
+-- Started on 2016-04-03 12:35:02
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = off;
+SET check_function_bodies = false;
+SET client_min_messages = warning;
+SET escape_string_warning = off;
+SET row_security = off;
+
+SET SESSION AUTHORIZATION 'akcnik.thilisar.cz';
+
+DROP DATABASE "akcnik.thilisar.cz";
+--
+-- TOC entry 1916 (class 1262 OID 48061202)
+-- Name: akcnik.thilisar.cz; Type: DATABASE; Schema: -; Owner: akcnik.thilisar.cz
+--
+
+CREATE DATABASE "akcnik.thilisar.cz" WITH TEMPLATE = template0 ENCODING = 'UTF8' LC_COLLATE = 'C' LC_CTYPE = 'C';
+
+
+\connect "akcnik.thilisar.cz"
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = off;
+SET check_function_bodies = false;
+SET client_min_messages = warning;
+SET escape_string_warning = off;
+SET row_security = off;
+
+SET SESSION AUTHORIZATION 'postgres';
+
+--
+-- TOC entry 3 (class 2615 OID 2200)
+-- Name: public; Type: SCHEMA; Schema: -; Owner: postgres
+--
+
+CREATE SCHEMA public;
+
+
+--
+-- TOC entry 1917 (class 0 OID 0)
+-- Dependencies: 3
+-- Name: SCHEMA public; Type: COMMENT; Schema: -; Owner: postgres
+--
+
+COMMENT ON SCHEMA public IS 'standard public schema';
+
+
+SET SESSION AUTHORIZATION 'akcnik.thilisar.cz';
+
+SET search_path = public, pg_catalog;
+
+SET default_tablespace = '';
+
+SET default_with_oids = false;
+
+--
+-- TOC entry 155 (class 1259 OID 48075538)
+-- Name: events; Type: TABLE; Schema: public; Owner: akcnik.thilisar.cz
+--
+
+CREATE TABLE events (
+    id integer NOT NULL,
+    name text,
+    "from" timestamp with time zone,
+    "to" timestamp with time zone,
+    "insertedById" integer,
+    tags text,
+    language text,
+    description text,
+    price numeric,
+    "costsJson" text NOT NULL,
+    private boolean DEFAULT false,
+    "imprintCache" text,
+    "profileQuality" integer DEFAULT 0 NOT NULL,
+    "guestRateSum" integer DEFAULT 0 NOT NULL,
+    "guestRateCount" integer DEFAULT 0 NOT NULL,
+    "guestAttends" integer DEFAULT 0 NOT NULL,
+    "clientSettings" text,
+    "serverSettings" text,
+    "insertionTime" timestamp with time zone DEFAULT now(),
+    "maxParticipants" integer DEFAULT 0 NOT NULL,
+    "expectedParticipants" integer DEFAULT 0 NOT NULL,
+    "eventTag" text,
+    "parentEventId" integer,
+    webpage text,
+    "socialNetworks" text,
+    annotation text DEFAULT ' '::text
+);
+
+
+--
+-- TOC entry 154 (class 1259 OID 48075536)
+-- Name: action_id_seq; Type: SEQUENCE; Schema: public; Owner: akcnik.thilisar.cz
+--
+
+CREATE SEQUENCE action_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- TOC entry 1919 (class 0 OID 0)
+-- Dependencies: 154
+-- Name: action_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: akcnik.thilisar.cz
+--
+
+ALTER SEQUENCE action_id_seq OWNED BY events.id;
+
+
+--
+-- TOC entry 161 (class 1259 OID 49535671)
+-- Name: organizer; Type: TABLE; Schema: public; Owner: akcnik.thilisar.cz
+--
+
+CREATE TABLE organizer (
+    id integer NOT NULL,
+    name text,
+    address text,
+    "identificationNumber" text,
+    type text,
+    description text,
+    contact text
+);
+
+
+--
+-- TOC entry 160 (class 1259 OID 49535669)
+-- Name: organizer_id_seq; Type: SEQUENCE; Schema: public; Owner: akcnik.thilisar.cz
+--
+
+CREATE SEQUENCE organizer_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- TOC entry 1920 (class 0 OID 0)
+-- Dependencies: 160
+-- Name: organizer_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: akcnik.thilisar.cz
+--
+
+ALTER SEQUENCE organizer_id_seq OWNED BY organizer.id;
+
+
+--
+-- TOC entry 163 (class 1259 OID 49535683)
+-- Name: organizer_in_event; Type: TABLE; Schema: public; Owner: akcnik.thilisar.cz
+--
+
+CREATE TABLE organizer_in_event (
+    id integer NOT NULL,
+    "organizerId" integer,
+    "eventId" integer NOT NULL,
+    "orgFlag" integer DEFAULT 0
+);
+
+
+--
+-- TOC entry 165 (class 1259 OID 49535689)
+-- Name: organizer_in_user; Type: TABLE; Schema: public; Owner: akcnik.thilisar.cz
+--
+
+CREATE TABLE organizer_in_user (
+    id integer NOT NULL,
+    "idUser" integer,
+    "idOrganizer" integer,
+    role text
+);
+
+
+--
+-- TOC entry 162 (class 1259 OID 49535681)
+-- Name: organizer_to_event_id_seq; Type: SEQUENCE; Schema: public; Owner: akcnik.thilisar.cz
+--
+
+CREATE SEQUENCE organizer_to_event_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- TOC entry 1921 (class 0 OID 0)
+-- Dependencies: 162
+-- Name: organizer_to_event_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: akcnik.thilisar.cz
+--
+
+ALTER SEQUENCE organizer_to_event_id_seq OWNED BY organizer_in_event.id;
+
+
+--
+-- TOC entry 164 (class 1259 OID 49535687)
+-- Name: organizer_to_user_id_seq; Type: SEQUENCE; Schema: public; Owner: akcnik.thilisar.cz
+--
+
+CREATE SEQUENCE organizer_to_user_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- TOC entry 1922 (class 0 OID 0)
+-- Dependencies: 164
+-- Name: organizer_to_user_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: akcnik.thilisar.cz
+--
+
+ALTER SEQUENCE organizer_to_user_id_seq OWNED BY organizer_in_user.id;
+
+
+--
+-- TOC entry 157 (class 1259 OID 49535606)
+-- Name: place; Type: TABLE; Schema: public; Owner: akcnik.thilisar.cz
+--
+
+CREATE TABLE place (
+    id integer NOT NULL,
+    latitude double precision NOT NULL,
+    longitude double precision NOT NULL,
+    name text NOT NULL,
+    description text,
+    deprecated boolean DEFAULT false NOT NULL,
+    city text NOT NULL
+);
+
+
+--
+-- TOC entry 159 (class 1259 OID 49535620)
+-- Name: place_in_event; Type: TABLE; Schema: public; Owner: akcnik.thilisar.cz
+--
+
+CREATE TABLE place_in_event (
+    id integer NOT NULL,
+    "placeId" integer NOT NULL,
+    "eventId" integer NOT NULL,
+    description text NOT NULL,
+    "mapFlag" boolean DEFAULT true
+);
+
+
+--
+-- TOC entry 158 (class 1259 OID 49535618)
+-- Name: place_to_event_id_seq; Type: SEQUENCE; Schema: public; Owner: akcnik.thilisar.cz
+--
+
+CREATE SEQUENCE place_to_event_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- TOC entry 1923 (class 0 OID 0)
+-- Dependencies: 158
+-- Name: place_to_event_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: akcnik.thilisar.cz
+--
+
+ALTER SEQUENCE place_to_event_id_seq OWNED BY place_in_event.id;
+
+
+--
+-- TOC entry 156 (class 1259 OID 49535604)
+-- Name: places_id_seq; Type: SEQUENCE; Schema: public; Owner: akcnik.thilisar.cz
+--
+
+CREATE SEQUENCE places_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- TOC entry 1924 (class 0 OID 0)
+-- Dependencies: 156
+-- Name: places_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: akcnik.thilisar.cz
+--
+
+ALTER SEQUENCE places_id_seq OWNED BY place.id;
+
+
+--
+-- TOC entry 149 (class 1259 OID 48061272)
+-- Name: tag_master_repository; Type: TABLE; Schema: public; Owner: akcnik.thilisar.cz
+--
+
+CREATE TABLE tag_master_repository (
+    id integer NOT NULL,
+    repository text,
+    inserted timestamp without time zone DEFAULT ('now'::text)::timestamp without time zone,
+    settings text,
+    version integer DEFAULT 0 NOT NULL
+);
+
+
+--
+-- TOC entry 1925 (class 0 OID 0)
+-- Dependencies: 149
+-- Name: TABLE tag_master_repository; Type: COMMENT; Schema: public; Owner: akcnik.thilisar.cz
+--
+
+COMMENT ON TABLE tag_master_repository IS 'tag master output';
+
+
+--
+-- TOC entry 151 (class 1259 OID 48074934)
+-- Name: tag_master_repository_lock; Type: TABLE; Schema: public; Owner: akcnik.thilisar.cz
+--
+
+CREATE TABLE tag_master_repository_lock (
+    id integer NOT NULL,
+    "time" timestamp without time zone DEFAULT ('now'::text)::timestamp without time zone,
+    ip text,
+    settings text
+);
+
+
+--
+-- TOC entry 150 (class 1259 OID 48074932)
+-- Name: tag_master_repository_lock_id_seq; Type: SEQUENCE; Schema: public; Owner: akcnik.thilisar.cz
+--
+
+CREATE SEQUENCE tag_master_repository_lock_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- TOC entry 1926 (class 0 OID 0)
+-- Dependencies: 150
+-- Name: tag_master_repository_lock_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: akcnik.thilisar.cz
+--
+
+ALTER SEQUENCE tag_master_repository_lock_id_seq OWNED BY tag_master_repository_lock.id;
+
+
+--
+-- TOC entry 153 (class 1259 OID 48075387)
+-- Name: tags; Type: TABLE; Schema: public; Owner: akcnik.thilisar.cz
+--
+
+CREATE TABLE tags (
+    id integer NOT NULL,
+    repository text,
+    settings text,
+    "time" timestamp without time zone DEFAULT ('now'::text)::timestamp without time zone
+);
+
+
+--
+-- TOC entry 148 (class 1259 OID 48061270)
+-- Name: tags_id_seq; Type: SEQUENCE; Schema: public; Owner: akcnik.thilisar.cz
+--
+
+CREATE SEQUENCE tags_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- TOC entry 1927 (class 0 OID 0)
+-- Dependencies: 148
+-- Name: tags_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: akcnik.thilisar.cz
+--
+
+ALTER SEQUENCE tags_id_seq OWNED BY tag_master_repository.id;
+
+
+--
+-- TOC entry 152 (class 1259 OID 48075385)
+-- Name: tags_id_seq1; Type: SEQUENCE; Schema: public; Owner: akcnik.thilisar.cz
+--
+
+CREATE SEQUENCE tags_id_seq1
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- TOC entry 1928 (class 0 OID 0)
+-- Dependencies: 152
+-- Name: tags_id_seq1; Type: SEQUENCE OWNED BY; Schema: public; Owner: akcnik.thilisar.cz
+--
+
+ALTER SEQUENCE tags_id_seq1 OWNED BY tags.id;
+
+
+--
+-- TOC entry 147 (class 1259 OID 48061250)
+-- Name: users; Type: TABLE; Schema: public; Owner: akcnik.thilisar.cz
+--
+
+CREATE TABLE users (
+    id integer NOT NULL,
+    login text,
+    password text,
+    proven boolean,
+    role text,
+    tags text,
+    permissions text,
+    name text,
+    "clientSettings" text,
+    "serverSettings" text,
+    "imprintCache" text,
+    "levelCache" text,
+    email text,
+    address text,
+    language text DEFAULT 'en'::text,
+    surname text,
+    token text
+);
+
+
+--
+-- TOC entry 1929 (class 0 OID 0)
+-- Dependencies: 147
+-- Name: TABLE users; Type: COMMENT; Schema: public; Owner: akcnik.thilisar.cz
+--
+
+COMMENT ON TABLE users IS 'Users :-)';
+
+
+--
+-- TOC entry 146 (class 1259 OID 48061248)
+-- Name: user_id_seq; Type: SEQUENCE; Schema: public; Owner: akcnik.thilisar.cz
+--
+
+CREATE SEQUENCE user_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- TOC entry 1930 (class 0 OID 0)
+-- Dependencies: 146
+-- Name: user_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: akcnik.thilisar.cz
+--
+
+ALTER SEQUENCE user_id_seq OWNED BY users.id;
+
+
+--
+-- TOC entry 1763 (class 2604 OID 48075541)
+-- Name: id; Type: DEFAULT; Schema: public; Owner: akcnik.thilisar.cz
+--
+
+ALTER TABLE ONLY events ALTER COLUMN id SET DEFAULT nextval('action_id_seq'::regclass);
+
+
+--
+-- TOC entry 1777 (class 2604 OID 49535674)
+-- Name: id; Type: DEFAULT; Schema: public; Owner: akcnik.thilisar.cz
+--
+
+ALTER TABLE ONLY organizer ALTER COLUMN id SET DEFAULT nextval('organizer_id_seq'::regclass);
+
+
+--
+-- TOC entry 1778 (class 2604 OID 49535686)
+-- Name: id; Type: DEFAULT; Schema: public; Owner: akcnik.thilisar.cz
+--
+
+ALTER TABLE ONLY organizer_in_event ALTER COLUMN id SET DEFAULT nextval('organizer_to_event_id_seq'::regclass);
+
+
+--
+-- TOC entry 1780 (class 2604 OID 49535692)
+-- Name: id; Type: DEFAULT; Schema: public; Owner: akcnik.thilisar.cz
+--
+
+ALTER TABLE ONLY organizer_in_user ALTER COLUMN id SET DEFAULT nextval('organizer_to_user_id_seq'::regclass);
+
+
+--
+-- TOC entry 1773 (class 2604 OID 49535609)
+-- Name: id; Type: DEFAULT; Schema: public; Owner: akcnik.thilisar.cz
+--
+
+ALTER TABLE ONLY place ALTER COLUMN id SET DEFAULT nextval('places_id_seq'::regclass);
+
+
+--
+-- TOC entry 1775 (class 2604 OID 49535623)
+-- Name: id; Type: DEFAULT; Schema: public; Owner: akcnik.thilisar.cz
+--
+
+ALTER TABLE ONLY place_in_event ALTER COLUMN id SET DEFAULT nextval('place_to_event_id_seq'::regclass);
+
+
+--
+-- TOC entry 1756 (class 2604 OID 48061275)
+-- Name: id; Type: DEFAULT; Schema: public; Owner: akcnik.thilisar.cz
+--
+
+ALTER TABLE ONLY tag_master_repository ALTER COLUMN id SET DEFAULT nextval('tags_id_seq'::regclass);
+
+
+--
+-- TOC entry 1759 (class 2604 OID 48074937)
+-- Name: id; Type: DEFAULT; Schema: public; Owner: akcnik.thilisar.cz
+--
+
+ALTER TABLE ONLY tag_master_repository_lock ALTER COLUMN id SET DEFAULT nextval('tag_master_repository_lock_id_seq'::regclass);
+
+
+--
+-- TOC entry 1761 (class 2604 OID 48075390)
+-- Name: id; Type: DEFAULT; Schema: public; Owner: akcnik.thilisar.cz
+--
+
+ALTER TABLE ONLY tags ALTER COLUMN id SET DEFAULT nextval('tags_id_seq1'::regclass);
+
+
+--
+-- TOC entry 1754 (class 2604 OID 48061253)
+-- Name: id; Type: DEFAULT; Schema: public; Owner: akcnik.thilisar.cz
+--
+
+ALTER TABLE ONLY users ALTER COLUMN id SET DEFAULT nextval('user_id_seq'::regclass);
+
+
+--
+-- TOC entry 1931 (class 0 OID 0)
+-- Dependencies: 154
+-- Name: action_id_seq; Type: SEQUENCE SET; Schema: public; Owner: akcnik.thilisar.cz
+--
+
+SELECT pg_catalog.setval('action_id_seq', 89, true);
+
+
+--
+-- TOC entry 1901 (class 0 OID 48075538)
+-- Dependencies: 155
+-- Data for Name: events; Type: TABLE DATA; Schema: public; Owner: akcnik.thilisar.cz
+--
+
+INSERT INTO events (id, name, "from", "to", "insertedById", tags, language, description, price, "costsJson", private, "imprintCache", "profileQuality", "guestRateSum", "guestRateCount", "guestAttends", "clientSettings", "serverSettings", "insertionTime", "maxParticipants", "expectedParticipants", "eventTag", "parentEventId", webpage, "socialNetworks", annotation) VALUES (61, 'Mezinárodní den průvodců v Brně', '2016-02-21 10:00:00+01', '2016-02-22 12:00:00+01', 1, '["Pivo"]', '', '', 300, 'null', false, '', 0, 0, 0, 0, '', '', '2016-02-20 17:48:52.740089+01', 0, 0, '', NULL, 'Turistické informační centrum města Brna společně s Asociací průvodců ČR pořádá už 13. ročník Mezinárodního dne průvodců. Prohlídkové okruhy jsou připraveny na sobotu 20. a neděli 21. února 2016.
+', NULL, ' ');
+INSERT INTO events (id, name, "from", "to", "insertedById", tags, language, description, price, "costsJson", private, "imprintCache", "profileQuality", "guestRateSum", "guestRateCount", "guestAttends", "clientSettings", "serverSettings", "insertionTime", "maxParticipants", "expectedParticipants", "eventTag", "parentEventId", webpage, "socialNetworks", annotation) VALUES (54, 'Horký fest', '2015-01-31 10:00:00+01', '2015-01-31 10:00:00+01', 1, '["Pivo"]', 'en', '', 300, '[]', false, '', 0, 0, 0, 0, '', '', '2015-12-28 10:48:25.365997+01', 0, 0, '', NULL, NULL, NULL, ' ');
+INSERT INTO events (id, name, "from", "to", "insertedById", tags, language, description, price, "costsJson", private, "imprintCache", "profileQuality", "guestRateSum", "guestRateCount", "guestAttends", "clientSettings", "serverSettings", "insertionTime", "maxParticipants", "expectedParticipants", "eventTag", "parentEventId", webpage, "socialNetworks", annotation) VALUES (38, '<script>alert(''aaa'')</script>', '2015-01-11 10:00:00+01', '2015-01-11 17:00:00+01', 1, '["Pivo"]', 'en', '', 150, '[]', false, '', 0, 0, 0, 0, '', '', '2015-11-28 20:41:34.935631+01', 0, 0, '', NULL, NULL, NULL, ' ');
+INSERT INTO events (id, name, "from", "to", "insertedById", tags, language, description, price, "costsJson", private, "imprintCache", "profileQuality", "guestRateSum", "guestRateCount", "guestAttends", "clientSettings", "serverSettings", "insertionTime", "maxParticipants", "expectedParticipants", "eventTag", "parentEventId", webpage, "socialNetworks", annotation) VALUES (55, 'Koncert na mostě', '2015-01-31 10:00:00+01', '2015-01-31 10:00:00+01', 1, '["Koncert"]', 'en', 'Tato akce má popis. Je to velice zajímavý akce, která proběhne na mostě a proto se jmenuje "na mostě." Ale pozor, toto není pouze anotace, ale je to úplný popis akce.', 50, '[]', false, '', 0, 0, 0, 0, '', '', '2015-12-28 10:59:27.074188+01', 0, 0, '', NULL, 'www.koncert-na-moste.cz', NULL, ' Toto je pouze debilní anotace.');
+INSERT INTO events (id, name, "from", "to", "insertedById", tags, language, description, price, "costsJson", private, "imprintCache", "profileQuality", "guestRateSum", "guestRateCount", "guestAttends", "clientSettings", "serverSettings", "insertionTime", "maxParticipants", "expectedParticipants", "eventTag", "parentEventId", webpage, "socialNetworks", annotation) VALUES (59, 'Starwars', '2016-01-26 10:00:00+01', '2016-01-26 10:00:00+01', 1, '["Larp","Bitva","Sci-fi","Rytíř"]', 'en', '', 15, '[]', false, '', 0, 0, 0, 0, '', '', '2015-12-28 14:14:34.702057+01', 0, 0, '', NULL, NULL, NULL, ' ');
+INSERT INTO events (id, name, "from", "to", "insertedById", tags, language, description, price, "costsJson", private, "imprintCache", "profileQuality", "guestRateSum", "guestRateCount", "guestAttends", "clientSettings", "serverSettings", "insertionTime", "maxParticipants", "expectedParticipants", "eventTag", "parentEventId", webpage, "socialNetworks", annotation) VALUES (63, 'Festival Mene Tekel 2016', '2016-02-22 10:00:00+01', '2016-02-28 12:00:00+01', 1, '["Společenské oblečení"]', '', '', 0.0, 'null', false, '', 0, 0, 0, 0, '', '', '2016-02-21 18:03:22.513965+01', 0, 0, '', NULL, 'X. ročník mezinárodního festivalu proti totalitě, zlu a násilí, pro paměť národa Mene Tekel se uskuteční od 22. do 28. února 2016. Hlavním tématem bude Společenský, kulturní a duchovní život dětí a mládeže v době nesvobody.', NULL, ' ');
+INSERT INTO events (id, name, "from", "to", "insertedById", tags, language, description, price, "costsJson", private, "imprintCache", "profileQuality", "guestRateSum", "guestRateCount", "guestAttends", "clientSettings", "serverSettings", "insertionTime", "maxParticipants", "expectedParticipants", "eventTag", "parentEventId", webpage, "socialNetworks", annotation) VALUES (64, 'Festival Mene Tekel 2016', '2016-02-22 10:00:00+01', '2016-02-28 12:00:00+01', 1, '["Společenské oblečení"]', '', '', 0.0, 'null', false, '', 0, 0, 0, 0, '', '', '2016-02-21 18:04:21.488201+01', 0, 0, '', NULL, 'X. ročník mezinárodního festivalu proti totalitě, zlu a násilí, pro paměť národa Mene Tekel se uskuteční od 22. do 28. února 2016. Hlavním tématem bude Společenský, kulturní a duchovní život dětí a mládeže v době nesvobody.', NULL, ' ');
+INSERT INTO events (id, name, "from", "to", "insertedById", tags, language, description, price, "costsJson", private, "imprintCache", "profileQuality", "guestRateSum", "guestRateCount", "guestAttends", "clientSettings", "serverSettings", "insertionTime", "maxParticipants", "expectedParticipants", "eventTag", "parentEventId", webpage, "socialNetworks", annotation) VALUES (65, 'Festival Mene Tekel 2016', '2016-02-22 10:00:00+01', '2016-02-28 12:00:00+01', 1, '["Společenské oblečení"]', '', '', 0.0, 'null', false, '', 0, 0, 0, 0, '', '', '2016-02-21 18:04:24.665274+01', 0, 0, '', NULL, 'X. ročník mezinárodního festivalu proti totalitě, zlu a násilí, pro paměť národa Mene Tekel se uskuteční od 22. do 28. února 2016. Hlavním tématem bude Společenský, kulturní a duchovní život dětí a mládeže v době nesvobody.', NULL, ' ');
+INSERT INTO events (id, name, "from", "to", "insertedById", tags, language, description, price, "costsJson", private, "imprintCache", "profileQuality", "guestRateSum", "guestRateCount", "guestAttends", "clientSettings", "serverSettings", "insertionTime", "maxParticipants", "expectedParticipants", "eventTag", "parentEventId", webpage, "socialNetworks", annotation) VALUES (66, 'Festival Mene Tekel 2016', '2016-02-22 10:00:00+01', '2016-02-28 12:00:00+01', 1, '["Společenské oblečení"]', '', '', 0.0, 'null', false, '', 0, 0, 0, 0, '', '', '2016-02-21 18:04:25.290401+01', 0, 0, '', NULL, 'X. ročník mezinárodního festivalu proti totalitě, zlu a násilí, pro paměť národa Mene Tekel se uskuteční od 22. do 28. února 2016. Hlavním tématem bude Společenský, kulturní a duchovní život dětí a mládeže v době nesvobody.', NULL, ' ');
+INSERT INTO events (id, name, "from", "to", "insertedById", tags, language, description, price, "costsJson", private, "imprintCache", "profileQuality", "guestRateSum", "guestRateCount", "guestAttends", "clientSettings", "serverSettings", "insertionTime", "maxParticipants", "expectedParticipants", "eventTag", "parentEventId", webpage, "socialNetworks", annotation) VALUES (67, 'Festival Mene Tekel 2016', '2016-02-22 10:00:00+01', '2016-02-28 12:00:00+01', 1, '["Společenské oblečení"]', '', '', 0.0, 'null', false, '', 0, 0, 0, 0, '', '', '2016-02-21 18:04:25.408072+01', 0, 0, '', NULL, 'X. ročník mezinárodního festivalu proti totalitě, zlu a násilí, pro paměť národa Mene Tekel se uskuteční od 22. do 28. února 2016. Hlavním tématem bude Společenský, kulturní a duchovní život dětí a mládeže v době nesvobody.', NULL, ' ');
+INSERT INTO events (id, name, "from", "to", "insertedById", tags, language, description, price, "costsJson", private, "imprintCache", "profileQuality", "guestRateSum", "guestRateCount", "guestAttends", "clientSettings", "serverSettings", "insertionTime", "maxParticipants", "expectedParticipants", "eventTag", "parentEventId", webpage, "socialNetworks", annotation) VALUES (68, 'Festival Mene Tekel 2016', '2016-02-22 10:00:00+01', '2016-02-28 12:00:00+01', 1, '["Společenské oblečení"]', '', '', 0.0, 'null', false, '', 0, 0, 0, 0, '', '', '2016-02-21 18:04:25.560021+01', 0, 0, '', NULL, 'X. ročník mezinárodního festivalu proti totalitě, zlu a násilí, pro paměť národa Mene Tekel se uskuteční od 22. do 28. února 2016. Hlavním tématem bude Společenský, kulturní a duchovní život dětí a mládeže v době nesvobody.', NULL, ' ');
+INSERT INTO events (id, name, "from", "to", "insertedById", tags, language, description, price, "costsJson", private, "imprintCache", "profileQuality", "guestRateSum", "guestRateCount", "guestAttends", "clientSettings", "serverSettings", "insertionTime", "maxParticipants", "expectedParticipants", "eventTag", "parentEventId", webpage, "socialNetworks", annotation) VALUES (69, 'Festival Mene Tekel 2016', '2016-02-22 10:00:00+01', '2016-02-28 12:00:00+01', 1, '["Společenské oblečení"]', '', '', 0.0, 'null', false, '', 0, 0, 0, 0, '', '', '2016-02-21 18:04:25.739242+01', 0, 0, '', NULL, 'X. ročník mezinárodního festivalu proti totalitě, zlu a násilí, pro paměť národa Mene Tekel se uskuteční od 22. do 28. února 2016. Hlavním tématem bude Společenský, kulturní a duchovní život dětí a mládeže v době nesvobody.', NULL, ' ');
+INSERT INTO events (id, name, "from", "to", "insertedById", tags, language, description, price, "costsJson", private, "imprintCache", "profileQuality", "guestRateSum", "guestRateCount", "guestAttends", "clientSettings", "serverSettings", "insertionTime", "maxParticipants", "expectedParticipants", "eventTag", "parentEventId", webpage, "socialNetworks", annotation) VALUES (70, 'Festival Mene Tekel 2016', '2016-02-22 10:00:00+01', '2016-02-28 12:00:00+01', 1, '["Společenské oblečení"]', '', '', 0.0, 'null', false, '', 0, 0, 0, 0, '', '', '2016-02-21 18:04:25.997782+01', 0, 0, '', NULL, 'X. ročník mezinárodního festivalu proti totalitě, zlu a násilí, pro paměť národa Mene Tekel se uskuteční od 22. do 28. února 2016. Hlavním tématem bude Společenský, kulturní a duchovní život dětí a mládeže v době nesvobody.', NULL, ' ');
+INSERT INTO events (id, name, "from", "to", "insertedById", tags, language, description, price, "costsJson", private, "imprintCache", "profileQuality", "guestRateSum", "guestRateCount", "guestAttends", "clientSettings", "serverSettings", "insertionTime", "maxParticipants", "expectedParticipants", "eventTag", "parentEventId", webpage, "socialNetworks", annotation) VALUES (71, 'Festival Mene Tekel 2016', '2016-02-22 10:00:00+01', '2016-02-28 12:00:00+01', 1, '["Společenské oblečení"]', '', '', 0.0, 'null', false, '', 0, 0, 0, 0, '', '', '2016-02-21 18:04:26.042802+01', 0, 0, '', NULL, 'X. ročník mezinárodního festivalu proti totalitě, zlu a násilí, pro paměť národa Mene Tekel se uskuteční od 22. do 28. února 2016. Hlavním tématem bude Společenský, kulturní a duchovní život dětí a mládeže v době nesvobody.', NULL, ' ');
+INSERT INTO events (id, name, "from", "to", "insertedById", tags, language, description, price, "costsJson", private, "imprintCache", "profileQuality", "guestRateSum", "guestRateCount", "guestAttends", "clientSettings", "serverSettings", "insertionTime", "maxParticipants", "expectedParticipants", "eventTag", "parentEventId", webpage, "socialNetworks", annotation) VALUES (72, 'Festival Mene Tekel 2016', '2016-02-22 10:00:00+01', '2016-02-28 12:00:00+01', 1, '["Společenské oblečení"]', '', '', 0.0, 'null', false, '', 0, 0, 0, 0, '', '', '2016-02-21 18:04:26.290355+01', 0, 0, '', NULL, 'X. ročník mezinárodního festivalu proti totalitě, zlu a násilí, pro paměť národa Mene Tekel se uskuteční od 22. do 28. února 2016. Hlavním tématem bude Společenský, kulturní a duchovní život dětí a mládeže v době nesvobody.', NULL, ' ');
+INSERT INTO events (id, name, "from", "to", "insertedById", tags, language, description, price, "costsJson", private, "imprintCache", "profileQuality", "guestRateSum", "guestRateCount", "guestAttends", "clientSettings", "serverSettings", "insertionTime", "maxParticipants", "expectedParticipants", "eventTag", "parentEventId", webpage, "socialNetworks", annotation) VALUES (73, 'Festival Mene Tekel 2016', '2016-02-22 10:00:00+01', '2016-02-28 12:00:00+01', 1, '["Společenské oblečení"]', '', '', 0.0, 'null', false, '', 0, 0, 0, 0, '', '', '2016-02-21 18:04:27.89171+01', 0, 0, '', NULL, 'X. ročník mezinárodního festivalu proti totalitě, zlu a násilí, pro paměť národa Mene Tekel se uskuteční od 22. do 28. února 2016. Hlavním tématem bude Společenský, kulturní a duchovní život dětí a mládeže v době nesvobody.', NULL, ' ');
+INSERT INTO events (id, name, "from", "to", "insertedById", tags, language, description, price, "costsJson", private, "imprintCache", "profileQuality", "guestRateSum", "guestRateCount", "guestAttends", "clientSettings", "serverSettings", "insertionTime", "maxParticipants", "expectedParticipants", "eventTag", "parentEventId", webpage, "socialNetworks", annotation) VALUES (74, 'Festival Mene Tekel 2016', '2016-02-22 10:00:00+01', '2016-02-28 12:00:00+01', 1, '["Společenské oblečení"]', '', '', 0.0, 'null', false, '', 0, 0, 0, 0, '', '', '2016-02-21 18:04:28.109031+01', 0, 0, '', NULL, 'X. ročník mezinárodního festivalu proti totalitě, zlu a násilí, pro paměť národa Mene Tekel se uskuteční od 22. do 28. února 2016. Hlavním tématem bude Společenský, kulturní a duchovní život dětí a mládeže v době nesvobody.', NULL, ' ');
+INSERT INTO events (id, name, "from", "to", "insertedById", tags, language, description, price, "costsJson", private, "imprintCache", "profileQuality", "guestRateSum", "guestRateCount", "guestAttends", "clientSettings", "serverSettings", "insertionTime", "maxParticipants", "expectedParticipants", "eventTag", "parentEventId", webpage, "socialNetworks", annotation) VALUES (75, 'Festival Mene Tekel 2016', '2016-02-22 10:00:00+01', '2016-02-28 12:00:00+01', 1, '["Společenské oblečení"]', '', '', 0.0, 'null', false, '', 0, 0, 0, 0, '', '', '2016-02-21 18:04:28.235636+01', 0, 0, '', NULL, 'X. ročník mezinárodního festivalu proti totalitě, zlu a násilí, pro paměť národa Mene Tekel se uskuteční od 22. do 28. února 2016. Hlavním tématem bude Společenský, kulturní a duchovní život dětí a mládeže v době nesvobody.', NULL, ' ');
+INSERT INTO events (id, name, "from", "to", "insertedById", tags, language, description, price, "costsJson", private, "imprintCache", "profileQuality", "guestRateSum", "guestRateCount", "guestAttends", "clientSettings", "serverSettings", "insertionTime", "maxParticipants", "expectedParticipants", "eventTag", "parentEventId", webpage, "socialNetworks", annotation) VALUES (53, 'Moje akce v Praze', '2015-01-30 10:00:00+01', '2015-01-30 10:00:00+01', 1, '["Moře"]', 'en', '', 0.0, '[]', false, '', 0, 0, 0, 0, '', '', '2015-12-27 21:21:37.526566+01', 0, 0, '', NULL, NULL, NULL, ' ');
+INSERT INTO events (id, name, "from", "to", "insertedById", tags, language, description, price, "costsJson", private, "imprintCache", "profileQuality", "guestRateSum", "guestRateCount", "guestAttends", "clientSettings", "serverSettings", "insertionTime", "maxParticipants", "expectedParticipants", "eventTag", "parentEventId", webpage, "socialNetworks", annotation) VALUES (60, 'Chlastačka', '2016-01-29 10:00:00+01', '2016-01-29 12:00:00+01', 1, '["Pivo"]', 'en', '', 0.0, 'null', false, '', 0, 0, 0, 0, '', '', '2016-01-24 16:59:26.837195+01', 0, 0, '', NULL, 'anotace', NULL, ' ');
+INSERT INTO events (id, name, "from", "to", "insertedById", tags, language, description, price, "costsJson", private, "imprintCache", "profileQuality", "guestRateSum", "guestRateCount", "guestAttends", "clientSettings", "serverSettings", "insertionTime", "maxParticipants", "expectedParticipants", "eventTag", "parentEventId", webpage, "socialNetworks", annotation) VALUES (76, 'Festival Mene Tekel 2016', '2016-02-22 10:00:00+01', '2016-02-28 12:00:00+01', 1, '["Společenské oblečení"]', '', '', 0.0, 'null', false, '', 0, 0, 0, 0, '', '', '2016-02-21 18:05:20.220583+01', 0, 0, '', NULL, 'X. ročník mezinárodního festivalu proti totalitě, zlu a násilí, pro paměť národa Mene Tekel se uskuteční od 22. do 28. února 2016. Hlavním tématem bude Společenský, kulturní a duchovní život dětí a mládeže v době nesvobody.', NULL, ' ');
+INSERT INTO events (id, name, "from", "to", "insertedById", tags, language, description, price, "costsJson", private, "imprintCache", "profileQuality", "guestRateSum", "guestRateCount", "guestAttends", "clientSettings", "serverSettings", "insertionTime", "maxParticipants", "expectedParticipants", "eventTag", "parentEventId", webpage, "socialNetworks", annotation) VALUES (77, 'Festival Mene Tekel 2016', '2016-02-22 10:00:00+01', '2016-02-28 12:00:00+01', 1, '["Společenské oblečení"]', '', '', 0.0, 'null', false, '', 0, 0, 0, 0, '', '', '2016-02-21 18:05:28.343065+01', 0, 0, '', NULL, 'X. ročník mezinárodního festivalu proti totalitě, zlu a násilí, pro paměť národa Mene Tekel se uskuteční od 22. do 28. února 2016. Hlavním tématem bude Společenský, kulturní a duchovní život dětí a mládeže v době nesvobody.', NULL, ' ');
+INSERT INTO events (id, name, "from", "to", "insertedById", tags, language, description, price, "costsJson", private, "imprintCache", "profileQuality", "guestRateSum", "guestRateCount", "guestAttends", "clientSettings", "serverSettings", "insertionTime", "maxParticipants", "expectedParticipants", "eventTag", "parentEventId", webpage, "socialNetworks", annotation) VALUES (78, 'Jarní prázdniny se starokladrubáky', '2016-02-22 10:00:00+01', '2016-02-28 12:00:00+01', 1, '["Loutky"]', '', '', 0.0, 'null', false, '', 0, 0, 0, 0, '', '', '2016-02-21 20:53:23.357787+01', 0, 0, '', NULL, 'U příležitosti jarních prázdnin Národní hřebčín Kladruby nad Labem znovu otevře v rámci mimořádných prohlídek své areály v Kladrubech nad Labem, Slatiňanech a Heřmanově Městci. ', NULL, ' ');
+INSERT INTO events (id, name, "from", "to", "insertedById", tags, language, description, price, "costsJson", private, "imprintCache", "profileQuality", "guestRateSum", "guestRateCount", "guestAttends", "clientSettings", "serverSettings", "insertionTime", "maxParticipants", "expectedParticipants", "eventTag", "parentEventId", webpage, "socialNetworks", annotation) VALUES (79, 'Včéra a dnes - retrospektivní výstava Vladimíra Jiránka', '2016-02-23 10:00:00+01', '2016-02-25 12:00:00+01', 1, '["Lanovka"]', '', '', 0.0, 'null', false, '', 0, 0, 0, 0, '', '', '2016-02-21 21:00:54.731519+01', 0, 0, '', NULL, 'Kreslený svět Vladimíra Jiránka bude k vidění od února do června 2016 v Tančícím domě v Praze.', NULL, ' ');
+INSERT INTO events (id, name, "from", "to", "insertedById", tags, language, description, price, "costsJson", private, "imprintCache", "profileQuality", "guestRateSum", "guestRateCount", "guestAttends", "clientSettings", "serverSettings", "insertionTime", "maxParticipants", "expectedParticipants", "eventTag", "parentEventId", webpage, "socialNetworks", annotation) VALUES (80, 'Včéra a dnes - retrospektivní výstava Vladimíra Jiránka', '2016-02-23 10:00:00+01', '2016-02-25 12:00:00+01', 1, '["Lanovka"]', '', '', 0.0, 'null', false, '', 0, 0, 0, 0, '', '', '2016-02-21 21:01:46.842103+01', 0, 0, '', NULL, 'Kreslený svět Vladimíra Jiránka bude k vidění od února do června 2016 v Tančícím domě v Praze.', NULL, ' ');
+INSERT INTO events (id, name, "from", "to", "insertedById", tags, language, description, price, "costsJson", private, "imprintCache", "profileQuality", "guestRateSum", "guestRateCount", "guestAttends", "clientSettings", "serverSettings", "insertionTime", "maxParticipants", "expectedParticipants", "eventTag", "parentEventId", webpage, "socialNetworks", annotation) VALUES (81, 'Speciální prohlídka Relikviáře sv. Maura na zámku Bečov nad Teplou', '2016-02-22 10:00:00+01', '2016-02-26 12:00:00+01', 1, '["Kostel"]', '', '', 0.0, 'null', false, '', 0, 0, 0, 0, '', '', '2016-02-21 21:13:00.253339+01', 0, 0, '', NULL, '', '', 'Jedinečnou příležitost prohlédnout si relikviář sv. Maura mají všichni, kteří se vypraví na Státní hrad a zámek Bečov. 14:00 - I. okruh - relikviář sv. Maura.');
+INSERT INTO events (id, name, "from", "to", "insertedById", tags, language, description, price, "costsJson", private, "imprintCache", "profileQuality", "guestRateSum", "guestRateCount", "guestAttends", "clientSettings", "serverSettings", "insertionTime", "maxParticipants", "expectedParticipants", "eventTag", "parentEventId", webpage, "socialNetworks", annotation) VALUES (82, 'Severská noc', '2016-04-07 18:00:00+02', '2016-04-09 12:00:00+02', 1, '["Pivo","Vikingové","Příroda","Larp"]', '', '', 0.0, 'null', false, '', 0, 0, 0, 0, '', '', '2016-04-01 20:07:06.958797+02', 0, 0, '', NULL, '', '', 'Posezení s přáteli v jarní přírodě.');
+INSERT INTO events (id, name, "from", "to", "insertedById", tags, language, description, price, "costsJson", private, "imprintCache", "profileQuality", "guestRateSum", "guestRateCount", "guestAttends", "clientSettings", "serverSettings", "insertionTime", "maxParticipants", "expectedParticipants", "eventTag", "parentEventId", webpage, "socialNetworks", annotation) VALUES (62, 'Evropský Habitat - regionální konference OSN v Praze', '2016-03-16 10:00:00+01', '2016-03-18 12:00:00+01', 1, '["Kapitalismus"]', '', 'Evropský Habitat, konaný ve dnech 16.-18. března 2016 v Praze, bude mezinárodní regionální konferencí OSN v rámci Evropské hospodářské komise OSN (EHK OSN), která je jednou z 5 regionálních komisí OSN a sdružuje celkem 56 členských států Evropy, Balkánu, severní Ameriky a části Asie.', 2500, 'null', false, '', 0, 9, 2, 0, '', '', '2016-02-20 23:47:24.485659+01', 0, 0, '', NULL, 'www.habitant.cz', NULL, 'Anotation');
+INSERT INTO events (id, name, "from", "to", "insertedById", tags, language, description, price, "costsJson", private, "imprintCache", "profileQuality", "guestRateSum", "guestRateCount", "guestAttends", "clientSettings", "serverSettings", "insertionTime", "maxParticipants", "expectedParticipants", "eventTag", "parentEventId", webpage, "socialNetworks", annotation) VALUES (83, 'Starwars bitva', '2016-04-22 10:00:00+02', '2016-04-23 00:00:00+02', 1, '["Larp","Bitva","Sci-fi"]', '', '', 0.0, 'null', false, '', 0, 0, 0, 0, '', '', '2016-04-01 21:51:25.212139+02', 0, 0, '', NULL, '', '', 'Letní larpová pohybovka ve stylu Hvězdných válek');
+INSERT INTO events (id, name, "from", "to", "insertedById", tags, language, description, price, "costsJson", private, "imprintCache", "profileQuality", "guestRateSum", "guestRateCount", "guestAttends", "clientSettings", "serverSettings", "insertionTime", "maxParticipants", "expectedParticipants", "eventTag", "parentEventId", webpage, "socialNetworks", annotation) VALUES (84, 'Posezení v Hollandu', '2016-04-02 22:00:00+02', '2016-04-03 00:00:00+02', 1, '["Pivo","Hospoda"]', '', '', 0.0, 'null', false, '', 0, 0, 0, 0, '', '', '2016-04-02 13:19:06.720413+02', 0, 0, '', NULL, '', '', 'posezení');
+INSERT INTO events (id, name, "from", "to", "insertedById", tags, language, description, price, "costsJson", private, "imprintCache", "profileQuality", "guestRateSum", "guestRateCount", "guestAttends", "clientSettings", "serverSettings", "insertionTime", "maxParticipants", "expectedParticipants", "eventTag", "parentEventId", webpage, "socialNetworks", annotation) VALUES (85, 'vdf', '2016-04-13 10:00:00+02', '2016-04-13 12:00:00+02', 1, '["Šifrovačka"]', '', '', 0.0, 'null', false, '', 0, 0, 0, 0, '', '', '2016-04-02 13:48:13.214466+02', 0, 0, '', NULL, '', '', 'vdf');
+INSERT INTO events (id, name, "from", "to", "insertedById", tags, language, description, price, "costsJson", private, "imprintCache", "profileQuality", "guestRateSum", "guestRateCount", "guestAttends", "clientSettings", "serverSettings", "insertionTime", "maxParticipants", "expectedParticipants", "eventTag", "parentEventId", webpage, "socialNetworks", annotation) VALUES (86, 'vdf', '2016-04-13 10:00:00+02', '2016-04-13 12:00:00+02', 1, '["Šifrovačka"]', '', '', 0.0, 'null', false, '', 0, 0, 0, 0, '', '', '2016-04-02 14:01:37.132618+02', 0, 0, '', NULL, '', '', 'vdf');
+INSERT INTO events (id, name, "from", "to", "insertedById", tags, language, description, price, "costsJson", private, "imprintCache", "profileQuality", "guestRateSum", "guestRateCount", "guestAttends", "clientSettings", "serverSettings", "insertionTime", "maxParticipants", "expectedParticipants", "eventTag", "parentEventId", webpage, "socialNetworks", annotation) VALUES (87, 'Výstava lego panáčků', '2016-04-03 10:00:00+02', '2016-04-30 12:00:00+02', 1, '["Lego","Výstava"]', '', '', 0.0, 'null', false, '', 0, 0, 0, 0, '', '', '2016-04-02 18:08:18.582934+02', 0, 0, '', NULL, '', '', 'Výstava přímo v prostorách obchodního domu.');
+INSERT INTO events (id, name, "from", "to", "insertedById", tags, language, description, price, "costsJson", private, "imprintCache", "profileQuality", "guestRateSum", "guestRateCount", "guestAttends", "clientSettings", "serverSettings", "insertionTime", "maxParticipants", "expectedParticipants", "eventTag", "parentEventId", webpage, "socialNetworks", annotation) VALUES (88, 'Rektorský sportovní den', '2016-04-27 10:00:00+02', '2016-04-27 18:00:00+02', 1, '["Sportovní akce","Vzdělávání"]', '', '', 0.0, 'null', false, '', 0, 0, 0, 0, '', '', '2016-04-02 18:13:02.56841+02', 0, 0, '', NULL, '', '', 'Rektorský sportovní den UHK');
+INSERT INTO events (id, name, "from", "to", "insertedById", tags, language, description, price, "costsJson", private, "imprintCache", "profileQuality", "guestRateSum", "guestRateCount", "guestAttends", "clientSettings", "serverSettings", "insertionTime", "maxParticipants", "expectedParticipants", "eventTag", "parentEventId", webpage, "socialNetworks", annotation) VALUES (89, 'V pekle straší', '2016-04-09 10:00:00+02', '2016-04-09 10:50:00+02', 1, '["Divadlo","Pohádka"]', '', '', 0.0, 'null', false, '', 0, 0, 0, 0, '', '', '2016-04-02 18:59:41.435927+02', 0, 0, '', NULL, '', '', 'Hodné čarodějky ze Zeleného vršíčku nemají klid ani na penzi. Znovu se ocitají v pekle, aby tam pomohly nalézt strašidlo… Podaří se jim to?
+Veselou činoherní pohádku pro děti od čtyř let uvede hradecký soubor Studio PH Pohádka.
+VOLNÝ ZASEDACÍ POŘÁDEK.
+
+Cena: 50 Kč');
+
+
+--
+-- TOC entry 1907 (class 0 OID 49535671)
+-- Dependencies: 161
+-- Data for Name: organizer; Type: TABLE DATA; Schema: public; Owner: akcnik.thilisar.cz
+--
+
+INSERT INTO organizer (id, name, address, "identificationNumber", type, description, contact) VALUES (1, 'Thilisar', '', '', NULL, '', '');
+
+
+--
+-- TOC entry 1932 (class 0 OID 0)
+-- Dependencies: 160
+-- Name: organizer_id_seq; Type: SEQUENCE SET; Schema: public; Owner: akcnik.thilisar.cz
+--
+
+SELECT pg_catalog.setval('organizer_id_seq', 1, true);
+
+
+--
+-- TOC entry 1909 (class 0 OID 49535683)
+-- Dependencies: 163
+-- Data for Name: organizer_in_event; Type: TABLE DATA; Schema: public; Owner: akcnik.thilisar.cz
+--
+
+
+
+--
+-- TOC entry 1911 (class 0 OID 49535689)
+-- Dependencies: 165
+-- Data for Name: organizer_in_user; Type: TABLE DATA; Schema: public; Owner: akcnik.thilisar.cz
+--
+
+
+
+--
+-- TOC entry 1933 (class 0 OID 0)
+-- Dependencies: 162
+-- Name: organizer_to_event_id_seq; Type: SEQUENCE SET; Schema: public; Owner: akcnik.thilisar.cz
+--
+
+SELECT pg_catalog.setval('organizer_to_event_id_seq', 2, true);
+
+
+--
+-- TOC entry 1934 (class 0 OID 0)
+-- Dependencies: 164
+-- Name: organizer_to_user_id_seq; Type: SEQUENCE SET; Schema: public; Owner: akcnik.thilisar.cz
+--
+
+SELECT pg_catalog.setval('organizer_to_user_id_seq', 1, false);
+
+
+--
+-- TOC entry 1903 (class 0 OID 49535606)
+-- Dependencies: 157
+-- Data for Name: place; Type: TABLE DATA; Schema: public; Owner: akcnik.thilisar.cz
+--
+
+INSERT INTO place (id, latitude, longitude, name, description, deprecated, city) VALUES (122, 50.027329000000002, 15.202727700000001, 'Kolín - město', '
+    ', false, 'Kolín');
+INSERT INTO place (id, latitude, longitude, name, description, deprecated, city) VALUES (123, 50.2103605, 15.825210999999999, 'Hradec Králové - město', '
+    ', false, 'Hradec Králové');
+INSERT INTO place (id, latitude, longitude, name, description, deprecated, city) VALUES (109, 49.894192059925601, 16.842934191226998, 'Zábřeh Račice', 'Louka pod vysílačem
+    ', false, 'Zábřeh');
+INSERT INTO place (id, latitude, longitude, name, description, deprecated, city) VALUES (115, 50.436608999999997, 15.359123800000001, 'Aš', '
+    ', false, 'Aš');
+INSERT INTO place (id, latitude, longitude, name, description, deprecated, city) VALUES (100, 50.075538100000003, 14.4378005, 'Praha - město', '
+    ', false, 'Praha');
+INSERT INTO place (id, latitude, longitude, name, description, deprecated, city) VALUES (126, 49.884861000000001, 16.873884, 'Bastila', 'Hospoda', false, 'Zábřeh');
+INSERT INTO place (id, latitude, longitude, name, description, deprecated, city) VALUES (127, 49.882886999999997, 16.876194000000002, 'Cadilac Zábřeh', 'Zakouřený non-stop pub', false, 'Zábřeh');
+INSERT INTO place (id, latitude, longitude, name, description, deprecated, city) VALUES (128, 49.886643999999997, 16.864293, 'Bořiny Zábřeh', 'Hospůdka', false, 'Zábřeh');
+INSERT INTO place (id, latitude, longitude, name, description, deprecated, city) VALUES (129, 49.757244999999998, 17.386032199999999, 'Horní Loděnice tábořiště', 'Tábořiště u potoka, kde se konají larpy.', false, 'Olomouc Region');
+INSERT INTO place (id, latitude, longitude, name, description, deprecated, city) VALUES (130, 50.199793526633094, 15.849376916885376, 'Holland club Hradec Králové', 'Lepší kuřácký ale nezakouřený klub v HK. Točí se tu Plzeň a Kozel.', false, 'Nový Hradec Králové');
+INSERT INTO place (id, latitude, longitude, name, description, deprecated, city) VALUES (131, 50.203136100000002, 15.8474117, 'Talův byt Hradec Králové', 'Tady děláme akčník', false, 'Hradec Králové');
+INSERT INTO place (id, latitude, longitude, name, description, deprecated, city) VALUES (132, 50.170708300000001, 15.8574594, 'Biřička Hradec králové', '', false, 'Nový Hradec Králové');
+INSERT INTO place (id, latitude, longitude, name, description, deprecated, city) VALUES (133, 50.206415, 15.8453572, 'Stadion Hradec Králové', '', false, 'Malšovice');
+INSERT INTO place (id, latitude, longitude, name, description, deprecated, city) VALUES (134, 50.196778527928409, 15.847177505493164, 'Futurum Hradec Králové', '', false, 'Hradec Králové District');
+INSERT INTO place (id, latitude, longitude, name, description, deprecated, city) VALUES (135, 50.20379720551707, 15.830140113830566, 'Univerzita Hradec Králové', 'Budova A Univerzita Hradec Králové', false, 'Hradec Králové');
+INSERT INTO place (id, latitude, longitude, name, description, deprecated, city) VALUES (136, 50.211151287716802, 15.831132531166077, 'Adalbertinum Hradec Králové', '', false, 'Hradec Králové');
+INSERT INTO place (id, latitude, longitude, name, description, deprecated, city) VALUES (124, 49.961221000000002, 16.765763100000001, 'Štíty', '
+    ', false, 'Bruntál');
+INSERT INTO place (id, latitude, longitude, name, description, deprecated, city) VALUES (125, 49.988176699999997, 17.463694100000001, 'Bruntál', '
+    ', false, 'Šumperk');
+INSERT INTO place (id, latitude, longitude, name, description, deprecated, city) VALUES (85, 49.881245894505902, 16.8721598130651, 'Klub ve zdi Zábřeh', 'Drobný kulturní zakouřený a rušný klub.
+    ', false, 'Zábřeh');
+INSERT INTO place (id, latitude, longitude, name, description, deprecated, city) VALUES (87, 49.8864096795322, 16.8687451186997, 'Katolický dům Zábřeh', '
+    ', false, 'Zábřeh');
+INSERT INTO place (id, latitude, longitude, name, description, deprecated, city) VALUES (86, 49.881372200000001, 16.879278599999999, 'Kulturní dům Zábřeh', 'Kulturní dům v Zábřeze. Velký a malý taneční sál.', false, 'Zábřeh');
+INSERT INTO place (id, latitude, longitude, name, description, deprecated, city) VALUES (91, 12.9206672, 77.588490300000004, 'Event Creator', 'hmmmm
+    ', false, 'Praha');
+INSERT INTO place (id, latitude, longitude, name, description, deprecated, city) VALUES (92, 51.593569199999997, -0.0097358000000440405, 'Event master', '
+    popis', false, 'Praha');
+INSERT INTO place (id, latitude, longitude, name, description, deprecated, city) VALUES (95, 49.1950602, 16.6068371, 'Brno - město', '
+    ', false, 'Brno');
+INSERT INTO place (id, latitude, longitude, name, description, deprecated, city) VALUES (99, 49.885671299999998, 16.876439699999999, 'Thilisar', '
+    stary prostory', false, 'Zábřeh');
+INSERT INTO place (id, latitude, longitude, name, description, deprecated, city) VALUES (101, 50.083115999999997, 14.434892, 'Hlavní nádraží Praha', 'Hlavák
+    ', false, 'Praha');
+INSERT INTO place (id, latitude, longitude, name, description, deprecated, city) VALUES (108, 50.086477100000003, 14.4114366, 'Karlův most', '
+    ', false, 'Praha');
+INSERT INTO place (id, latitude, longitude, name, description, deprecated, city) VALUES (110, 49.593778, 17.250878699999902, 'Olomouc', '
+    ', false, 'Olomouc');
+INSERT INTO place (id, latitude, longitude, name, description, deprecated, city) VALUES (111, 49.472448900000003, 17.106751299999999, 'Prostějov - město', '
+    ', false, 'Prostějov');
+INSERT INTO place (id, latitude, longitude, name, description, deprecated, city) VALUES (112, 48.9756578, 14.4802549999999, 'České Budějovice - město', '
+    ', false, 'České Budějovice');
+INSERT INTO place (id, latitude, longitude, name, description, deprecated, city) VALUES (113, 49.738431400000003, 13.3736371, 'Plzeň - město', '
+    ', false, 'Plzeň');
+INSERT INTO place (id, latitude, longitude, name, description, deprecated, city) VALUES (114, 49.738431400000003, 13.3736371, 'Plzeň - město', '
+    ', false, 'Plzeň');
+INSERT INTO place (id, latitude, longitude, name, description, deprecated, city) VALUES (116, 50.079533400000003, 12.3698636, 'Cheb - město', '
+    ', false, 'Cheb');
+INSERT INTO place (id, latitude, longitude, name, description, deprecated, city) VALUES (117, 49.912041199999997, 16.612496499999999, 'Lanškroun - město', '
+    ', false, 'Lanškroun');
+INSERT INTO place (id, latitude, longitude, name, description, deprecated, city) VALUES (118, 50.766280000000002, 15.054338700000001, 'Liberec - město', '
+    ', false, 'Liberec');
+INSERT INTO place (id, latitude, longitude, name, description, deprecated, city) VALUES (119, 50.001603699999997, 16.223030699999999, 'Choceň - město', '
+    ', false, 'Choceň');
+INSERT INTO place (id, latitude, longitude, name, description, deprecated, city) VALUES (120, 49.755162900000002, 16.469186100000002, 'Svitavy - město', '
+    ', false, 'Svitavy');
+INSERT INTO place (id, latitude, longitude, name, description, deprecated, city) VALUES (121, 49.949724400000001, 15.7950578, 'Chrudim - město', '
+    ', false, 'Chrudim');
+
+
+--
+-- TOC entry 1905 (class 0 OID 49535620)
+-- Dependencies: 159
+-- Data for Name: place_in_event; Type: TABLE DATA; Schema: public; Owner: akcnik.thilisar.cz
+--
+
+INSERT INTO place_in_event (id, "placeId", "eventId", description, "mapFlag") VALUES (1, 86, 38, '', true);
+INSERT INTO place_in_event (id, "placeId", "eventId", description, "mapFlag") VALUES (20, 101, 54, '', true);
+INSERT INTO place_in_event (id, "placeId", "eventId", description, "mapFlag") VALUES (21, 108, 55, '', true);
+INSERT INTO place_in_event (id, "placeId", "eventId", description, "mapFlag") VALUES (24, 109, 59, '', false);
+INSERT INTO place_in_event (id, "placeId", "eventId", description, "mapFlag") VALUES (19, 100, 53, '();,', true);
+INSERT INTO place_in_event (id, "placeId", "eventId", description, "mapFlag") VALUES (25, 108, 59, '(),;[]', true);
+INSERT INTO place_in_event (id, "placeId", "eventId", description, "mapFlag") VALUES (26, 85, 60, '', true);
+INSERT INTO place_in_event (id, "placeId", "eventId", description, "mapFlag") VALUES (27, 95, 61, '', true);
+INSERT INTO place_in_event (id, "placeId", "eventId", description, "mapFlag") VALUES (28, 100, 62, '', true);
+INSERT INTO place_in_event (id, "placeId", "eventId", description, "mapFlag") VALUES (29, 100, 63, '', true);
+INSERT INTO place_in_event (id, "placeId", "eventId", description, "mapFlag") VALUES (30, 100, 64, '', true);
+INSERT INTO place_in_event (id, "placeId", "eventId", description, "mapFlag") VALUES (31, 100, 65, '', true);
+INSERT INTO place_in_event (id, "placeId", "eventId", description, "mapFlag") VALUES (32, 100, 66, '', true);
+INSERT INTO place_in_event (id, "placeId", "eventId", description, "mapFlag") VALUES (33, 100, 67, '', true);
+INSERT INTO place_in_event (id, "placeId", "eventId", description, "mapFlag") VALUES (34, 100, 68, '', true);
+INSERT INTO place_in_event (id, "placeId", "eventId", description, "mapFlag") VALUES (35, 100, 69, '', true);
+INSERT INTO place_in_event (id, "placeId", "eventId", description, "mapFlag") VALUES (36, 100, 70, '', true);
+INSERT INTO place_in_event (id, "placeId", "eventId", description, "mapFlag") VALUES (38, 100, 71, '', true);
+INSERT INTO place_in_event (id, "placeId", "eventId", description, "mapFlag") VALUES (37, 100, 72, '', true);
+INSERT INTO place_in_event (id, "placeId", "eventId", description, "mapFlag") VALUES (39, 100, 73, '', true);
+INSERT INTO place_in_event (id, "placeId", "eventId", description, "mapFlag") VALUES (40, 100, 74, '', true);
+INSERT INTO place_in_event (id, "placeId", "eventId", description, "mapFlag") VALUES (41, 100, 75, '', true);
+INSERT INTO place_in_event (id, "placeId", "eventId", description, "mapFlag") VALUES (42, 100, 76, '', true);
+INSERT INTO place_in_event (id, "placeId", "eventId", description, "mapFlag") VALUES (43, 100, 77, '', true);
+INSERT INTO place_in_event (id, "placeId", "eventId", description, "mapFlag") VALUES (44, 109, 78, '', true);
+INSERT INTO place_in_event (id, "placeId", "eventId", description, "mapFlag") VALUES (45, 100, 79, '', true);
+INSERT INTO place_in_event (id, "placeId", "eventId", description, "mapFlag") VALUES (46, 100, 80, '', true);
+INSERT INTO place_in_event (id, "placeId", "eventId", description, "mapFlag") VALUES (47, 100, 81, '', true);
+INSERT INTO place_in_event (id, "placeId", "eventId", description, "mapFlag") VALUES (48, 129, 82, '', true);
+INSERT INTO place_in_event (id, "placeId", "eventId", description, "mapFlag") VALUES (49, 109, 83, '', true);
+INSERT INTO place_in_event (id, "placeId", "eventId", description, "mapFlag") VALUES (50, 130, 84, '', true);
+INSERT INTO place_in_event (id, "placeId", "eventId", description, "mapFlag") VALUES (51, 130, 85, '', true);
+INSERT INTO place_in_event (id, "placeId", "eventId", description, "mapFlag") VALUES (52, 130, 86, '', true);
+INSERT INTO place_in_event (id, "placeId", "eventId", description, "mapFlag") VALUES (53, 134, 87, '', true);
+INSERT INTO place_in_event (id, "placeId", "eventId", description, "mapFlag") VALUES (54, 135, 88, '', true);
+INSERT INTO place_in_event (id, "placeId", "eventId", description, "mapFlag") VALUES (55, 136, 89, '', true);
+
+
+--
+-- TOC entry 1935 (class 0 OID 0)
+-- Dependencies: 158
+-- Name: place_to_event_id_seq; Type: SEQUENCE SET; Schema: public; Owner: akcnik.thilisar.cz
+--
+
+SELECT pg_catalog.setval('place_to_event_id_seq', 55, true);
+
+
+--
+-- TOC entry 1936 (class 0 OID 0)
+-- Dependencies: 156
+-- Name: places_id_seq; Type: SEQUENCE SET; Schema: public; Owner: akcnik.thilisar.cz
+--
+
+SELECT pg_catalog.setval('places_id_seq', 136, true);
+
+
+--
+-- TOC entry 1895 (class 0 OID 48061272)
+-- Dependencies: 149
+-- Data for Name: tag_master_repository; Type: TABLE DATA; Schema: public; Owner: akcnik.thilisar.cz
+--
+
+INSERT INTO tag_master_repository (id, repository, inserted, settings, version) VALUES (1, '{"tags":[{"id":0,"name":"Pivo","type":2},{"id":1,"name":"Hospoda","type":2},{"id":2,"name":"Outdoor","type":2},{"id":3,"name":"Alkohol","type":2},{"id":4,"name":"Magic: the gathering","type":2},{"id":5,"name":"Larp","type":2},{"id":6,"name":"Nekuřácká akce","type":2},{"id":7,"name":"Divadlo","type":2},{"id":8,"name":"Indoor","type":2},{"id":9,"name":"Opera","type":2},{"id":10,"name":"Deskovky","type":2},{"id":11,"name":"Deskové hry","type":1},{"id":12,"name":"Muzeum","type":2},{"id":13,"name":"Sport","type":2},{"id":14,"name":"Počítač","type":2},{"id":15,"name":"Technologie","type":2},{"id":16,"name":"Hala","type":2},{"id":17,"name":"Tělocvična","type":2},{"id":18,"name":"Hřiště","type":2},{"id":19,"name":"Voda","type":2},{"id":20,"name":"Řeka","type":2},{"id":21,"name":"Rybník","type":2},{"id":22,"name":"Jezero","type":2},{"id":23,"name":"Skála","type":2},{"id":24,"name":"Výšlap","type":2},{"id":25,"name":"Hudba","type":2},{"id":26,"name":"Zvířata","type":2},{"id":27,"name":"Les","type":2},{"id":28,"name":"Rock","type":2},{"id":29,"name":"Jídlo","type":2},{"id":30,"name":"Metal","type":2},{"id":31,"name":"Punk","type":2},{"id":32,"name":"Kino","type":2},{"id":33,"name":"Město","type":2},{"id":34,"name":"Ostrava","type":1},{"id":35,"name":"Praha","type":1},{"id":36,"name":"Brno","type":1},{"id":37,"name":"Olomouc","type":1},{"id":38,"name":"Křesťanství","type":2},{"id":39,"name":"Vánoce","type":2},{"id":40,"name":"Vzdělávání","type":2},{"id":41,"name":"Maso","type":2},{"id":42,"name":"Děti","type":2},{"id":43,"name":"Akce pro děti","type":2},{"id":44,"name":"Islám","type":2},{"id":45,"name":"Tábor","type":2},{"id":46,"name":"Historie","type":2},{"id":47,"name":"Hrady","type":2},{"id":48,"name":"Památky","type":2},{"id":49,"name":"Unesco","type":1},{"id":50,"name":"Hory","type":2},{"id":51,"name":"Park","type":2},{"id":52,"name":"Tvrdý alkohol","type":2},{"id":53,"name":"Režná","type":1},{"id":54,"name":"Vodka","type":1},{"id":55,"name":"Rum","type":1},{"id":56,"name":"Demonstrace","type":2},{"id":57,"name":"Cyklistika","type":2},{"id":58,"name":"Věda","type":2},{"id":59,"name":"Apple","type":2},{"id":60,"name":"Geocache","type":2},{"id":61,"name":"Bezalkoolová","type":2},{"id":62,"name":"Festival","type":2},{"id":63,"name":"Hudební festival","type":1},{"id":64,"name":"Keltský","type":2},{"id":65,"name":"Umění","type":2},{"id":66,"name":"Létání","type":2},{"id":67,"name":"Tanec","type":2},{"id":68,"name":"Limonáda","type":2},{"id":69,"name":"Kopec","type":2},{"id":70,"name":"Rozhledna","type":2},{"id":71,"name":"Výstava","type":2},{"id":72,"name":"Film","type":2},{"id":73,"name":"Bitva","type":2},{"id":74,"name":"Dospělí","type":2},{"id":75,"name":"Poker","type":2},{"id":76,"name":"Lanka","type":2},{"id":77,"name":"Řemesla","type":2},{"id":78,"name":"Sraz","type":2},{"id":79,"name":"Středověk","type":2},{"id":80,"name":"Fantasy","type":2},{"id":81,"name":"Troll","type":1},{"id":82,"name":"Mág","type":1},{"id":83,"name":"Špičatý klobouk","type":1},{"id":84,"name":"Trpaslíci","type":1},{"id":85,"name":"Výlet","type":2},{"id":86,"name":"Vojenské","type":2},{"id":87,"name":"Armáda","type":1},{"id":88,"name":"Déšť","type":2},{"id":89,"name":"Slunce","type":2},{"id":90,"name":"Sníh","type":2},{"id":91,"name":"Mráz","type":2},{"id":92,"name":"Vlak","type":2},{"id":93,"name":"Oslava","type":2},{"id":94,"name":"Dřevárna","type":2},{"id":95,"name":"Zámek","type":2},{"id":96,"name":"Hrad","type":2},{"id":97,"name":"Zoo","type":2},{"id":98,"name":"Jóga","type":2},{"id":99,"name":"Cvičení","type":2},{"id":100,"name":"Brigáda","type":2},{"id":101,"name":"Workout","type":2},{"id":102,"name":"Wod","type":2},{"id":103,"name":"Upír","type":1},{"id":104,"name":"Upírka","type":1},{"id":105,"name":"Upíři","type":1},{"id":106,"name":"Noc","type":2},{"id":107,"name":"Den","type":2},{"id":108,"name":"Omg","type":2},{"id":109,"name":"Prohlídka","type":2},{"id":110,"name":"Víno","type":2},{"id":111,"name":"Programování","type":2},{"id":112,"name":"Myslivost","type":2},{"id":113,"name":"Flóra","type":2},{"id":114,"name":"Válka","type":2},{"id":115,"name":"Auto","type":2},{"id":116,"name":"Auta","type":2},{"id":117,"name":"Senoseč","type":2},{"id":118,"name":"Trnkobraní","type":2},{"id":119,"name":"Baroko","type":2},{"id":120,"name":"Vinobraní","type":2},{"id":121,"name":"Renesance","type":2},{"id":122,"name":"Gotika","type":2},{"id":123,"name":"Koncert","type":2},{"id":124,"name":"Starověk","type":2},{"id":125,"name":"Velká morava","type":2},{"id":126,"name":"Humanismus","type":2},{"id":127,"name":"Baterka","type":2},{"id":128,"name":"Jeskyně","type":2},{"id":129,"name":"Filozofie","type":2},{"id":130,"name":"Louč","type":2},{"id":131,"name":"Psychologie","type":2},{"id":132,"name":"Oheň","type":2},{"id":133,"name":"Táborák","type":2},{"id":134,"name":"Malby","type":2},{"id":135,"name":"Kresby","type":2},{"id":136,"name":"Příměstský","type":2},{"id":137,"name":"Sochy","type":2},{"id":138,"name":"Španělsko","type":2},{"id":139,"name":"Řecko","type":2},{"id":140,"name":"Irsko","type":2},{"id":141,"name":"Balkán","type":2},{"id":142,"name":"Vikingové","type":2},{"id":143,"name":"Mayové","type":2},{"id":144,"name":"Inkové","type":2},{"id":145,"name":"Král","type":2},{"id":146,"name":"Aztékové","type":2},{"id":147,"name":"Nemocnice","type":2},{"id":148,"name":"Betlém","type":2},{"id":149,"name":"Osel","type":2},{"id":150,"name":"Bylinky","type":2},{"id":151,"name":"Bor","type":2},{"id":152,"name":"Hvězdy","type":2},{"id":153,"name":"Víla","type":2},{"id":154,"name":"Farma","type":2},{"id":155,"name":"Trh","type":2},{"id":156,"name":"Jarmark","type":1},{"id":157,"name":"Pouť","type":2},{"id":158,"name":"Pantonima","type":2},{"id":159,"name":"Princ","type":2},{"id":160,"name":"Amerika","type":2},{"id":161,"name":"Evropa","type":2},{"id":162,"name":"Labyrint","type":2},{"id":163,"name":"Antarktida","type":2},{"id":164,"name":"Karetní hry","type":2},{"id":165,"name":"Arktida","type":2},{"id":166,"name":"Skyrim","type":2},{"id":167,"name":"Kostým","type":2},{"id":168,"name":"Atlantida","type":2},{"id":169,"name":"Pramen","type":2},{"id":170,"name":"Studánka","type":2},{"id":171,"name":"Klášter","type":2},{"id":172,"name":"Kostel","type":2},{"id":173,"name":"Ulička","type":2},{"id":174,"name":"Uličky","type":2},{"id":175,"name":"Kašna","type":2},{"id":176,"name":"Horolezectví","type":2},{"id":177,"name":"Ekumenické","type":2},{"id":178,"name":"Poutní místo","type":2},{"id":179,"name":"Pověst","type":2},{"id":180,"name":"Ledovec","type":2},{"id":181,"name":"Malba","type":2},{"id":182,"name":"Lukostřelba","type":2},{"id":183,"name":"Kaple","type":2},{"id":184,"name":"Šerm","type":2},{"id":185,"name":"Jazyk","type":2},{"id":186,"name":"Venkov","type":2},{"id":187,"name":"Rybářství","type":2},{"id":188,"name":"Kanoe","type":2},{"id":189,"name":"Klaun","type":2},{"id":190,"name":"Cirkus","type":2},{"id":191,"name":"Vodáctví","type":2},{"id":192,"name":"Kejklíř","type":2},{"id":193,"name":"Indiáni","type":2},{"id":194,"name":"Zabíjačka","type":2},{"id":195,"name":"Krasojezdkyně","type":2},{"id":196,"name":"Táboření","type":2},{"id":197,"name":"Zážitkovka","type":2},{"id":198,"name":"Kemp","type":2},{"id":199,"name":"Mažoretky","type":2},{"id":200,"name":"Hody","type":2},{"id":201,"name":"Metro","type":2},{"id":202,"name":"Posvícení","type":2},{"id":203,"name":"Sklep","type":2},{"id":204,"name":"Tramvaj","type":2},{"id":205,"name":"Sklípek","type":2},{"id":206,"name":"Šifrovačka","type":2},{"id":207,"name":"Koupaliště","type":2},{"id":208,"name":"Bazén","type":1},{"id":209,"name":"Extremismus","type":2},{"id":210,"name":"Imigranti","type":2},{"id":211,"name":"Zahrádka","type":2},{"id":212,"name":"Pěstitelství","type":2},{"id":213,"name":"Psi","type":2},{"id":214,"name":"Kočky","type":2},{"id":215,"name":"Zvířátka","type":2},{"id":216,"name":"Morčata","type":1},{"id":217,"name":"Fauna","type":1},{"id":218,"name":"Plazi","type":1},{"id":219,"name":"Žába","type":1},{"id":220,"name":"Ptáci","type":2},{"id":221,"name":"Kuřátka","type":1},{"id":222,"name":"Internet","type":2},{"id":223,"name":"Vaření","type":2},{"id":224,"name":"Stavebnice","type":2},{"id":225,"name":"Cheva","type":1},{"id":226,"name":"Merkur","type":1},{"id":227,"name":"Koupání","type":2},{"id":228,"name":"Mlýn","type":2},{"id":229,"name":"Slavnost","type":2},{"id":230,"name":"Pohřeb","type":2},{"id":231,"name":"Hrášek","type":2},{"id":232,"name":"Židi","type":2},{"id":233,"name":"Inkvizice","type":2},{"id":234,"name":"Technika","type":2},{"id":235,"name":"Boty","type":2},{"id":236,"name":"Oblečení","type":2},{"id":237,"name":"Móda","type":2},{"id":238,"name":"Lasergame","type":2},{"id":239,"name":"Lynčování","type":2},{"id":240,"name":"Lego","type":2},{"id":241,"name":"Kostnice","type":2},{"id":242,"name":"Zájezd","type":2},{"id":243,"name":"Moře","type":2},{"id":244,"name":"Sklo","type":2},{"id":245,"name":"Keramika","type":2},{"id":246,"name":"Kování","type":2},{"id":247,"name":"Měď","type":2},{"id":248,"name":"Bronz","type":2},{"id":249,"name":"Železo","type":2},{"id":250,"name":"Uhlí","type":2},{"id":251,"name":"Důl","type":2},{"id":252,"name":"Ropa","type":2},{"id":253,"name":"Sůl","type":2},{"id":254,"name":"Loď","type":2},{"id":255,"name":"Magnet","type":2},{"id":256,"name":"Piráti","type":2},{"id":257,"name":"Standup komedie","type":2},{"id":258,"name":"Zlato","type":2},{"id":259,"name":"Šití","type":2},{"id":260,"name":"Len","type":1},{"id":261,"name":"Netex","type":1},{"id":262,"name":"Plátno","type":1},{"id":263,"name":"Platina","type":2},{"id":264,"name":"Šaty","type":2},{"id":265,"name":"Aktinium","type":2},{"id":266,"name":"Chemie","type":2},{"id":267,"name":"Kouzla","type":2},{"id":268,"name":"Politika","type":2},{"id":269,"name":"Guláš","type":2},{"id":270,"name":"Komunismus","type":2},{"id":271,"name":"Kapitalismus","type":2},{"id":272,"name":"Hackathon","type":2},{"id":273,"name":"Anglie","type":2},{"id":274,"name":"Maraton","type":2},{"id":275,"name":"Morava","type":2},{"id":276,"name":"Bunkr","type":2},{"id":277,"name":"Prales","type":2},{"id":278,"name":"Poušť","type":2},{"id":279,"name":"Škola","type":2},{"id":280,"name":"Školka","type":2},{"id":281,"name":"Gymnázium","type":2},{"id":282,"name":"Pochod","type":2},{"id":283,"name":"Ekologie","type":2},{"id":284,"name":"Ekonomie","type":2},{"id":285,"name":"Mykologie","type":2},{"id":286,"name":"Zahrada","type":2},{"id":287,"name":"Skleník","type":2},{"id":288,"name":"Lopata","type":2},{"id":289,"name":"Výkop","type":2},{"id":290,"name":"Přehlídka","type":2},{"id":291,"name":"Úklid","type":2},{"id":292,"name":"Cestopis","type":2},{"id":293,"name":"Elektrárna","type":2},{"id":294,"name":"Piknik","type":2},{"id":295,"name":"Práce","type":2},{"id":296,"name":"Teplárna","type":2},{"id":297,"name":"Pivovar","type":2},{"id":298,"name":"Masáž","type":2},{"id":299,"name":"Lázně","type":2},{"id":300,"name":"Termály","type":2},{"id":301,"name":"Wellness","type":2},{"id":302,"name":"Pláž","type":2},{"id":303,"name":"Slunění","type":2},{"id":304,"name":"Sauna","type":2},{"id":305,"name":"Anime","type":2},{"id":306,"name":"Tenis","type":2},{"id":307,"name":"Hokej","type":2},{"id":308,"name":"Floorball","type":2},{"id":309,"name":"Víkend","type":2},{"id":310,"name":"Solná jeskyně","type":2},{"id":311,"name":"Týpí","type":2},{"id":312,"name":"Stan","type":2},{"id":313,"name":"Stanování","type":2},{"id":314,"name":"Pohorky","type":2},{"id":315,"name":"Furry","type":2},{"id":316,"name":"Strašidla","type":2},{"id":317,"name":"Volejbal","type":2},{"id":318,"name":"Koště","type":2},{"id":319,"name":"Přehrada","type":2},{"id":320,"name":"Hasiči","type":2},{"id":321,"name":"Večerníček","type":2},{"id":322,"name":"Soutěž krásy","type":2},{"id":323,"name":"Vinice","type":2},{"id":324,"name":"Příroda","type":2},{"id":325,"name":"Vodopád","type":2},{"id":326,"name":"Kameny","type":2},{"id":327,"name":"Chmelobraní","type":2},{"id":328,"name":"Sci-fi","type":2},{"id":329,"name":"Chata","type":2},{"id":330,"name":"Golf","type":2},{"id":331,"name":"Chalupa","type":2},{"id":332,"name":"Inline","type":2},{"id":333,"name":"Byt","type":2},{"id":334,"name":"Liberec","type":2},{"id":335,"name":"Pára","type":2},{"id":336,"name":"Parní stroj","type":2},{"id":337,"name":"Zážitek","type":2},{"id":338,"name":"Adrenalin","type":2},{"id":339,"name":"Vzrušení","type":1},{"id":340,"name":"Skoba","type":2},{"id":341,"name":"Extáze","type":2},{"id":342,"name":"Hra","type":2},{"id":343,"name":"Cyklobus","type":2},{"id":344,"name":"Lanovka","type":2},{"id":345,"name":"Koloběžky","type":2},{"id":346,"name":"Skanzen","type":2},{"id":347,"name":"Techno","type":2},{"id":348,"name":"Dnb","type":2},{"id":349,"name":"Věž","type":2},{"id":350,"name":"Rnb","type":2},{"id":351,"name":"Dračí doupě","type":2},{"id":352,"name":"Dubstep","type":2},{"id":353,"name":"Společenské hry","type":2},{"id":354,"name":"Ples","type":2},{"id":355,"name":"Zábava","type":2},{"id":356,"name":"Čoch","type":1},{"id":357,"name":"Diskotéka","type":2},{"id":358,"name":"Bál","type":2},{"id":359,"name":"Paintball","type":2},{"id":360,"name":"Laser","type":2},{"id":361,"name":"Laser game","type":2},{"id":362,"name":"Motokáry","type":2},{"id":363,"name":"Hacker","type":2},{"id":364,"name":"Google","type":2},{"id":365,"name":"Microsoft","type":2},{"id":366,"name":"Včela","type":2},{"id":367,"name":"Panna","type":2},{"id":368,"name":"Chrám","type":2},{"id":369,"name":"Citadela","type":2},{"id":370,"name":"Svatba","type":2},{"id":371,"name":"Rodinná oslava","type":2},{"id":372,"name":"Seriály","type":2},{"id":373,"name":"Cadillac","type":2},{"id":374,"name":"Star trek","type":2},{"id":375,"name":"Dinosaurus","type":2},{"id":376,"name":"Game of thrones","type":2},{"id":377,"name":"Zaklínač","type":2},{"id":378,"name":"Housle","type":2},{"id":379,"name":"Varhany","type":2},{"id":380,"name":"Mše","type":2},{"id":381,"name":"Kost","type":2},{"id":382,"name":"Kukuřice","type":2},{"id":383,"name":"Šelma","type":2},{"id":384,"name":"Lev","type":1},{"id":385,"name":"Tygr","type":1},{"id":386,"name":"Dravec","type":2},{"id":387,"name":"Kaktusy","type":2},{"id":388,"name":"Dovednost","type":2},{"id":389,"name":"Zeď","type":2},{"id":390,"name":"Sekera","type":2},{"id":391,"name":"Trabant","type":2},{"id":392,"name":"Lesnictví","type":2},{"id":393,"name":"Veteráni","type":2},{"id":394,"name":"Dřevorubectví","type":2},{"id":395,"name":"Fotografování","type":2},{"id":396,"name":"Východ","type":2},{"id":397,"name":"Orient","type":2},{"id":398,"name":"Indie","type":2},{"id":399,"name":"Tibet","type":2},{"id":400,"name":"Čína","type":2},{"id":401,"name":"Rusko","type":2},{"id":402,"name":"Sibiř","type":2},{"id":403,"name":"Terminátor","type":2},{"id":404,"name":"Lindemann","type":2},{"id":405,"name":"Radar","type":2},{"id":406,"name":"Saň","type":2},{"id":407,"name":"Mash","type":2},{"id":408,"name":"Facebook skupina \\"jsi holka? přidej se.\\"","type":2},{"id":409,"name":"Pár pařmenů","type":2},{"id":410,"name":"Rytíř","type":2},{"id":411,"name":"Kofola","type":2},{"id":412,"name":"Fofola","type":1},{"id":413,"name":"Kokain","type":2},{"id":414,"name":"Hifi věž","type":2},{"id":415,"name":"Pán prstenů","type":2},{"id":416,"name":"Zakažte akčník","type":2},{"id":417,"name":"Battlestar galactica","type":2},{"id":418,"name":"Rally","type":2},{"id":419,"name":"Voleyball","type":2},{"id":420,"name":"Beach","type":2},{"id":421,"name":"Borůvky","type":2},{"id":422,"name":"Bažantrikulace","type":2},{"id":423,"name":"Konec světa","type":2},{"id":424,"name":"Konspirace","type":2},{"id":425,"name":"Špioni","type":2},{"id":426,"name":"Vesmír","type":2},{"id":427,"name":"Anarchismus","type":2},{"id":428,"name":"Squat","type":2},{"id":429,"name":"Jupiter","type":2},{"id":430,"name":"Káva","type":2},{"id":431,"name":"Čaj","type":2},{"id":432,"name":"Dýmka","type":2},{"id":433,"name":"Humbuk","type":2},{"id":434,"name":"Happening","type":2},{"id":435,"name":"Kratochvíle","type":2},{"id":436,"name":"Kniha","type":2},{"id":437,"name":"Protest","type":2},{"id":438,"name":"Svitek","type":2},{"id":439,"name":"Pergamen","type":2},{"id":440,"name":"Papyrus","type":2},{"id":441,"name":"Den země","type":2},{"id":442,"name":"Kytara","type":2},{"id":443,"name":"Řezbář","type":2},{"id":444,"name":"Svíce","type":2},{"id":445,"name":"Šňupání","type":2},{"id":446,"name":"Ping pong","type":2},{"id":447,"name":"Loutka","type":2},{"id":448,"name":"Loutky","type":2},{"id":449,"name":"Open-air","type":2},{"id":450,"name":"Pro dospělé","type":2},{"id":451,"name":"Pro děti","type":2},{"id":452,"name":"Pro rodiče s dětmi","type":2},{"id":453,"name":"Občerstvení","type":2},{"id":454,"name":"Vnitřní","type":2},{"id":455,"name":"Společenské oblečení","type":2},{"id":456,"name":"Instrumentální","type":2},{"id":457,"name":"Vokální","type":2},{"id":458,"name":"Commedia dell''arte","type":2},{"id":459,"name":"Komedie","type":2},{"id":460,"name":"Drama","type":2},{"id":461,"name":"Parodie","type":2},{"id":462,"name":"Dobrodružný film","type":2},{"id":463,"name":"Western","type":2},{"id":464,"name":"Kovbojka","type":1},{"id":465,"name":"Historický film","type":2},{"id":466,"name":"Životopisný film","type":2},{"id":467,"name":"Hudební film","type":2},{"id":468,"name":"Pohádka","type":2},{"id":469,"name":"Drak","type":1},{"id":470,"name":"Princezna","type":1},{"id":471,"name":"Obr","type":1},{"id":472,"name":"Čarodějnice","type":1},{"id":473,"name":"Dračice","type":1},{"id":474,"name":"Láska","type":2},{"id":475,"name":"Raut","type":2},{"id":476,"name":"Obrazy","type":2},{"id":477,"name":"Architektura","type":2},{"id":478,"name":"Fotografie","type":2},{"id":479,"name":"Řemeslo","type":2},{"id":480,"name":"Románský sloh","type":2},{"id":481,"name":"Gotický sloh","type":2},{"id":482,"name":"Novověk","type":2},{"id":483,"name":"Rokoko","type":2},{"id":484,"name":"Klasicismus","type":2},{"id":485,"name":"Romantismus","type":2},{"id":486,"name":"Realismus","type":2},{"id":487,"name":"Impresionismus","type":2},{"id":488,"name":"Symbolismus","type":2},{"id":489,"name":"Secese","type":2},{"id":490,"name":"Art deco","type":2},{"id":491,"name":"Dadaismus","type":2},{"id":492,"name":"Funkcionalismus","type":2},{"id":493,"name":"Surrealismus","type":2},{"id":494,"name":"Vstupné dobrovolné","type":2},{"id":495,"name":"Sportovní akce","type":2},{"id":496,"name":"Relaxační","type":2},{"id":497,"name":"Adrenalinový","type":2},{"id":498,"name":"Letní","type":2},{"id":499,"name":"Zimní","type":2},{"id":500,"name":"Kolektivní","type":2},{"id":501,"name":"Orientační","type":2},{"id":502,"name":"Vodní","type":2},{"id":503,"name":"Míčový","type":2},{"id":504,"name":"Bojová umění","type":2},{"id":505,"name":"Silový","type":2},{"id":506,"name":"Motorismus","type":2},{"id":507,"name":"Tanced","type":2},{"id":508,"name":"Turistický","type":2},{"id":509,"name":"Fandění","type":2},{"id":510,"name":"První liga","type":2},{"id":511,"name":"Druhá liga","type":2},{"id":512,"name":"Extraliga","type":2},{"id":513,"name":"Mládež","type":2},{"id":514,"name":"Závod","type":2},{"id":515,"name":"Mírný terén","type":2},{"id":516,"name":"Střední terén","type":2},{"id":517,"name":"Náročný terén","type":2},{"id":518,"name":"Ceny pro vítěze","type":2},{"id":519,"name":"Uzavřená akce","type":2},{"id":520,"name":"Třídní sraz","type":2},{"id":521,"name":"Pracovní schůzka","type":2},{"id":522,"name":"Firemní akce","type":2},{"id":523,"name":"Den otevřených dveří","type":2},{"id":524,"name":"Tuning","type":2},{"id":525,"name":"Letecký den","type":2},{"id":526,"name":"Farmářský trh","type":2},{"id":527,"name":"Blues","type":2},{"id":528,"name":"Country","type":2},{"id":529,"name":"Disco","type":2},{"id":530,"name":"Dechová hudba","type":2},{"id":531,"name":"Dechovka","type":1},{"id":532,"name":"Eva a vašek","type":1},{"id":533,"name":"Duchovní hudba","type":2},{"id":534,"name":"Elektronická hudba","type":2},{"id":535,"name":"Folk","type":2},{"id":536,"name":"Funk","type":2},{"id":537,"name":"Hip hop","type":2},{"id":538,"name":"Jazz","type":2},{"id":539,"name":"Pop","type":2},{"id":540,"name":"Reggae","type":2},{"id":541,"name":"R&b","type":2},{"id":542,"name":"Ska","type":2},{"id":543,"name":"Underground","type":2},{"id":544,"name":"Vážná hudba","type":2},{"id":545,"name":"World music","type":2},{"id":546,"name":"Epická hudba","type":2},{"id":547,"name":"Středověké zbraně","type":2},{"id":548,"name":"Meč","type":1},{"id":549,"name":"Luk","type":1},{"id":550,"name":"Zbroj","type":1},{"id":551,"name":"Štít","type":1},{"id":552,"name":"Šíp","type":1},{"id":553,"name":"Katapult","type":1},{"id":554,"name":"Počítačové hry","type":2},{"id":555,"name":"Ork","type":1},{"id":556,"name":"Warcraft","type":1},{"id":557,"name":"Wot","type":1},{"id":558,"name":"Minecraft","type":1},{"id":559,"name":"Nealko","type":2},{"id":560,"name":"Kapely","type":2},{"id":561,"name":"Nightwish","type":1},{"id":562,"name":"Rammstein","type":1},{"id":563,"name":"Asonance","type":1},{"id":564,"name":"Horkýže","type":1},{"id":565,"name":"Násilí","type":2},{"id":566,"name":"Erotika","type":2},{"id":567,"name":"Mystika","type":2},{"id":568,"name":"Párty","type":2}],"relas":[{"from":11,"to":10,"str":1},{"from":34,"to":33,"str":1},{"from":35,"to":33,"str":1},{"from":36,"to":33,"str":1},{"from":37,"to":33,"str":1},{"from":49,"to":48,"str":1},{"from":53,"to":52,"str":1},{"from":54,"to":52,"str":1},{"from":55,"to":52,"str":1},{"from":63,"to":62,"str":1},{"from":81,"to":80,"str":1},{"from":82,"to":80,"str":1},{"from":83,"to":80,"str":1},{"from":84,"to":80,"str":1},{"from":87,"to":86,"str":1},{"from":103,"to":102,"str":1},{"from":104,"to":102,"str":1},{"from":105,"to":102,"str":1},{"from":156,"to":155,"str":1},{"from":208,"to":207,"str":1},{"from":216,"to":215,"str":1},{"from":217,"to":215,"str":1},{"from":218,"to":215,"str":1},{"from":219,"to":215,"str":1},{"from":221,"to":220,"str":1},{"from":225,"to":224,"str":1},{"from":226,"to":224,"str":1},{"from":260,"to":259,"str":1},{"from":261,"to":259,"str":1},{"from":262,"to":259,"str":1},{"from":339,"to":338,"str":1},{"from":356,"to":355,"str":1},{"from":384,"to":383,"str":1},{"from":385,"to":383,"str":1},{"from":412,"to":411,"str":1},{"from":464,"to":463,"str":1},{"from":469,"to":468,"str":1},{"from":470,"to":468,"str":1},{"from":471,"to":468,"str":1},{"from":472,"to":468,"str":1},{"from":473,"to":468,"str":1},{"from":531,"to":530,"str":1},{"from":532,"to":530,"str":1},{"from":548,"to":547,"str":1},{"from":549,"to":547,"str":1},{"from":550,"to":547,"str":1},{"from":551,"to":547,"str":1},{"from":552,"to":547,"str":1},{"from":553,"to":547,"str":1},{"from":555,"to":554,"str":1},{"from":556,"to":554,"str":1},{"from":557,"to":554,"str":1},{"from":558,"to":554,"str":1},{"from":561,"to":560,"str":1},{"from":562,"to":560,"str":1},{"from":563,"to":560,"str":1},{"from":564,"to":560,"str":1}]}', '2015-08-14 14:23:12.361325', NULL, 0);
+INSERT INTO tag_master_repository (id, repository, inserted, settings, version) VALUES (2, '{"id":0,"tags":[{"id":0,"name":"Pivo","type":2,"relas_src":[],"relas_trg":[1100000,3400000]},{"id":1,"name":"Hospoda","type":2,"relas_src":[],"relas_trg":[]},{"id":2,"name":"Outdoor","type":2,"relas_src":[],"relas_trg":[]},{"id":3,"name":"Alkohol","type":2,"relas_src":[],"relas_trg":[]},{"id":4,"name":"Magic: the gathering","type":2,"relas_src":[],"relas_trg":[]},{"id":5,"name":"Larp","type":2,"relas_src":[],"relas_trg":[]},{"id":6,"name":"Nekuřácká akce","type":2,"relas_src":[],"relas_trg":[]},{"id":7,"name":"Divadlo","type":2,"relas_src":[],"relas_trg":[]},{"id":8,"name":"Indoor","type":2,"relas_src":[],"relas_trg":[]},{"id":9,"name":"Opera","type":2,"relas_src":[],"relas_trg":[]},{"id":10,"name":"Deskovky","type":2,"relas_src":[],"relas_trg":[1100010]},{"id":11,"name":"Deskové hry","type":1,"relas_src":[1100010,1100000],"relas_trg":[]},{"id":12,"name":"Muzeum","type":2,"relas_src":[],"relas_trg":[]},{"id":13,"name":"Sport","type":2,"relas_src":[],"relas_trg":[]},{"id":14,"name":"Počítač","type":2,"relas_src":[],"relas_trg":[]},{"id":15,"name":"Technologie","type":2,"relas_src":[],"relas_trg":[]},{"id":16,"name":"Hala","type":2,"relas_src":[],"relas_trg":[]},{"id":17,"name":"Tělocvična","type":2,"relas_src":[],"relas_trg":[]},{"id":18,"name":"Hřiště","type":2,"relas_src":[],"relas_trg":[]},{"id":19,"name":"Voda","type":2,"relas_src":[],"relas_trg":[]},{"id":20,"name":"Řeka","type":2,"relas_src":[],"relas_trg":[]},{"id":21,"name":"Rybník","type":2,"relas_src":[],"relas_trg":[]},{"id":22,"name":"Jezero","type":2,"relas_src":[],"relas_trg":[]},{"id":23,"name":"Skála","type":2,"relas_src":[],"relas_trg":[]},{"id":24,"name":"Výšlap","type":2,"relas_src":[],"relas_trg":[]},{"id":25,"name":"Hudba","type":2,"relas_src":[],"relas_trg":[]},{"id":26,"name":"Zvířata","type":2,"relas_src":[],"relas_trg":[]},{"id":27,"name":"Les","type":2,"relas_src":[],"relas_trg":[]},{"id":28,"name":"Rock","type":2,"relas_src":[],"relas_trg":[]},{"id":29,"name":"Jídlo","type":2,"relas_src":[],"relas_trg":[]},{"id":30,"name":"Metal","type":2,"relas_src":[],"relas_trg":[]},{"id":31,"name":"Punk","type":2,"relas_src":[],"relas_trg":[]},{"id":32,"name":"Kino","type":2,"relas_src":[],"relas_trg":[]},{"id":33,"name":"Město","type":2,"relas_src":[],"relas_trg":[3400033,3500033,3600033,3700033]},{"id":34,"name":"Ostrava","type":1,"relas_src":[3400033,3400000],"relas_trg":[]},{"id":35,"name":"Praha","type":1,"relas_src":[3500033],"relas_trg":[]},{"id":36,"name":"Brno","type":1,"relas_src":[3600033],"relas_trg":[]},{"id":37,"name":"Olomouc","type":1,"relas_src":[3700033],"relas_trg":[]},{"id":38,"name":"Křesťanství","type":2,"relas_src":[],"relas_trg":[]},{"id":39,"name":"Vánoce","type":2,"relas_src":[],"relas_trg":[]},{"id":40,"name":"Vzdělávání","type":2,"relas_src":[],"relas_trg":[]},{"id":41,"name":"Maso","type":2,"relas_src":[],"relas_trg":[]},{"id":42,"name":"Děti","type":2,"relas_src":[],"relas_trg":[]},{"id":43,"name":"Akce pro děti","type":2,"relas_src":[],"relas_trg":[]},{"id":44,"name":"Islám","type":2,"relas_src":[],"relas_trg":[]},{"id":45,"name":"Tábor","type":2,"relas_src":[],"relas_trg":[]},{"id":46,"name":"Historie","type":2,"relas_src":[],"relas_trg":[]},{"id":47,"name":"Hrady","type":2,"relas_src":[],"relas_trg":[]},{"id":48,"name":"Památky","type":2,"relas_src":[],"relas_trg":[4900048]},{"id":49,"name":"Unesco","type":1,"relas_src":[4900048],"relas_trg":[]},{"id":50,"name":"Hory","type":2,"relas_src":[],"relas_trg":[]},{"id":51,"name":"Park","type":2,"relas_src":[],"relas_trg":[]},{"id":52,"name":"Tvrdý alkohol","type":2,"relas_src":[],"relas_trg":[5300052,5400052,5500052]},{"id":53,"name":"Režná","type":1,"relas_src":[5300052],"relas_trg":[]},{"id":54,"name":"Vodka","type":1,"relas_src":[5400052],"relas_trg":[]},{"id":55,"name":"Rum","type":1,"relas_src":[5500052],"relas_trg":[]},{"id":56,"name":"Demonstrace","type":2,"relas_src":[],"relas_trg":[]},{"id":57,"name":"Cyklistika","type":2,"relas_src":[],"relas_trg":[]},{"id":58,"name":"Věda","type":2,"relas_src":[],"relas_trg":[]},{"id":59,"name":"Apple","type":2,"relas_src":[],"relas_trg":[]},{"id":60,"name":"Geocache","type":2,"relas_src":[],"relas_trg":[]},{"id":61,"name":"Bezalkoolová","type":2,"relas_src":[],"relas_trg":[]},{"id":62,"name":"Festival","type":2,"relas_src":[],"relas_trg":[6300062]},{"id":63,"name":"Hudební festival","type":1,"relas_src":[6300062],"relas_trg":[]},{"id":64,"name":"Keltský","type":2,"relas_src":[],"relas_trg":[]},{"id":65,"name":"Umění","type":2,"relas_src":[],"relas_trg":[]},{"id":66,"name":"Létání","type":2,"relas_src":[],"relas_trg":[]},{"id":67,"name":"Tanec","type":2,"relas_src":[],"relas_trg":[]},{"id":68,"name":"Limonáda","type":2,"relas_src":[],"relas_trg":[]},{"id":69,"name":"Kopec","type":2,"relas_src":[],"relas_trg":[]},{"id":70,"name":"Rozhledna","type":2,"relas_src":[],"relas_trg":[]},{"id":71,"name":"Výstava","type":2,"relas_src":[],"relas_trg":[]},{"id":72,"name":"Film","type":2,"relas_src":[],"relas_trg":[]},{"id":73,"name":"Bitva","type":2,"relas_src":[],"relas_trg":[]},{"id":74,"name":"Dospělí","type":2,"relas_src":[],"relas_trg":[]},{"id":75,"name":"Poker","type":2,"relas_src":[],"relas_trg":[]},{"id":76,"name":"Lanka","type":2,"relas_src":[],"relas_trg":[]},{"id":77,"name":"Řemesla","type":2,"relas_src":[],"relas_trg":[]},{"id":78,"name":"Sraz","type":2,"relas_src":[],"relas_trg":[]},{"id":79,"name":"Středověk","type":2,"relas_src":[],"relas_trg":[]},{"id":80,"name":"Fantasy","type":2,"relas_src":[],"relas_trg":[8100080,8200080,8300080,8400080]},{"id":81,"name":"Troll","type":1,"relas_src":[8100080],"relas_trg":[]},{"id":82,"name":"Mág","type":1,"relas_src":[8200080],"relas_trg":[]},{"id":83,"name":"Špičatý klobouk","type":1,"relas_src":[8300080],"relas_trg":[]},{"id":84,"name":"Trpaslíci","type":1,"relas_src":[8400080],"relas_trg":[]},{"id":85,"name":"Výlet","type":2,"relas_src":[],"relas_trg":[]},{"id":86,"name":"Vojenské","type":2,"relas_src":[],"relas_trg":[8700086]},{"id":87,"name":"Armáda","type":1,"relas_src":[8700086],"relas_trg":[]},{"id":88,"name":"Déšť","type":2,"relas_src":[],"relas_trg":[]},{"id":89,"name":"Slunce","type":2,"relas_src":[],"relas_trg":[]},{"id":90,"name":"Sníh","type":2,"relas_src":[],"relas_trg":[]},{"id":91,"name":"Mráz","type":2,"relas_src":[],"relas_trg":[]},{"id":92,"name":"Vlak","type":2,"relas_src":[],"relas_trg":[]},{"id":93,"name":"Oslava","type":2,"relas_src":[],"relas_trg":[]},{"id":94,"name":"Dřevárna","type":2,"relas_src":[],"relas_trg":[]},{"id":95,"name":"Zámek","type":2,"relas_src":[],"relas_trg":[]},{"id":96,"name":"Hrad","type":2,"relas_src":[],"relas_trg":[]},{"id":97,"name":"Zoo","type":2,"relas_src":[],"relas_trg":[]},{"id":98,"name":"Jóga","type":2,"relas_src":[],"relas_trg":[]},{"id":99,"name":"Cvičení","type":2,"relas_src":[],"relas_trg":[]},{"id":100,"name":"Brigáda","type":2,"relas_src":[],"relas_trg":[]},{"id":101,"name":"Workout","type":2,"relas_src":[],"relas_trg":[]},{"id":102,"name":"Wod","type":2,"relas_src":[],"relas_trg":[10300102,10400102,10500102]},{"id":103,"name":"Upír","type":1,"relas_src":[10300102],"relas_trg":[]},{"id":104,"name":"Upírka","type":1,"relas_src":[10400102],"relas_trg":[]},{"id":105,"name":"Upíři","type":1,"relas_src":[10500102],"relas_trg":[]},{"id":106,"name":"Noc","type":2,"relas_src":[],"relas_trg":[]},{"id":107,"name":"Den","type":2,"relas_src":[],"relas_trg":[]},{"id":108,"name":"Omg","type":2,"relas_src":[],"relas_trg":[]},{"id":109,"name":"Prohlídka","type":2,"relas_src":[],"relas_trg":[]},{"id":110,"name":"Víno","type":2,"relas_src":[],"relas_trg":[]},{"id":111,"name":"Programování","type":2,"relas_src":[],"relas_trg":[]},{"id":112,"name":"Myslivost","type":2,"relas_src":[],"relas_trg":[]},{"id":113,"name":"Flóra","type":2,"relas_src":[],"relas_trg":[]},{"id":114,"name":"Válka","type":2,"relas_src":[],"relas_trg":[]},{"id":115,"name":"Auto","type":2,"relas_src":[],"relas_trg":[]},{"id":116,"name":"Auta","type":2,"relas_src":[],"relas_trg":[]},{"id":117,"name":"Senoseč","type":2,"relas_src":[],"relas_trg":[]},{"id":118,"name":"Trnkobraní","type":2,"relas_src":[],"relas_trg":[]},{"id":119,"name":"Baroko","type":2,"relas_src":[],"relas_trg":[]},{"id":120,"name":"Vinobraní","type":2,"relas_src":[],"relas_trg":[]},{"id":121,"name":"Renesance","type":2,"relas_src":[],"relas_trg":[]},{"id":122,"name":"Gotika","type":2,"relas_src":[],"relas_trg":[]},{"id":123,"name":"Koncert","type":2,"relas_src":[],"relas_trg":[]},{"id":124,"name":"Starověk","type":2,"relas_src":[],"relas_trg":[]},{"id":125,"name":"Velká morava","type":2,"relas_src":[],"relas_trg":[]},{"id":126,"name":"Humanismus","type":2,"relas_src":[],"relas_trg":[]},{"id":127,"name":"Baterka","type":2,"relas_src":[],"relas_trg":[]},{"id":128,"name":"Jeskyně","type":2,"relas_src":[],"relas_trg":[]},{"id":129,"name":"Filozofie","type":2,"relas_src":[],"relas_trg":[]},{"id":130,"name":"Louč","type":2,"relas_src":[],"relas_trg":[]},{"id":131,"name":"Psychologie","type":2,"relas_src":[],"relas_trg":[]},{"id":132,"name":"Oheň","type":2,"relas_src":[],"relas_trg":[]},{"id":133,"name":"Táborák","type":2,"relas_src":[],"relas_trg":[]},{"id":134,"name":"Malby","type":2,"relas_src":[],"relas_trg":[]},{"id":135,"name":"Kresby","type":2,"relas_src":[],"relas_trg":[]},{"id":136,"name":"Příměstský","type":2,"relas_src":[],"relas_trg":[]},{"id":137,"name":"Sochy","type":2,"relas_src":[],"relas_trg":[]},{"id":138,"name":"Španělsko","type":2,"relas_src":[],"relas_trg":[]},{"id":139,"name":"Řecko","type":2,"relas_src":[],"relas_trg":[]},{"id":140,"name":"Irsko","type":2,"relas_src":[],"relas_trg":[]},{"id":141,"name":"Balkán","type":2,"relas_src":[],"relas_trg":[]},{"id":142,"name":"Vikingové","type":2,"relas_src":[],"relas_trg":[]},{"id":143,"name":"Mayové","type":2,"relas_src":[],"relas_trg":[]},{"id":144,"name":"Inkové","type":2,"relas_src":[],"relas_trg":[]},{"id":145,"name":"Král","type":2,"relas_src":[],"relas_trg":[]},{"id":146,"name":"Aztékové","type":2,"relas_src":[],"relas_trg":[]},{"id":147,"name":"Nemocnice","type":2,"relas_src":[],"relas_trg":[]},{"id":148,"name":"Betlém","type":2,"relas_src":[],"relas_trg":[]},{"id":149,"name":"Osel","type":2,"relas_src":[],"relas_trg":[]},{"id":150,"name":"Bylinky","type":2,"relas_src":[],"relas_trg":[]},{"id":151,"name":"Bor","type":2,"relas_src":[],"relas_trg":[]},{"id":152,"name":"Hvězdy","type":2,"relas_src":[],"relas_trg":[]},{"id":153,"name":"Víla","type":2,"relas_src":[],"relas_trg":[]},{"id":154,"name":"Farma","type":2,"relas_src":[],"relas_trg":[]},{"id":155,"name":"Trh","type":2,"relas_src":[],"relas_trg":[15600155]},{"id":156,"name":"Jarmark","type":1,"relas_src":[15600155],"relas_trg":[]},{"id":157,"name":"Pouť","type":2,"relas_src":[],"relas_trg":[]},{"id":158,"name":"Pantonima","type":2,"relas_src":[],"relas_trg":[]},{"id":159,"name":"Princ","type":2,"relas_src":[],"relas_trg":[]},{"id":160,"name":"Amerika","type":2,"relas_src":[],"relas_trg":[]},{"id":161,"name":"Evropa","type":2,"relas_src":[],"relas_trg":[]},{"id":162,"name":"Labyrint","type":2,"relas_src":[],"relas_trg":[]},{"id":163,"name":"Antarktida","type":2,"relas_src":[],"relas_trg":[]},{"id":164,"name":"Karetní hry","type":2,"relas_src":[],"relas_trg":[]},{"id":165,"name":"Arktida","type":2,"relas_src":[],"relas_trg":[]},{"id":166,"name":"Skyrim","type":2,"relas_src":[],"relas_trg":[]},{"id":167,"name":"Kostým","type":2,"relas_src":[],"relas_trg":[]},{"id":168,"name":"Atlantida","type":2,"relas_src":[],"relas_trg":[]},{"id":169,"name":"Pramen","type":2,"relas_src":[],"relas_trg":[]},{"id":170,"name":"Studánka","type":2,"relas_src":[],"relas_trg":[]},{"id":171,"name":"Klášter","type":2,"relas_src":[],"relas_trg":[]},{"id":172,"name":"Kostel","type":2,"relas_src":[],"relas_trg":[]},{"id":173,"name":"Ulička","type":2,"relas_src":[],"relas_trg":[]},{"id":174,"name":"Uličky","type":2,"relas_src":[],"relas_trg":[]},{"id":175,"name":"Kašna","type":2,"relas_src":[],"relas_trg":[]},{"id":176,"name":"Horolezectví","type":2,"relas_src":[],"relas_trg":[]},{"id":177,"name":"Ekumenické","type":2,"relas_src":[],"relas_trg":[]},{"id":178,"name":"Poutní místo","type":2,"relas_src":[],"relas_trg":[]},{"id":179,"name":"Pověst","type":2,"relas_src":[],"relas_trg":[]},{"id":180,"name":"Ledovec","type":2,"relas_src":[],"relas_trg":[]},{"id":181,"name":"Malba","type":2,"relas_src":[],"relas_trg":[]},{"id":182,"name":"Lukostřelba","type":2,"relas_src":[],"relas_trg":[]},{"id":183,"name":"Kaple","type":2,"relas_src":[],"relas_trg":[]},{"id":184,"name":"Šerm","type":2,"relas_src":[],"relas_trg":[]},{"id":185,"name":"Jazyk","type":2,"relas_src":[],"relas_trg":[]},{"id":186,"name":"Venkov","type":2,"relas_src":[],"relas_trg":[]},{"id":187,"name":"Rybářství","type":2,"relas_src":[],"relas_trg":[]},{"id":188,"name":"Kanoe","type":2,"relas_src":[],"relas_trg":[]},{"id":189,"name":"Klaun","type":2,"relas_src":[],"relas_trg":[]},{"id":190,"name":"Cirkus","type":2,"relas_src":[],"relas_trg":[]},{"id":191,"name":"Vodáctví","type":2,"relas_src":[],"relas_trg":[]},{"id":192,"name":"Kejklíř","type":2,"relas_src":[],"relas_trg":[]},{"id":193,"name":"Indiáni","type":2,"relas_src":[],"relas_trg":[]},{"id":194,"name":"Zabíjačka","type":2,"relas_src":[],"relas_trg":[]},{"id":195,"name":"Krasojezdkyně","type":2,"relas_src":[],"relas_trg":[]},{"id":196,"name":"Táboření","type":2,"relas_src":[],"relas_trg":[]},{"id":197,"name":"Zážitkovka","type":2,"relas_src":[],"relas_trg":[]},{"id":198,"name":"Kemp","type":2,"relas_src":[],"relas_trg":[]},{"id":199,"name":"Mažoretky","type":2,"relas_src":[],"relas_trg":[]},{"id":200,"name":"Hody","type":2,"relas_src":[],"relas_trg":[]},{"id":201,"name":"Metro","type":2,"relas_src":[],"relas_trg":[]},{"id":202,"name":"Posvícení","type":2,"relas_src":[],"relas_trg":[]},{"id":203,"name":"Sklep","type":2,"relas_src":[],"relas_trg":[]},{"id":204,"name":"Tramvaj","type":2,"relas_src":[],"relas_trg":[]},{"id":205,"name":"Sklípek","type":2,"relas_src":[],"relas_trg":[]},{"id":206,"name":"Šifrovačka","type":2,"relas_src":[],"relas_trg":[]},{"id":207,"name":"Koupaliště","type":2,"relas_src":[],"relas_trg":[20800207]},{"id":208,"name":"Bazén","type":1,"relas_src":[20800207],"relas_trg":[]},{"id":209,"name":"Extremismus","type":2,"relas_src":[],"relas_trg":[]},{"id":210,"name":"Imigranti","type":2,"relas_src":[],"relas_trg":[]},{"id":211,"name":"Zahrádka","type":2,"relas_src":[],"relas_trg":[]},{"id":212,"name":"Pěstitelství","type":2,"relas_src":[],"relas_trg":[]},{"id":213,"name":"Psi","type":2,"relas_src":[],"relas_trg":[]},{"id":214,"name":"Kočky","type":2,"relas_src":[],"relas_trg":[]},{"id":215,"name":"Zvířátka","type":2,"relas_src":[],"relas_trg":[21600215,21700215,21800215,21900215]},{"id":216,"name":"Morčata","type":1,"relas_src":[21600215],"relas_trg":[]},{"id":217,"name":"Fauna","type":1,"relas_src":[21700215],"relas_trg":[]},{"id":218,"name":"Plazi","type":1,"relas_src":[21800215],"relas_trg":[]},{"id":219,"name":"Žába","type":1,"relas_src":[21900215],"relas_trg":[]},{"id":220,"name":"Ptáci","type":2,"relas_src":[],"relas_trg":[22100220]},{"id":221,"name":"Kuřátka","type":1,"relas_src":[22100220],"relas_trg":[]},{"id":222,"name":"Internet","type":2,"relas_src":[],"relas_trg":[]},{"id":223,"name":"Vaření","type":2,"relas_src":[],"relas_trg":[]},{"id":224,"name":"Stavebnice","type":2,"relas_src":[],"relas_trg":[22500224,22600224]},{"id":225,"name":"Cheva","type":1,"relas_src":[22500224],"relas_trg":[]},{"id":226,"name":"Merkur","type":1,"relas_src":[22600224],"relas_trg":[]},{"id":227,"name":"Koupání","type":2,"relas_src":[],"relas_trg":[]},{"id":228,"name":"Mlýn","type":2,"relas_src":[],"relas_trg":[]},{"id":229,"name":"Slavnost","type":2,"relas_src":[],"relas_trg":[]},{"id":230,"name":"Pohřeb","type":2,"relas_src":[],"relas_trg":[]},{"id":231,"name":"Hrášek","type":2,"relas_src":[],"relas_trg":[]},{"id":232,"name":"Židi","type":2,"relas_src":[],"relas_trg":[]},{"id":233,"name":"Inkvizice","type":2,"relas_src":[],"relas_trg":[]},{"id":234,"name":"Technika","type":2,"relas_src":[],"relas_trg":[]},{"id":235,"name":"Boty","type":2,"relas_src":[],"relas_trg":[]},{"id":236,"name":"Oblečení","type":2,"relas_src":[],"relas_trg":[]},{"id":237,"name":"Móda","type":2,"relas_src":[],"relas_trg":[]},{"id":238,"name":"Lasergame","type":2,"relas_src":[],"relas_trg":[]},{"id":239,"name":"Lynčování","type":2,"relas_src":[],"relas_trg":[]},{"id":240,"name":"Lego","type":2,"relas_src":[],"relas_trg":[]},{"id":241,"name":"Kostnice","type":2,"relas_src":[],"relas_trg":[]},{"id":242,"name":"Zájezd","type":2,"relas_src":[],"relas_trg":[]},{"id":243,"name":"Moře","type":2,"relas_src":[],"relas_trg":[]},{"id":244,"name":"Sklo","type":2,"relas_src":[],"relas_trg":[]},{"id":245,"name":"Keramika","type":2,"relas_src":[],"relas_trg":[]},{"id":246,"name":"Kování","type":2,"relas_src":[],"relas_trg":[]},{"id":247,"name":"Měď","type":2,"relas_src":[],"relas_trg":[]},{"id":248,"name":"Bronz","type":2,"relas_src":[],"relas_trg":[]},{"id":249,"name":"Železo","type":2,"relas_src":[],"relas_trg":[]},{"id":250,"name":"Uhlí","type":2,"relas_src":[],"relas_trg":[]},{"id":251,"name":"Důl","type":2,"relas_src":[],"relas_trg":[]},{"id":252,"name":"Ropa","type":2,"relas_src":[],"relas_trg":[]},{"id":253,"name":"Sůl","type":2,"relas_src":[],"relas_trg":[]},{"id":254,"name":"Loď","type":2,"relas_src":[],"relas_trg":[]},{"id":255,"name":"Magnet","type":2,"relas_src":[],"relas_trg":[]},{"id":256,"name":"Piráti","type":2,"relas_src":[],"relas_trg":[]},{"id":257,"name":"Standup komedie","type":2,"relas_src":[],"relas_trg":[]},{"id":258,"name":"Zlato","type":2,"relas_src":[],"relas_trg":[]},{"id":259,"name":"Šití","type":2,"relas_src":[],"relas_trg":[26000259,26100259,26200259]},{"id":260,"name":"Len","type":1,"relas_src":[26000259],"relas_trg":[]},{"id":261,"name":"Netex","type":1,"relas_src":[26100259],"relas_trg":[]},{"id":262,"name":"Plátno","type":1,"relas_src":[26200259],"relas_trg":[]},{"id":263,"name":"Platina","type":2,"relas_src":[],"relas_trg":[]},{"id":264,"name":"Šaty","type":2,"relas_src":[],"relas_trg":[]},{"id":265,"name":"Aktinium","type":2,"relas_src":[],"relas_trg":[]},{"id":266,"name":"Chemie","type":2,"relas_src":[],"relas_trg":[]},{"id":267,"name":"Kouzla","type":2,"relas_src":[],"relas_trg":[]},{"id":268,"name":"Politika","type":2,"relas_src":[],"relas_trg":[]},{"id":269,"name":"Guláš","type":2,"relas_src":[],"relas_trg":[]},{"id":270,"name":"Komunismus","type":2,"relas_src":[],"relas_trg":[]},{"id":271,"name":"Kapitalismus","type":2,"relas_src":[],"relas_trg":[]},{"id":272,"name":"Hackathon","type":2,"relas_src":[],"relas_trg":[]},{"id":273,"name":"Anglie","type":2,"relas_src":[],"relas_trg":[]},{"id":274,"name":"Maraton","type":2,"relas_src":[],"relas_trg":[]},{"id":275,"name":"Morava","type":2,"relas_src":[],"relas_trg":[]},{"id":276,"name":"Bunkr","type":2,"relas_src":[],"relas_trg":[]},{"id":277,"name":"Prales","type":2,"relas_src":[],"relas_trg":[]},{"id":278,"name":"Poušť","type":2,"relas_src":[],"relas_trg":[]},{"id":279,"name":"Škola","type":2,"relas_src":[],"relas_trg":[]},{"id":280,"name":"Školka","type":2,"relas_src":[],"relas_trg":[]},{"id":281,"name":"Gymnázium","type":2,"relas_src":[],"relas_trg":[]},{"id":282,"name":"Pochod","type":2,"relas_src":[],"relas_trg":[]},{"id":283,"name":"Ekologie","type":2,"relas_src":[],"relas_trg":[]},{"id":284,"name":"Ekonomie","type":2,"relas_src":[],"relas_trg":[]},{"id":285,"name":"Mykologie","type":2,"relas_src":[],"relas_trg":[]},{"id":286,"name":"Zahrada","type":2,"relas_src":[],"relas_trg":[]},{"id":287,"name":"Skleník","type":2,"relas_src":[],"relas_trg":[]},{"id":288,"name":"Lopata","type":2,"relas_src":[],"relas_trg":[]},{"id":289,"name":"Výkop","type":2,"relas_src":[],"relas_trg":[]},{"id":290,"name":"Přehlídka","type":2,"relas_src":[],"relas_trg":[]},{"id":291,"name":"Úklid","type":2,"relas_src":[],"relas_trg":[]},{"id":292,"name":"Cestopis","type":2,"relas_src":[],"relas_trg":[]},{"id":293,"name":"Elektrárna","type":2,"relas_src":[],"relas_trg":[]},{"id":294,"name":"Piknik","type":2,"relas_src":[],"relas_trg":[]},{"id":295,"name":"Práce","type":2,"relas_src":[],"relas_trg":[]},{"id":296,"name":"Teplárna","type":2,"relas_src":[],"relas_trg":[]},{"id":297,"name":"Pivovar","type":2,"relas_src":[],"relas_trg":[]},{"id":298,"name":"Masáž","type":2,"relas_src":[],"relas_trg":[]},{"id":299,"name":"Lázně","type":2,"relas_src":[],"relas_trg":[]},{"id":300,"name":"Termály","type":2,"relas_src":[],"relas_trg":[]},{"id":301,"name":"Wellness","type":2,"relas_src":[],"relas_trg":[]},{"id":302,"name":"Pláž","type":2,"relas_src":[],"relas_trg":[]},{"id":303,"name":"Slunění","type":2,"relas_src":[],"relas_trg":[]},{"id":304,"name":"Sauna","type":2,"relas_src":[],"relas_trg":[]},{"id":305,"name":"Anime","type":2,"relas_src":[],"relas_trg":[]},{"id":306,"name":"Tenis","type":2,"relas_src":[],"relas_trg":[]},{"id":307,"name":"Hokej","type":2,"relas_src":[],"relas_trg":[]},{"id":308,"name":"Floorball","type":2,"relas_src":[],"relas_trg":[]},{"id":309,"name":"Víkend","type":2,"relas_src":[],"relas_trg":[]},{"id":310,"name":"Solná jeskyně","type":2,"relas_src":[],"relas_trg":[]},{"id":311,"name":"Týpí","type":2,"relas_src":[],"relas_trg":[]},{"id":312,"name":"Stan","type":2,"relas_src":[],"relas_trg":[]},{"id":313,"name":"Stanování","type":2,"relas_src":[],"relas_trg":[]},{"id":314,"name":"Pohorky","type":2,"relas_src":[],"relas_trg":[]},{"id":315,"name":"Furry","type":2,"relas_src":[],"relas_trg":[]},{"id":316,"name":"Strašidla","type":2,"relas_src":[],"relas_trg":[]},{"id":317,"name":"Volejbal","type":2,"relas_src":[],"relas_trg":[]},{"id":318,"name":"Koště","type":2,"relas_src":[],"relas_trg":[]},{"id":319,"name":"Přehrada","type":2,"relas_src":[],"relas_trg":[]},{"id":320,"name":"Hasiči","type":2,"relas_src":[],"relas_trg":[]},{"id":321,"name":"Večerníček","type":2,"relas_src":[],"relas_trg":[]},{"id":322,"name":"Soutěž krásy","type":2,"relas_src":[],"relas_trg":[]},{"id":323,"name":"Vinice","type":2,"relas_src":[],"relas_trg":[]},{"id":324,"name":"Příroda","type":2,"relas_src":[],"relas_trg":[]},{"id":325,"name":"Vodopád","type":2,"relas_src":[],"relas_trg":[]},{"id":326,"name":"Kameny","type":2,"relas_src":[],"relas_trg":[]},{"id":327,"name":"Chmelobraní","type":2,"relas_src":[],"relas_trg":[]},{"id":328,"name":"Sci-fi","type":2,"relas_src":[],"relas_trg":[]},{"id":329,"name":"Chata","type":2,"relas_src":[],"relas_trg":[]},{"id":330,"name":"Golf","type":2,"relas_src":[],"relas_trg":[]},{"id":331,"name":"Chalupa","type":2,"relas_src":[],"relas_trg":[]},{"id":332,"name":"Inline","type":2,"relas_src":[],"relas_trg":[]},{"id":333,"name":"Byt","type":2,"relas_src":[],"relas_trg":[]},{"id":334,"name":"Liberec","type":2,"relas_src":[],"relas_trg":[]},{"id":335,"name":"Pára","type":2,"relas_src":[],"relas_trg":[]},{"id":336,"name":"Parní stroj","type":2,"relas_src":[],"relas_trg":[]},{"id":337,"name":"Zážitek","type":2,"relas_src":[],"relas_trg":[]},{"id":338,"name":"Adrenalin","type":2,"relas_src":[],"relas_trg":[33900338]},{"id":339,"name":"Vzrušení","type":1,"relas_src":[33900338],"relas_trg":[]},{"id":340,"name":"Skoba","type":2,"relas_src":[],"relas_trg":[]},{"id":341,"name":"Extáze","type":2,"relas_src":[],"relas_trg":[]},{"id":342,"name":"Hra","type":2,"relas_src":[],"relas_trg":[]},{"id":343,"name":"Cyklobus","type":2,"relas_src":[],"relas_trg":[]},{"id":344,"name":"Lanovka","type":2,"relas_src":[],"relas_trg":[]},{"id":345,"name":"Koloběžky","type":2,"relas_src":[],"relas_trg":[]},{"id":346,"name":"Skanzen","type":2,"relas_src":[],"relas_trg":[]},{"id":347,"name":"Techno","type":2,"relas_src":[],"relas_trg":[]},{"id":348,"name":"Dnb","type":2,"relas_src":[],"relas_trg":[]},{"id":349,"name":"Věž","type":2,"relas_src":[],"relas_trg":[]},{"id":350,"name":"Rnb","type":2,"relas_src":[],"relas_trg":[]},{"id":351,"name":"Dračí doupě","type":2,"relas_src":[],"relas_trg":[]},{"id":352,"name":"Dubstep","type":2,"relas_src":[],"relas_trg":[]},{"id":353,"name":"Společenské hry","type":2,"relas_src":[],"relas_trg":[]},{"id":354,"name":"Ples","type":2,"relas_src":[],"relas_trg":[]},{"id":355,"name":"Zábava","type":2,"relas_src":[],"relas_trg":[35600355]},{"id":356,"name":"Čoch","type":1,"relas_src":[35600355],"relas_trg":[]},{"id":357,"name":"Diskotéka","type":2,"relas_src":[],"relas_trg":[]},{"id":358,"name":"Bál","type":2,"relas_src":[],"relas_trg":[]},{"id":359,"name":"Paintball","type":2,"relas_src":[],"relas_trg":[]},{"id":360,"name":"Laser","type":2,"relas_src":[],"relas_trg":[]},{"id":361,"name":"Laser game","type":2,"relas_src":[],"relas_trg":[]},{"id":362,"name":"Motokáry","type":2,"relas_src":[],"relas_trg":[]},{"id":363,"name":"Hacker","type":2,"relas_src":[],"relas_trg":[]},{"id":364,"name":"Google","type":2,"relas_src":[],"relas_trg":[]},{"id":365,"name":"Microsoft","type":2,"relas_src":[],"relas_trg":[]},{"id":366,"name":"Včela","type":2,"relas_src":[],"relas_trg":[]},{"id":367,"name":"Panna","type":2,"relas_src":[],"relas_trg":[]},{"id":368,"name":"Chrám","type":2,"relas_src":[],"relas_trg":[]},{"id":369,"name":"Citadela","type":2,"relas_src":[],"relas_trg":[]},{"id":370,"name":"Svatba","type":2,"relas_src":[],"relas_trg":[]},{"id":371,"name":"Rodinná oslava","type":2,"relas_src":[],"relas_trg":[]},{"id":372,"name":"Seriály","type":2,"relas_src":[],"relas_trg":[]},{"id":373,"name":"Cadillac","type":2,"relas_src":[],"relas_trg":[]},{"id":374,"name":"Star trek","type":2,"relas_src":[],"relas_trg":[]},{"id":375,"name":"Dinosaurus","type":2,"relas_src":[],"relas_trg":[]},{"id":376,"name":"Game of thrones","type":2,"relas_src":[],"relas_trg":[]},{"id":377,"name":"Zaklínač","type":2,"relas_src":[],"relas_trg":[]},{"id":378,"name":"Housle","type":2,"relas_src":[],"relas_trg":[]},{"id":379,"name":"Varhany","type":2,"relas_src":[],"relas_trg":[]},{"id":380,"name":"Mše","type":2,"relas_src":[],"relas_trg":[]},{"id":381,"name":"Kost","type":2,"relas_src":[],"relas_trg":[]},{"id":382,"name":"Kukuřice","type":2,"relas_src":[],"relas_trg":[]},{"id":383,"name":"Šelma","type":2,"relas_src":[],"relas_trg":[38400383,38500383]},{"id":384,"name":"Lev","type":1,"relas_src":[38400383],"relas_trg":[]},{"id":385,"name":"Tygr","type":1,"relas_src":[38500383],"relas_trg":[]},{"id":386,"name":"Dravec","type":2,"relas_src":[],"relas_trg":[]},{"id":387,"name":"Kaktusy","type":2,"relas_src":[],"relas_trg":[]},{"id":388,"name":"Dovednost","type":2,"relas_src":[],"relas_trg":[]},{"id":389,"name":"Zeď","type":2,"relas_src":[],"relas_trg":[]},{"id":390,"name":"Sekera","type":2,"relas_src":[],"relas_trg":[]},{"id":391,"name":"Trabant","type":2,"relas_src":[],"relas_trg":[]},{"id":392,"name":"Lesnictví","type":2,"relas_src":[],"relas_trg":[]},{"id":393,"name":"Veteráni","type":2,"relas_src":[],"relas_trg":[]},{"id":394,"name":"Dřevorubectví","type":2,"relas_src":[],"relas_trg":[]},{"id":395,"name":"Fotografování","type":2,"relas_src":[],"relas_trg":[]},{"id":396,"name":"Východ","type":2,"relas_src":[],"relas_trg":[]},{"id":397,"name":"Orient","type":2,"relas_src":[],"relas_trg":[]},{"id":398,"name":"Indie","type":2,"relas_src":[],"relas_trg":[]},{"id":399,"name":"Tibet","type":2,"relas_src":[],"relas_trg":[]},{"id":400,"name":"Čína","type":2,"relas_src":[],"relas_trg":[]},{"id":401,"name":"Rusko","type":2,"relas_src":[],"relas_trg":[]},{"id":402,"name":"Sibiř","type":2,"relas_src":[],"relas_trg":[]},{"id":403,"name":"Terminátor","type":2,"relas_src":[],"relas_trg":[]},{"id":404,"name":"Lindemann","type":2,"relas_src":[],"relas_trg":[]},{"id":405,"name":"Radar","type":2,"relas_src":[],"relas_trg":[]},{"id":406,"name":"Saň","type":2,"relas_src":[],"relas_trg":[]},{"id":407,"name":"Mash","type":2,"relas_src":[],"relas_trg":[]},{"id":408,"name":"Facebook skupina \\"jsi holka? přidej se.\\"","type":2,"relas_src":[],"relas_trg":[]},{"id":409,"name":"Pár pařmenů","type":2,"relas_src":[],"relas_trg":[]},{"id":410,"name":"Rytíř","type":2,"relas_src":[],"relas_trg":[]},{"id":411,"name":"Kofola","type":2,"relas_src":[],"relas_trg":[41200411]},{"id":412,"name":"Fofola","type":1,"relas_src":[41200411],"relas_trg":[]},{"id":413,"name":"Kokain","type":2,"relas_src":[],"relas_trg":[]},{"id":414,"name":"Hifi věž","type":2,"relas_src":[],"relas_trg":[]},{"id":415,"name":"Pán prstenů","type":2,"relas_src":[],"relas_trg":[]},{"id":416,"name":"Zakažte akčník","type":2,"relas_src":[],"relas_trg":[]},{"id":417,"name":"Battlestar galactica","type":2,"relas_src":[],"relas_trg":[]},{"id":418,"name":"Rally","type":2,"relas_src":[],"relas_trg":[]},{"id":419,"name":"Voleyball","type":2,"relas_src":[],"relas_trg":[]},{"id":420,"name":"Beach","type":2,"relas_src":[],"relas_trg":[]},{"id":421,"name":"Borůvky","type":2,"relas_src":[],"relas_trg":[]},{"id":422,"name":"Bažantrikulace","type":2,"relas_src":[],"relas_trg":[]},{"id":423,"name":"Konec světa","type":2,"relas_src":[],"relas_trg":[]},{"id":424,"name":"Konspirace","type":2,"relas_src":[],"relas_trg":[]},{"id":425,"name":"Špioni","type":2,"relas_src":[],"relas_trg":[]},{"id":426,"name":"Vesmír","type":2,"relas_src":[],"relas_trg":[]},{"id":427,"name":"Anarchismus","type":2,"relas_src":[],"relas_trg":[]},{"id":428,"name":"Squat","type":2,"relas_src":[],"relas_trg":[]},{"id":429,"name":"Jupiter","type":2,"relas_src":[],"relas_trg":[]},{"id":430,"name":"Káva","type":2,"relas_src":[],"relas_trg":[]},{"id":431,"name":"Čaj","type":2,"relas_src":[],"relas_trg":[]},{"id":432,"name":"Dýmka","type":2,"relas_src":[],"relas_trg":[]},{"id":433,"name":"Humbuk","type":2,"relas_src":[],"relas_trg":[]},{"id":434,"name":"Happening","type":2,"relas_src":[],"relas_trg":[]},{"id":435,"name":"Kratochvíle","type":2,"relas_src":[],"relas_trg":[]},{"id":436,"name":"Kniha","type":2,"relas_src":[],"relas_trg":[]},{"id":437,"name":"Protest","type":2,"relas_src":[],"relas_trg":[]},{"id":438,"name":"Svitek","type":2,"relas_src":[],"relas_trg":[]},{"id":439,"name":"Pergamen","type":2,"relas_src":[],"relas_trg":[]},{"id":440,"name":"Papyrus","type":2,"relas_src":[],"relas_trg":[]},{"id":441,"name":"Den země","type":2,"relas_src":[],"relas_trg":[]},{"id":442,"name":"Kytara","type":2,"relas_src":[],"relas_trg":[]},{"id":443,"name":"Řezbář","type":2,"relas_src":[],"relas_trg":[]},{"id":444,"name":"Svíce","type":2,"relas_src":[],"relas_trg":[]},{"id":445,"name":"Šňupání","type":2,"relas_src":[],"relas_trg":[]},{"id":446,"name":"Ping pong","type":2,"relas_src":[],"relas_trg":[]},{"id":447,"name":"Loutka","type":2,"relas_src":[],"relas_trg":[]},{"id":448,"name":"Loutky","type":2,"relas_src":[],"relas_trg":[]},{"id":449,"name":"Open-air","type":2,"relas_src":[],"relas_trg":[]},{"id":450,"name":"Pro dospělé","type":2,"relas_src":[],"relas_trg":[]},{"id":451,"name":"Pro děti","type":2,"relas_src":[],"relas_trg":[]},{"id":452,"name":"Pro rodiče s dětmi","type":2,"relas_src":[],"relas_trg":[]},{"id":453,"name":"Občerstvení","type":2,"relas_src":[],"relas_trg":[]},{"id":454,"name":"Vnitřní","type":2,"relas_src":[],"relas_trg":[]},{"id":455,"name":"Společenské oblečení","type":2,"relas_src":[],"relas_trg":[]},{"id":456,"name":"Instrumentální","type":2,"relas_src":[],"relas_trg":[]},{"id":457,"name":"Vokální","type":2,"relas_src":[],"relas_trg":[]},{"id":458,"name":"Commedia dell''arte","type":2,"relas_src":[],"relas_trg":[]},{"id":459,"name":"Komedie","type":2,"relas_src":[],"relas_trg":[]},{"id":460,"name":"Drama","type":2,"relas_src":[],"relas_trg":[]},{"id":461,"name":"Parodie","type":2,"relas_src":[],"relas_trg":[]},{"id":462,"name":"Dobrodružný film","type":2,"relas_src":[],"relas_trg":[]},{"id":463,"name":"Western","type":2,"relas_src":[],"relas_trg":[46400463]},{"id":464,"name":"Kovbojka","type":1,"relas_src":[46400463],"relas_trg":[]},{"id":465,"name":"Historický film","type":2,"relas_src":[],"relas_trg":[]},{"id":466,"name":"Životopisný film","type":2,"relas_src":[],"relas_trg":[]},{"id":467,"name":"Hudební film","type":2,"relas_src":[],"relas_trg":[]},{"id":468,"name":"Pohádka","type":2,"relas_src":[],"relas_trg":[46900468,47000468,47100468,47200468,47300468]},{"id":469,"name":"Drak","type":1,"relas_src":[46900468],"relas_trg":[]},{"id":470,"name":"Princezna","type":1,"relas_src":[47000468],"relas_trg":[]},{"id":471,"name":"Obr","type":1,"relas_src":[47100468],"relas_trg":[]},{"id":472,"name":"Čarodějnice","type":1,"relas_src":[47200468],"relas_trg":[]},{"id":473,"name":"Dračice","type":1,"relas_src":[47300468],"relas_trg":[]},{"id":474,"name":"Láska","type":2,"relas_src":[],"relas_trg":[]},{"id":475,"name":"Raut","type":2,"relas_src":[],"relas_trg":[]},{"id":476,"name":"Obrazy","type":2,"relas_src":[],"relas_trg":[]},{"id":477,"name":"Architektura","type":2,"relas_src":[],"relas_trg":[]},{"id":478,"name":"Fotografie","type":2,"relas_src":[],"relas_trg":[]},{"id":479,"name":"Řemeslo","type":2,"relas_src":[],"relas_trg":[]},{"id":480,"name":"Románský sloh","type":2,"relas_src":[],"relas_trg":[]},{"id":481,"name":"Gotický sloh","type":2,"relas_src":[],"relas_trg":[]},{"id":482,"name":"Novověk","type":2,"relas_src":[],"relas_trg":[]},{"id":483,"name":"Rokoko","type":2,"relas_src":[],"relas_trg":[]},{"id":484,"name":"Klasicismus","type":2,"relas_src":[],"relas_trg":[]},{"id":485,"name":"Romantismus","type":2,"relas_src":[],"relas_trg":[]},{"id":486,"name":"Realismus","type":2,"relas_src":[],"relas_trg":[]},{"id":487,"name":"Impresionismus","type":2,"relas_src":[],"relas_trg":[]},{"id":488,"name":"Symbolismus","type":2,"relas_src":[],"relas_trg":[]},{"id":489,"name":"Secese","type":2,"relas_src":[],"relas_trg":[]},{"id":490,"name":"Art deco","type":2,"relas_src":[],"relas_trg":[]},{"id":491,"name":"Dadaismus","type":2,"relas_src":[],"relas_trg":[]},{"id":492,"name":"Funkcionalismus","type":2,"relas_src":[],"relas_trg":[]},{"id":493,"name":"Surrealismus","type":2,"relas_src":[],"relas_trg":[]},{"id":494,"name":"Vstupné dobrovolné","type":2,"relas_src":[],"relas_trg":[]},{"id":495,"name":"Sportovní akce","type":2,"relas_src":[],"relas_trg":[]},{"id":496,"name":"Relaxační","type":2,"relas_src":[],"relas_trg":[]},{"id":497,"name":"Adrenalinový","type":2,"relas_src":[],"relas_trg":[]},{"id":498,"name":"Letní","type":2,"relas_src":[],"relas_trg":[]},{"id":499,"name":"Zimní","type":2,"relas_src":[],"relas_trg":[]},{"id":500,"name":"Kolektivní","type":2,"relas_src":[],"relas_trg":[]},{"id":501,"name":"Orientační","type":2,"relas_src":[],"relas_trg":[]},{"id":502,"name":"Vodní","type":2,"relas_src":[],"relas_trg":[]},{"id":503,"name":"Míčový","type":2,"relas_src":[],"relas_trg":[]},{"id":504,"name":"Bojová umění","type":2,"relas_src":[],"relas_trg":[]},{"id":505,"name":"Silový","type":2,"relas_src":[],"relas_trg":[]},{"id":506,"name":"Motorismus","type":2,"relas_src":[],"relas_trg":[]},{"id":507,"name":"Tanced","type":2,"relas_src":[],"relas_trg":[]},{"id":508,"name":"Turistický","type":2,"relas_src":[],"relas_trg":[]},{"id":509,"name":"Fandění","type":2,"relas_src":[],"relas_trg":[]},{"id":510,"name":"První liga","type":2,"relas_src":[],"relas_trg":[]},{"id":511,"name":"Druhá liga","type":2,"relas_src":[],"relas_trg":[]},{"id":512,"name":"Extraliga","type":2,"relas_src":[],"relas_trg":[]},{"id":513,"name":"Mládež","type":2,"relas_src":[],"relas_trg":[]},{"id":514,"name":"Závod","type":2,"relas_src":[],"relas_trg":[]},{"id":515,"name":"Mírný terén","type":2,"relas_src":[],"relas_trg":[]},{"id":516,"name":"Střední terén","type":2,"relas_src":[],"relas_trg":[]},{"id":517,"name":"Náročný terén","type":2,"relas_src":[],"relas_trg":[]},{"id":518,"name":"Ceny pro vítěze","type":2,"relas_src":[],"relas_trg":[]},{"id":519,"name":"Uzavřená akce","type":2,"relas_src":[],"relas_trg":[]},{"id":520,"name":"Třídní sraz","type":2,"relas_src":[],"relas_trg":[]},{"id":521,"name":"Pracovní schůzka","type":2,"relas_src":[],"relas_trg":[]},{"id":522,"name":"Firemní akce","type":2,"relas_src":[],"relas_trg":[]},{"id":523,"name":"Den otevřených dveří","type":2,"relas_src":[],"relas_trg":[]},{"id":524,"name":"Tuning","type":2,"relas_src":[],"relas_trg":[]},{"id":525,"name":"Letecký den","type":2,"relas_src":[],"relas_trg":[]},{"id":526,"name":"Farmářský trh","type":2,"relas_src":[],"relas_trg":[]},{"id":527,"name":"Blues","type":2,"relas_src":[],"relas_trg":[]},{"id":528,"name":"Country","type":2,"relas_src":[],"relas_trg":[]},{"id":529,"name":"Disco","type":2,"relas_src":[],"relas_trg":[]},{"id":530,"name":"Dechová hudba","type":2,"relas_src":[],"relas_trg":[53100530,53200530]},{"id":531,"name":"Dechovka","type":1,"relas_src":[53100530],"relas_trg":[]},{"id":532,"name":"Eva a vašek","type":1,"relas_src":[53200530],"relas_trg":[]},{"id":533,"name":"Duchovní hudba","type":2,"relas_src":[],"relas_trg":[]},{"id":534,"name":"Elektronická hudba","type":2,"relas_src":[],"relas_trg":[]},{"id":535,"name":"Folk","type":2,"relas_src":[],"relas_trg":[]},{"id":536,"name":"Funk","type":2,"relas_src":[],"relas_trg":[]},{"id":537,"name":"Hip hop","type":2,"relas_src":[],"relas_trg":[]},{"id":538,"name":"Jazz","type":2,"relas_src":[],"relas_trg":[]},{"id":539,"name":"Pop","type":2,"relas_src":[],"relas_trg":[]},{"id":540,"name":"Reggae","type":2,"relas_src":[],"relas_trg":[]},{"id":541,"name":"R&b","type":2,"relas_src":[],"relas_trg":[]},{"id":542,"name":"Ska","type":2,"relas_src":[],"relas_trg":[]},{"id":543,"name":"Underground","type":2,"relas_src":[],"relas_trg":[]},{"id":544,"name":"Vážná hudba","type":2,"relas_src":[],"relas_trg":[]},{"id":545,"name":"World music","type":2,"relas_src":[],"relas_trg":[]},{"id":546,"name":"Epická hudba","type":2,"relas_src":[],"relas_trg":[]},{"id":547,"name":"Středověké zbraně","type":2,"relas_src":[],"relas_trg":[54800547,54900547,55000547,55100547,55200547,55300547]},{"id":548,"name":"Meč","type":1,"relas_src":[54800547],"relas_trg":[]},{"id":549,"name":"Luk","type":1,"relas_src":[54900547],"relas_trg":[]},{"id":550,"name":"Zbroj","type":1,"relas_src":[55000547],"relas_trg":[]},{"id":551,"name":"Štít","type":1,"relas_src":[55100547],"relas_trg":[]},{"id":552,"name":"Šíp","type":1,"relas_src":[55200547],"relas_trg":[]},{"id":553,"name":"Katapult","type":1,"relas_src":[55300547],"relas_trg":[]},{"id":554,"name":"Počítačové hry","type":2,"relas_src":[],"relas_trg":[55500554,55600554,55700554,55800554]},{"id":555,"name":"Ork","type":1,"relas_src":[55500554],"relas_trg":[]},{"id":556,"name":"Warcraft","type":1,"relas_src":[55600554],"relas_trg":[]},{"id":557,"name":"Wot","type":1,"relas_src":[55700554],"relas_trg":[]},{"id":558,"name":"Minecraft","type":1,"relas_src":[55800554],"relas_trg":[]},{"id":559,"name":"Nealko","type":2,"relas_src":[],"relas_trg":[]},{"id":560,"name":"Kapely","type":2,"relas_src":[],"relas_trg":[56100560,56200560,56300560,56400560]},{"id":561,"name":"Nightwish","type":1,"relas_src":[56100560],"relas_trg":[]},{"id":562,"name":"Rammstein","type":1,"relas_src":[56200560],"relas_trg":[]},{"id":563,"name":"Asonance","type":1,"relas_src":[56300560],"relas_trg":[]},{"id":564,"name":"Horkýže","type":1,"relas_src":[56400560],"relas_trg":[]},{"id":565,"name":"Násilí","type":2,"relas_src":[],"relas_trg":[]},{"id":566,"name":"Erotika","type":2,"relas_src":[],"relas_trg":[]},{"id":567,"name":"Mystika","type":2,"relas_src":[],"relas_trg":[]},{"id":568,"name":"Párty","type":2,"relas_src":[],"relas_trg":[]}],"relas":[{"from":11,"to":10,"str":1.0},{"from":34,"to":33,"str":1.0},{"from":35,"to":33,"str":1.0},{"from":36,"to":33,"str":1.0},{"from":37,"to":33,"str":1.0},{"from":49,"to":48,"str":1.0},{"from":53,"to":52,"str":1.0},{"from":54,"to":52,"str":1.0},{"from":55,"to":52,"str":1.0},{"from":63,"to":62,"str":1.0},{"from":81,"to":80,"str":1.0},{"from":82,"to":80,"str":1.0},{"from":83,"to":80,"str":1.0},{"from":84,"to":80,"str":1.0},{"from":87,"to":86,"str":1.0},{"from":103,"to":102,"str":1.0},{"from":104,"to":102,"str":1.0},{"from":105,"to":102,"str":1.0},{"from":156,"to":155,"str":1.0},{"from":208,"to":207,"str":1.0},{"from":216,"to":215,"str":1.0},{"from":217,"to":215,"str":1.0},{"from":218,"to":215,"str":1.0},{"from":219,"to":215,"str":1.0},{"from":221,"to":220,"str":1.0},{"from":225,"to":224,"str":1.0},{"from":226,"to":224,"str":1.0},{"from":260,"to":259,"str":1.0},{"from":261,"to":259,"str":1.0},{"from":262,"to":259,"str":1.0},{"from":339,"to":338,"str":1.0},{"from":356,"to":355,"str":1.0},{"from":384,"to":383,"str":1.0},{"from":385,"to":383,"str":1.0},{"from":412,"to":411,"str":1.0},{"from":464,"to":463,"str":1.0},{"from":469,"to":468,"str":1.0},{"from":470,"to":468,"str":1.0},{"from":471,"to":468,"str":1.0},{"from":472,"to":468,"str":1.0},{"from":473,"to":468,"str":1.0},{"from":531,"to":530,"str":1.0},{"from":532,"to":530,"str":1.0},{"from":548,"to":547,"str":1.0},{"from":549,"to":547,"str":1.0},{"from":550,"to":547,"str":1.0},{"from":551,"to":547,"str":1.0},{"from":552,"to":547,"str":1.0},{"from":553,"to":547,"str":1.0},{"from":555,"to":554,"str":1.0},{"from":556,"to":554,"str":1.0},{"from":557,"to":554,"str":1.0},{"from":558,"to":554,"str":1.0},{"from":561,"to":560,"str":1.0},{"from":562,"to":560,"str":1.0},{"from":563,"to":560,"str":1.0},{"from":564,"to":560,"str":1.0},{"from":11,"to":0,"str":0.5},{"from":34,"to":0,"str":0.5}]}', '2015-08-15 14:53:02.139351', NULL, 1);
+
+
+--
+-- TOC entry 1897 (class 0 OID 48074934)
+-- Dependencies: 151
+-- Data for Name: tag_master_repository_lock; Type: TABLE DATA; Schema: public; Owner: akcnik.thilisar.cz
+--
+
+INSERT INTO tag_master_repository_lock (id, "time", ip, settings) VALUES (1, '2015-08-15 15:07:54.792981', '127:0:0:1', '{"instanceId": "aaa"}');
+INSERT INTO tag_master_repository_lock (id, "time", ip, settings) VALUES (4, '2015-08-15 15:32:38.089056', NULL, '{"instanceId":"0.9191030129238419"}');
+INSERT INTO tag_master_repository_lock (id, "time", ip, settings) VALUES (9, '2015-08-15 15:44:10.229697', NULL, '{"instanceId":"0.687594025377589"}');
+INSERT INTO tag_master_repository_lock (id, "time", ip, settings) VALUES (10, '2015-08-15 15:44:54.320777', NULL, '{"instanceId":"0.5871857520285708"}');
+INSERT INTO tag_master_repository_lock (id, "time", ip, settings) VALUES (11, '2015-08-15 15:45:47.38151', NULL, '{"instanceId":"0.9906339975908636"}');
+INSERT INTO tag_master_repository_lock (id, "time", ip, settings) VALUES (12, '2015-08-15 15:47:45.372029', NULL, '{"instanceId":"0.7692165071838485"}');
+INSERT INTO tag_master_repository_lock (id, "time", ip, settings) VALUES (13, '2015-08-15 15:49:01.596147', NULL, '{"instanceId":"0.9823976717878056"}');
+INSERT INTO tag_master_repository_lock (id, "time", ip, settings) VALUES (14, '2015-08-15 15:57:49.751726', NULL, '{"instanceId":"0.03830438604222952"}');
+INSERT INTO tag_master_repository_lock (id, "time", ip, settings) VALUES (16, '2015-08-15 18:49:53.191003', NULL, '{"instanceId":"0.30248888082866954"}');
+INSERT INTO tag_master_repository_lock (id, "time", ip, settings) VALUES (17, '2015-10-10 20:35:59.585528', NULL, '{"instanceId":"0.7146347062263295"}');
+INSERT INTO tag_master_repository_lock (id, "time", ip, settings) VALUES (18, '2015-10-10 20:38:55.835814', NULL, '{"instanceId":"0.5666494473258966"}');
+INSERT INTO tag_master_repository_lock (id, "time", ip, settings) VALUES (19, '2015-10-10 21:18:59.768904', NULL, '{"instanceId":"0.8628782121727333"}');
+
+
+--
+-- TOC entry 1937 (class 0 OID 0)
+-- Dependencies: 150
+-- Name: tag_master_repository_lock_id_seq; Type: SEQUENCE SET; Schema: public; Owner: akcnik.thilisar.cz
+--
+
+SELECT pg_catalog.setval('tag_master_repository_lock_id_seq', 19, true);
+
+
+--
+-- TOC entry 1899 (class 0 OID 48075387)
+-- Dependencies: 153
+-- Data for Name: tags; Type: TABLE DATA; Schema: public; Owner: akcnik.thilisar.cz
+--
+
+INSERT INTO tags (id, repository, settings, "time") VALUES (1, '[{"id":0,"name":"Pivo","type":2,"relas":{"0":1.0}},{"id":1,"name":"Hospoda","type":2,"relas":{"1":1.0}},{"id":2,"name":"Outdoor","type":3,"relas":{}},{"id":3,"name":"Alkohol","type":2,"relas":{"3":1.0}},{"id":4,"name":"Magic: the gathering","type":2,"relas":{"4":1.0}},{"id":5,"name":"Larp","type":2,"relas":{"5":1.0}},{"id":6,"name":"Nekuřácká akce","type":2,"relas":{"6":1.0}},{"id":7,"name":"Divadlo","type":2,"relas":{"7":1.0}},{"id":8,"name":"Indoor","type":2,"relas":{"8":1.0}},{"id":9,"name":"Opera","type":2,"relas":{"9":1.0}},{"id":10,"name":"Deskovky","type":2,"relas":{"10":1.0}},{"id":11,"name":"Deskové hry","type":1,"relas":{"10":1.0}},{"id":12,"name":"Muzeum","type":2,"relas":{"12":1.0}},{"id":13,"name":"Sport","type":2,"relas":{"13":1.0}},{"id":14,"name":"Počítač","type":2,"relas":{"14":1.0}},{"id":15,"name":"Technologie","type":2,"relas":{"15":1.0}},{"id":16,"name":"Hala","type":2,"relas":{"16":1.0}},{"id":17,"name":"Tělocvična","type":2,"relas":{"17":1.0}},{"id":18,"name":"Hřiště","type":2,"relas":{"18":1.0}},{"id":19,"name":"Voda","type":2,"relas":{"19":1.0}},{"id":20,"name":"Řeka","type":2,"relas":{"20":1.0}},{"id":21,"name":"Rybník","type":2,"relas":{"21":1.0}},{"id":22,"name":"Jezero","type":2,"relas":{"22":1.0}},{"id":23,"name":"Skála","type":2,"relas":{"23":1.0}},{"id":24,"name":"Výšlap","type":2,"relas":{"24":1.0}},{"id":25,"name":"Hudba","type":2,"relas":{"25":1.0}},{"id":26,"name":"Zvířata","type":2,"relas":{"26":1.0}},{"id":27,"name":"Les","type":2,"relas":{"27":1.0}},{"id":28,"name":"Rock","type":2,"relas":{"28":1.0}},{"id":29,"name":"Jídlo","type":2,"relas":{"29":1.0}},{"id":30,"name":"Metal","type":2,"relas":{"30":1.0}},{"id":31,"name":"Punk","type":2,"relas":{"31":1.0}},{"id":32,"name":"Kino","type":2,"relas":{"32":1.0}},{"id":33,"name":"Město","type":2,"relas":{"33":1.0}},{"id":34,"name":"Ostrava","type":1,"relas":{"33":1.0}},{"id":35,"name":"Praha","type":1,"relas":{"33":1.0}},{"id":36,"name":"Brno","type":1,"relas":{"33":1.0}},{"id":37,"name":"Olomouc","type":1,"relas":{"33":1.0}},{"id":38,"name":"Křesťanství","type":2,"relas":{"38":1.0}},{"id":39,"name":"Vánoce","type":2,"relas":{"39":1.0}},{"id":40,"name":"Vzdělávání","type":2,"relas":{"40":1.0}},{"id":41,"name":"Maso","type":2,"relas":{"41":1.0}},{"id":42,"name":"Děti","type":2,"relas":{"42":1.0}},{"id":43,"name":"Akce pro děti","type":2,"relas":{"43":1.0}},{"id":44,"name":"Islám","type":2,"relas":{"44":1.0}},{"id":45,"name":"Tábor","type":2,"relas":{"45":1.0}},{"id":46,"name":"Historie","type":2,"relas":{"46":1.0}},{"id":47,"name":"Hrady","type":2,"relas":{"47":1.0}},{"id":48,"name":"Památky","type":2,"relas":{"48":1.0}},{"id":49,"name":"Unesco","type":1,"relas":{"48":1.0}},{"id":50,"name":"Hory","type":2,"relas":{"50":1.0}},{"id":51,"name":"Park","type":2,"relas":{"51":1.0}},{"id":52,"name":"Tvrdý alkohol","type":2,"relas":{"52":1.0}},{"id":53,"name":"Režná","type":1,"relas":{"52":1.0}},{"id":54,"name":"Vodka","type":1,"relas":{"52":1.0}},{"id":55,"name":"Rum","type":1,"relas":{"52":1.0}},{"id":56,"name":"Demonstrace","type":2,"relas":{"56":1.0}},{"id":57,"name":"Cyklistika","type":2,"relas":{"57":1.0}},{"id":58,"name":"Věda","type":2,"relas":{"58":1.0}},{"id":59,"name":"Apple","type":2,"relas":{"59":1.0}},{"id":60,"name":"Geocache","type":2,"relas":{"60":1.0}},{"id":61,"name":"Bezalkoolová","type":2,"relas":{"61":1.0}},{"id":62,"name":"Festival","type":2,"relas":{"62":1.0}},{"id":63,"name":"Hudební festival","type":1,"relas":{"62":1.0}},{"id":64,"name":"Keltský","type":2,"relas":{"64":1.0}},{"id":65,"name":"Umění","type":2,"relas":{"65":1.0}},{"id":66,"name":"Létání","type":2,"relas":{"66":1.0}},{"id":67,"name":"Tanec","type":2,"relas":{"67":1.0}},{"id":68,"name":"Limonáda","type":2,"relas":{"68":1.0}},{"id":69,"name":"Kopec","type":2,"relas":{"69":1.0}},{"id":70,"name":"Rozhledna","type":2,"relas":{"70":1.0}},{"id":71,"name":"Výstava","type":2,"relas":{"71":1.0}},{"id":72,"name":"Film","type":2,"relas":{"72":1.0}},{"id":73,"name":"Bitva","type":2,"relas":{"73":1.0}},{"id":74,"name":"Dospělí","type":2,"relas":{"74":1.0}},{"id":75,"name":"Poker","type":2,"relas":{"75":1.0}},{"id":76,"name":"Lanka","type":2,"relas":{"76":1.0}},{"id":77,"name":"Řemesla","type":2,"relas":{"77":1.0}},{"id":78,"name":"Sraz","type":2,"relas":{"78":1.0}},{"id":79,"name":"Středověk","type":2,"relas":{"79":1.0}},{"id":80,"name":"Fantasy","type":2,"relas":{"80":1.0}},{"id":81,"name":"Troll","type":1,"relas":{"80":1.0}},{"id":82,"name":"Mág","type":1,"relas":{"80":1.0}},{"id":83,"name":"Špičatý klobouk","type":1,"relas":{"80":1.0}},{"id":84,"name":"Trpaslíci","type":1,"relas":{"80":1.0}},{"id":85,"name":"Výlet","type":2,"relas":{"85":1.0}},{"id":86,"name":"Vojenské","type":2,"relas":{"86":1.0}},{"id":87,"name":"Armáda","type":1,"relas":{"86":1.0}},{"id":88,"name":"Déšť","type":2,"relas":{"88":1.0}},{"id":89,"name":"Slunce","type":2,"relas":{"89":1.0}},{"id":90,"name":"Sníh","type":2,"relas":{"90":1.0}},{"id":91,"name":"Mráz","type":2,"relas":{"91":1.0}},{"id":92,"name":"Vlak","type":2,"relas":{"92":1.0}},{"id":93,"name":"Oslava","type":2,"relas":{"93":1.0}},{"id":94,"name":"Dřevárna","type":2,"relas":{"94":1.0}},{"id":95,"name":"Zámek","type":2,"relas":{"95":1.0}},{"id":96,"name":"Hrad","type":2,"relas":{"96":1.0}},{"id":97,"name":"Zoo","type":2,"relas":{"97":1.0}},{"id":98,"name":"Jóga","type":2,"relas":{"98":1.0}},{"id":99,"name":"Cvičení","type":2,"relas":{"99":1.0}},{"id":100,"name":"Brigáda","type":2,"relas":{"100":1.0}},{"id":101,"name":"Workout","type":2,"relas":{"101":1.0}},{"id":102,"name":"Wod","type":2,"relas":{"102":1.0}},{"id":103,"name":"Upír","type":1,"relas":{"102":1.0}},{"id":104,"name":"Upírka","type":1,"relas":{"102":1.0}},{"id":105,"name":"Upíři","type":1,"relas":{"102":1.0}},{"id":106,"name":"Noc","type":2,"relas":{"106":1.0}},{"id":107,"name":"Den","type":2,"relas":{"107":1.0}},{"id":108,"name":"Omg","type":2,"relas":{"108":1.0}},{"id":109,"name":"Prohlídka","type":2,"relas":{"109":1.0}},{"id":110,"name":"Víno","type":2,"relas":{"110":1.0}},{"id":111,"name":"Programování","type":2,"relas":{"111":1.0}},{"id":112,"name":"Myslivost","type":2,"relas":{"112":1.0}},{"id":113,"name":"Flóra","type":2,"relas":{"113":1.0}},{"id":114,"name":"Válka","type":2,"relas":{"114":1.0}},{"id":115,"name":"Auto","type":2,"relas":{"115":1.0}},{"id":116,"name":"Auta","type":2,"relas":{"116":1.0}},{"id":117,"name":"Senoseč","type":2,"relas":{"117":1.0}},{"id":118,"name":"Trnkobraní","type":2,"relas":{"118":1.0}},{"id":119,"name":"Baroko","type":2,"relas":{"119":1.0}},{"id":120,"name":"Vinobraní","type":2,"relas":{"120":1.0}},{"id":121,"name":"Renesance","type":2,"relas":{"121":1.0}},{"id":122,"name":"Gotika","type":2,"relas":{"122":1.0}},{"id":123,"name":"Koncert","type":2,"relas":{"123":1.0}},{"id":124,"name":"Starověk","type":2,"relas":{"124":1.0}},{"id":125,"name":"Velká morava","type":2,"relas":{"125":1.0}},{"id":126,"name":"Humanismus","type":2,"relas":{"126":1.0}},{"id":127,"name":"Baterka","type":2,"relas":{"127":1.0}},{"id":128,"name":"Jeskyně","type":2,"relas":{"128":1.0}},{"id":129,"name":"Filozofie","type":2,"relas":{"129":1.0}},{"id":130,"name":"Louč","type":2,"relas":{"130":1.0}},{"id":131,"name":"Psychologie","type":2,"relas":{"131":1.0}},{"id":132,"name":"Oheň","type":2,"relas":{"132":1.0}},{"id":133,"name":"Táborák","type":2,"relas":{"133":1.0}},{"id":134,"name":"Malby","type":2,"relas":{"134":1.0}},{"id":135,"name":"Kresby","type":2,"relas":{"135":1.0}},{"id":136,"name":"Příměstský","type":2,"relas":{"136":1.0}},{"id":137,"name":"Sochy","type":2,"relas":{"137":1.0}},{"id":138,"name":"Španělsko","type":2,"relas":{"138":1.0}},{"id":139,"name":"Řecko","type":2,"relas":{"139":1.0}},{"id":140,"name":"Irsko","type":2,"relas":{"140":1.0}},{"id":141,"name":"Balkán","type":2,"relas":{"141":1.0}},{"id":142,"name":"Vikingové","type":2,"relas":{"142":1.0}},{"id":143,"name":"Mayové","type":2,"relas":{"143":1.0}},{"id":144,"name":"Inkové","type":2,"relas":{"144":1.0}},{"id":145,"name":"Král","type":2,"relas":{"145":1.0}},{"id":146,"name":"Aztékové","type":2,"relas":{"146":1.0}},{"id":147,"name":"Nemocnice","type":2,"relas":{"147":1.0}},{"id":148,"name":"Betlém","type":2,"relas":{"148":1.0}},{"id":149,"name":"Osel","type":2,"relas":{"149":1.0}},{"id":150,"name":"Bylinky","type":2,"relas":{"150":1.0}},{"id":151,"name":"Bor","type":2,"relas":{"151":1.0}},{"id":152,"name":"Hvězdy","type":2,"relas":{"152":1.0}},{"id":153,"name":"Víla","type":2,"relas":{"153":1.0}},{"id":154,"name":"Farma","type":2,"relas":{"154":1.0}},{"id":155,"name":"Trh","type":2,"relas":{"155":1.0}},{"id":156,"name":"Jarmark","type":1,"relas":{"155":1.0}},{"id":157,"name":"Pouť","type":2,"relas":{"157":1.0}},{"id":158,"name":"Pantonima","type":2,"relas":{"158":1.0}},{"id":159,"name":"Princ","type":2,"relas":{"159":1.0}},{"id":160,"name":"Amerika","type":2,"relas":{"160":1.0}},{"id":161,"name":"Evropa","type":2,"relas":{"161":1.0}},{"id":162,"name":"Labyrint","type":2,"relas":{"162":1.0}},{"id":163,"name":"Antarktida","type":2,"relas":{"163":1.0}},{"id":164,"name":"Karetní hry","type":2,"relas":{"164":1.0}},{"id":165,"name":"Arktida","type":2,"relas":{"165":1.0}},{"id":166,"name":"Skyrim","type":2,"relas":{"166":1.0}},{"id":167,"name":"Kostým","type":2,"relas":{"167":1.0}},{"id":168,"name":"Atlantida","type":2,"relas":{"168":1.0}},{"id":169,"name":"Pramen","type":2,"relas":{"169":1.0}},{"id":170,"name":"Studánka","type":2,"relas":{"170":1.0}},{"id":171,"name":"Klášter","type":2,"relas":{"171":1.0}},{"id":172,"name":"Kostel","type":2,"relas":{"172":1.0}},{"id":173,"name":"Ulička","type":2,"relas":{"173":1.0}},{"id":174,"name":"Uličky","type":2,"relas":{"174":1.0}},{"id":175,"name":"Kašna","type":2,"relas":{"175":1.0}},{"id":176,"name":"Horolezectví","type":2,"relas":{"176":1.0}},{"id":177,"name":"Ekumenické","type":2,"relas":{"177":1.0}},{"id":178,"name":"Poutní místo","type":2,"relas":{"178":1.0}},{"id":179,"name":"Pověst","type":2,"relas":{"179":1.0}},{"id":180,"name":"Ledovec","type":2,"relas":{"180":1.0}},{"id":181,"name":"Malba","type":2,"relas":{"181":1.0}},{"id":182,"name":"Lukostřelba","type":2,"relas":{"182":1.0}},{"id":183,"name":"Kaple","type":2,"relas":{"183":1.0}},{"id":184,"name":"Šerm","type":2,"relas":{"184":1.0}},{"id":185,"name":"Jazyk","type":2,"relas":{"185":1.0}},{"id":186,"name":"Venkov","type":2,"relas":{"186":1.0}},{"id":187,"name":"Rybářství","type":2,"relas":{"187":1.0}},{"id":188,"name":"Kanoe","type":2,"relas":{"188":1.0}},{"id":189,"name":"Klaun","type":2,"relas":{"189":1.0}},{"id":190,"name":"Cirkus","type":2,"relas":{"190":1.0}},{"id":191,"name":"Vodáctví","type":2,"relas":{"191":1.0}},{"id":192,"name":"Kejklíř","type":2,"relas":{"192":1.0}},{"id":193,"name":"Indiáni","type":2,"relas":{"193":1.0}},{"id":194,"name":"Zabíjačka","type":2,"relas":{"194":1.0}},{"id":195,"name":"Krasojezdkyně","type":2,"relas":{"195":1.0}},{"id":196,"name":"Táboření","type":2,"relas":{"196":1.0}},{"id":197,"name":"Zážitkovka","type":2,"relas":{"197":1.0}},{"id":198,"name":"Kemp","type":2,"relas":{"198":1.0}},{"id":199,"name":"Mažoretky","type":2,"relas":{"199":1.0}},{"id":200,"name":"Hody","type":2,"relas":{"200":1.0}},{"id":201,"name":"Metro","type":2,"relas":{"201":1.0}},{"id":202,"name":"Posvícení","type":2,"relas":{"202":1.0}},{"id":203,"name":"Sklep","type":2,"relas":{"203":1.0}},{"id":204,"name":"Tramvaj","type":2,"relas":{"204":1.0}},{"id":205,"name":"Sklípek","type":2,"relas":{"205":1.0}},{"id":206,"name":"Šifrovačka","type":2,"relas":{"206":1.0}},{"id":207,"name":"Koupaliště","type":2,"relas":{"207":1.0}},{"id":208,"name":"Bazén","type":1,"relas":{"207":1.0}},{"id":209,"name":"Extremismus","type":2,"relas":{"209":1.0}},{"id":210,"name":"Imigranti","type":2,"relas":{"210":1.0}},{"id":211,"name":"Zahrádka","type":2,"relas":{"211":1.0}},{"id":212,"name":"Pěstitelství","type":2,"relas":{"212":1.0}},{"id":213,"name":"Psi","type":2,"relas":{"213":1.0}},{"id":214,"name":"Kočky","type":2,"relas":{"214":1.0}},{"id":215,"name":"Zvířátka","type":2,"relas":{"215":1.0}},{"id":216,"name":"Morčata","type":1,"relas":{"215":1.0}},{"id":217,"name":"Fauna","type":1,"relas":{"215":1.0}},{"id":218,"name":"Plazi","type":1,"relas":{"215":1.0}},{"id":219,"name":"Žába","type":1,"relas":{"215":1.0}},{"id":220,"name":"Ptáci","type":2,"relas":{"220":1.0}},{"id":221,"name":"Kuřátka","type":1,"relas":{"220":1.0}},{"id":222,"name":"Internet","type":2,"relas":{"222":1.0}},{"id":223,"name":"Vaření","type":2,"relas":{"223":1.0}},{"id":224,"name":"Stavebnice","type":2,"relas":{"224":1.0}},{"id":225,"name":"Cheva","type":1,"relas":{"224":1.0}},{"id":226,"name":"Merkur","type":1,"relas":{"224":1.0}},{"id":227,"name":"Koupání","type":2,"relas":{"227":1.0}},{"id":228,"name":"Mlýn","type":2,"relas":{"228":1.0}},{"id":229,"name":"Slavnost","type":2,"relas":{"229":1.0}},{"id":230,"name":"Pohřeb","type":2,"relas":{"230":1.0}},{"id":231,"name":"Hrášek","type":2,"relas":{"231":1.0}},{"id":232,"name":"Židi","type":2,"relas":{"232":1.0}},{"id":233,"name":"Inkvizice","type":2,"relas":{"233":1.0}},{"id":234,"name":"Technika","type":2,"relas":{"234":1.0}},{"id":235,"name":"Boty","type":2,"relas":{"235":1.0}},{"id":236,"name":"Oblečení","type":2,"relas":{"236":1.0}},{"id":237,"name":"Móda","type":2,"relas":{"237":1.0}},{"id":238,"name":"Lasergame","type":2,"relas":{"238":1.0}},{"id":239,"name":"Lynčování","type":2,"relas":{"239":1.0}},{"id":240,"name":"Lego","type":2,"relas":{"240":1.0}},{"id":241,"name":"Kostnice","type":2,"relas":{"241":1.0}},{"id":242,"name":"Zájezd","type":2,"relas":{"242":1.0}},{"id":243,"name":"Moře","type":2,"relas":{"243":1.0}},{"id":244,"name":"Sklo","type":2,"relas":{"244":1.0}},{"id":245,"name":"Keramika","type":2,"relas":{"245":1.0}},{"id":246,"name":"Kování","type":2,"relas":{"246":1.0}},{"id":247,"name":"Měď","type":2,"relas":{"247":1.0}},{"id":248,"name":"Bronz","type":2,"relas":{"248":1.0}},{"id":249,"name":"Železo","type":2,"relas":{"249":1.0}},{"id":250,"name":"Uhlí","type":2,"relas":{"250":1.0}},{"id":251,"name":"Důl","type":2,"relas":{"251":1.0}},{"id":252,"name":"Ropa","type":2,"relas":{"252":1.0}},{"id":253,"name":"Sůl","type":2,"relas":{"253":1.0}},{"id":254,"name":"Loď","type":2,"relas":{"254":1.0}},{"id":255,"name":"Magnet","type":2,"relas":{"255":1.0}},{"id":256,"name":"Piráti","type":2,"relas":{"256":1.0}},{"id":257,"name":"Standup komedie","type":2,"relas":{"257":1.0}},{"id":258,"name":"Zlato","type":2,"relas":{"258":1.0}},{"id":259,"name":"Šití","type":2,"relas":{"259":1.0}},{"id":260,"name":"Len","type":1,"relas":{"259":1.0}},{"id":261,"name":"Netex","type":1,"relas":{"259":1.0}},{"id":262,"name":"Plátno","type":1,"relas":{"259":1.0}},{"id":263,"name":"Platina","type":2,"relas":{"263":1.0}},{"id":264,"name":"Šaty","type":2,"relas":{"264":1.0}},{"id":265,"name":"Aktinium","type":2,"relas":{"265":1.0}},{"id":266,"name":"Chemie","type":2,"relas":{"266":1.0}},{"id":267,"name":"Kouzla","type":2,"relas":{"267":1.0}},{"id":268,"name":"Politika","type":2,"relas":{"268":1.0}},{"id":269,"name":"Guláš","type":2,"relas":{"269":1.0}},{"id":270,"name":"Komunismus","type":2,"relas":{"270":1.0}},{"id":271,"name":"Kapitalismus","type":2,"relas":{"271":1.0}},{"id":272,"name":"Hackathon","type":2,"relas":{"272":1.0}},{"id":273,"name":"Anglie","type":2,"relas":{"273":1.0}},{"id":274,"name":"Maraton","type":2,"relas":{"274":1.0}},{"id":275,"name":"Morava","type":2,"relas":{"275":1.0}},{"id":276,"name":"Bunkr","type":2,"relas":{"276":1.0}},{"id":277,"name":"Prales","type":2,"relas":{"277":1.0}},{"id":278,"name":"Poušť","type":2,"relas":{"278":1.0}},{"id":279,"name":"Škola","type":2,"relas":{"279":1.0}},{"id":280,"name":"Školka","type":2,"relas":{"280":1.0}},{"id":281,"name":"Gymnázium","type":2,"relas":{"281":1.0}},{"id":282,"name":"Pochod","type":2,"relas":{"282":1.0}},{"id":283,"name":"Ekologie","type":2,"relas":{"283":1.0}},{"id":284,"name":"Ekonomie","type":2,"relas":{"284":1.0}},{"id":285,"name":"Mykologie","type":2,"relas":{"285":1.0}},{"id":286,"name":"Zahrada","type":2,"relas":{"286":1.0}},{"id":287,"name":"Skleník","type":2,"relas":{"287":1.0}},{"id":288,"name":"Lopata","type":2,"relas":{"288":1.0}},{"id":289,"name":"Výkop","type":2,"relas":{"289":1.0}},{"id":290,"name":"Přehlídka","type":2,"relas":{"290":1.0}},{"id":291,"name":"Úklid","type":2,"relas":{"291":1.0}},{"id":292,"name":"Cestopis","type":2,"relas":{"292":1.0}},{"id":293,"name":"Elektrárna","type":2,"relas":{"293":1.0}},{"id":294,"name":"Piknik","type":2,"relas":{"294":1.0}},{"id":295,"name":"Práce","type":2,"relas":{"295":1.0}},{"id":296,"name":"Teplárna","type":2,"relas":{"296":1.0}},{"id":297,"name":"Pivovar","type":2,"relas":{"297":1.0}},{"id":298,"name":"Masáž","type":2,"relas":{"298":1.0}},{"id":299,"name":"Lázně","type":2,"relas":{"299":1.0}},{"id":300,"name":"Termály","type":2,"relas":{"300":1.0}},{"id":301,"name":"Wellness","type":2,"relas":{"301":1.0}},{"id":302,"name":"Pláž","type":2,"relas":{"302":1.0}},{"id":303,"name":"Slunění","type":2,"relas":{"303":1.0}},{"id":304,"name":"Sauna","type":2,"relas":{"304":1.0}},{"id":305,"name":"Anime","type":2,"relas":{"305":1.0}},{"id":306,"name":"Tenis","type":2,"relas":{"306":1.0}},{"id":307,"name":"Hokej","type":2,"relas":{"307":1.0}},{"id":308,"name":"Floorball","type":2,"relas":{"308":1.0}},{"id":309,"name":"Víkend","type":2,"relas":{"309":1.0}},{"id":310,"name":"Solná jeskyně","type":2,"relas":{"310":1.0}},{"id":311,"name":"Týpí","type":2,"relas":{"311":1.0}},{"id":312,"name":"Stan","type":2,"relas":{"312":1.0}},{"id":313,"name":"Stanování","type":2,"relas":{"313":1.0}},{"id":314,"name":"Pohorky","type":2,"relas":{"314":1.0}},{"id":315,"name":"Furry","type":2,"relas":{"315":1.0}},{"id":316,"name":"Strašidla","type":2,"relas":{"316":1.0}},{"id":317,"name":"Volejbal","type":2,"relas":{"317":1.0}},{"id":318,"name":"Koště","type":2,"relas":{"318":1.0}},{"id":319,"name":"Přehrada","type":2,"relas":{"319":1.0}},{"id":320,"name":"Hasiči","type":2,"relas":{"320":1.0}},{"id":321,"name":"Večerníček","type":2,"relas":{"321":1.0}},{"id":322,"name":"Soutěž krásy","type":2,"relas":{"322":1.0}},{"id":323,"name":"Vinice","type":2,"relas":{"323":1.0}},{"id":324,"name":"Příroda","type":2,"relas":{"324":1.0}},{"id":325,"name":"Vodopád","type":2,"relas":{"325":1.0}},{"id":326,"name":"Kameny","type":2,"relas":{"326":1.0}},{"id":327,"name":"Chmelobraní","type":2,"relas":{"327":1.0}},{"id":328,"name":"Sci-fi","type":2,"relas":{"328":1.0}},{"id":329,"name":"Chata","type":2,"relas":{"329":1.0}},{"id":330,"name":"Golf","type":2,"relas":{"330":1.0}},{"id":331,"name":"Chalupa","type":2,"relas":{"331":1.0}},{"id":332,"name":"Inline","type":2,"relas":{"332":1.0}},{"id":333,"name":"Byt","type":2,"relas":{"333":1.0}},{"id":334,"name":"Liberec","type":2,"relas":{"334":1.0}},{"id":335,"name":"Pára","type":2,"relas":{"335":1.0}},{"id":336,"name":"Parní stroj","type":2,"relas":{"336":1.0}},{"id":337,"name":"Zážitek","type":2,"relas":{"337":1.0}},{"id":338,"name":"Adrenalin","type":2,"relas":{"338":1.0}},{"id":339,"name":"Vzrušení","type":1,"relas":{"338":1.0}},{"id":340,"name":"Skoba","type":2,"relas":{"340":1.0}},{"id":341,"name":"Extáze","type":2,"relas":{"341":1.0}},{"id":342,"name":"Hra","type":2,"relas":{"342":1.0}},{"id":343,"name":"Cyklobus","type":2,"relas":{"343":1.0}},{"id":344,"name":"Lanovka","type":2,"relas":{"344":1.0}},{"id":345,"name":"Koloběžky","type":2,"relas":{"345":1.0}},{"id":346,"name":"Skanzen","type":2,"relas":{"346":1.0}},{"id":347,"name":"Techno","type":2,"relas":{"347":1.0}},{"id":348,"name":"Dnb","type":2,"relas":{"348":1.0}},{"id":349,"name":"Věž","type":2,"relas":{"349":1.0}},{"id":350,"name":"Rnb","type":2,"relas":{"350":1.0}},{"id":351,"name":"Dračí doupě","type":2,"relas":{"351":1.0}},{"id":352,"name":"Dubstep","type":2,"relas":{"352":1.0}},{"id":353,"name":"Společenské hry","type":2,"relas":{"353":1.0}},{"id":354,"name":"Ples","type":2,"relas":{"354":1.0}},{"id":355,"name":"Zábava","type":2,"relas":{"355":1.0}},{"id":356,"name":"Čoch","type":1,"relas":{"355":1.0}},{"id":357,"name":"Diskotéka","type":2,"relas":{"357":1.0}},{"id":358,"name":"Bál","type":2,"relas":{"358":1.0}},{"id":359,"name":"Paintball","type":2,"relas":{"359":1.0}},{"id":360,"name":"Laser","type":2,"relas":{"360":1.0}},{"id":361,"name":"Laser game","type":2,"relas":{"361":1.0}},{"id":362,"name":"Motokáry","type":2,"relas":{"362":1.0}},{"id":363,"name":"Hacker","type":2,"relas":{"363":1.0}},{"id":364,"name":"Google","type":2,"relas":{"364":1.0}},{"id":365,"name":"Microsoft","type":2,"relas":{"365":1.0}},{"id":366,"name":"Včela","type":2,"relas":{"366":1.0}},{"id":367,"name":"Panna","type":2,"relas":{"367":1.0}},{"id":368,"name":"Chrám","type":2,"relas":{"368":1.0}},{"id":369,"name":"Citadela","type":2,"relas":{"369":1.0}},{"id":370,"name":"Svatba","type":2,"relas":{"370":1.0}},{"id":371,"name":"Rodinná oslava","type":2,"relas":{"371":1.0}},{"id":372,"name":"Seriály","type":2,"relas":{"372":1.0}},{"id":373,"name":"Cadillac","type":2,"relas":{"373":1.0}},{"id":374,"name":"Star trek","type":2,"relas":{"374":1.0}},{"id":375,"name":"Dinosaurus","type":2,"relas":{"375":1.0}},{"id":376,"name":"Game of thrones","type":2,"relas":{"376":1.0}},{"id":377,"name":"Zaklínač","type":2,"relas":{"377":1.0}},{"id":378,"name":"Housle","type":2,"relas":{"378":1.0}},{"id":379,"name":"Varhany","type":2,"relas":{"379":1.0}},{"id":380,"name":"Mše","type":2,"relas":{"380":1.0}},{"id":381,"name":"Kost","type":2,"relas":{"381":1.0}},{"id":382,"name":"Kukuřice","type":2,"relas":{"382":1.0}},{"id":383,"name":"Šelma","type":2,"relas":{"383":1.0}},{"id":384,"name":"Lev","type":1,"relas":{"383":1.0}},{"id":385,"name":"Tygr","type":1,"relas":{"383":1.0}},{"id":386,"name":"Dravec","type":2,"relas":{"386":1.0}},{"id":387,"name":"Kaktusy","type":2,"relas":{"387":1.0}},{"id":388,"name":"Dovednost","type":2,"relas":{"388":1.0}},{"id":389,"name":"Zeď","type":2,"relas":{"389":1.0}},{"id":390,"name":"Sekera","type":2,"relas":{"390":1.0}},{"id":391,"name":"Trabant","type":2,"relas":{"391":1.0}},{"id":392,"name":"Lesnictví","type":2,"relas":{"392":1.0}},{"id":393,"name":"Veteráni","type":2,"relas":{"393":1.0}},{"id":394,"name":"Dřevorubectví","type":2,"relas":{"394":1.0}},{"id":395,"name":"Fotografování","type":2,"relas":{"395":1.0}},{"id":396,"name":"Východ","type":2,"relas":{"396":1.0}},{"id":397,"name":"Orient","type":2,"relas":{"397":1.0}},{"id":398,"name":"Indie","type":2,"relas":{"398":1.0}},{"id":399,"name":"Tibet","type":2,"relas":{"399":1.0}},{"id":400,"name":"Čína","type":2,"relas":{"400":1.0}},{"id":401,"name":"Rusko","type":2,"relas":{"401":1.0}},{"id":402,"name":"Sibiř","type":2,"relas":{"402":1.0}},{"id":403,"name":"Terminátor","type":2,"relas":{"403":1.0}},{"id":404,"name":"Lindemann","type":2,"relas":{"404":1.0}},{"id":405,"name":"Radar","type":2,"relas":{"405":1.0}},{"id":406,"name":"Saň","type":2,"relas":{"406":1.0}},{"id":407,"name":"Mash","type":2,"relas":{"407":1.0}},{"id":408,"name":"Facebook skupina \\"jsi holka? přidej se.\\"","type":2,"relas":{"408":1.0}},{"id":409,"name":"Pár pařmenů","type":2,"relas":{"409":1.0}},{"id":410,"name":"Rytíř","type":2,"relas":{"410":1.0}},{"id":411,"name":"Kofola","type":2,"relas":{"411":1.0}},{"id":412,"name":"Fofola","type":1,"relas":{"411":1.0}},{"id":413,"name":"Kokain","type":2,"relas":{"413":1.0}},{"id":414,"name":"Hifi věž","type":2,"relas":{"414":1.0}},{"id":415,"name":"Pán prstenů","type":2,"relas":{"415":1.0}},{"id":416,"name":"Zakažte akčník","type":2,"relas":{"416":1.0}},{"id":417,"name":"Battlestar galactica","type":2,"relas":{"417":1.0}},{"id":418,"name":"Rally","type":2,"relas":{"418":1.0}},{"id":419,"name":"Voleyball","type":2,"relas":{"419":1.0}},{"id":420,"name":"Beach","type":2,"relas":{"420":1.0}},{"id":421,"name":"Borůvky","type":2,"relas":{"421":1.0}},{"id":422,"name":"Bažantrikulace","type":2,"relas":{"422":1.0}},{"id":423,"name":"Konec světa","type":2,"relas":{"423":1.0}},{"id":424,"name":"Konspirace","type":2,"relas":{"424":1.0}},{"id":425,"name":"Špioni","type":2,"relas":{"425":1.0}},{"id":426,"name":"Vesmír","type":2,"relas":{"426":1.0}},{"id":427,"name":"Anarchismus","type":2,"relas":{"427":1.0}},{"id":428,"name":"Squat","type":2,"relas":{"428":1.0}},{"id":429,"name":"Jupiter","type":2,"relas":{"429":1.0}},{"id":430,"name":"Káva","type":2,"relas":{"430":1.0}},{"id":431,"name":"Čaj","type":2,"relas":{"431":1.0}},{"id":432,"name":"Dýmka","type":2,"relas":{"432":1.0}},{"id":433,"name":"Humbuk","type":2,"relas":{"433":1.0}},{"id":434,"name":"Happening","type":2,"relas":{"434":1.0}},{"id":435,"name":"Kratochvíle","type":2,"relas":{"435":1.0}},{"id":436,"name":"Kniha","type":2,"relas":{"436":1.0}},{"id":437,"name":"Protest","type":2,"relas":{"437":1.0}},{"id":438,"name":"Svitek","type":2,"relas":{"438":1.0}},{"id":439,"name":"Pergamen","type":2,"relas":{"439":1.0}},{"id":440,"name":"Papyrus","type":2,"relas":{"440":1.0}},{"id":441,"name":"Den země","type":2,"relas":{"441":1.0}},{"id":442,"name":"Kytara","type":2,"relas":{"442":1.0}},{"id":443,"name":"Řezbář","type":2,"relas":{"443":1.0}},{"id":444,"name":"Svíce","type":2,"relas":{"444":1.0}},{"id":445,"name":"Šňupání","type":2,"relas":{"445":1.0}},{"id":446,"name":"Ping pong","type":2,"relas":{"446":1.0}},{"id":447,"name":"Loutka","type":2,"relas":{"447":1.0}},{"id":448,"name":"Loutky","type":2,"relas":{"448":1.0}},{"id":449,"name":"Open-air","type":2,"relas":{"449":1.0}},{"id":450,"name":"Pro dospělé","type":2,"relas":{"450":1.0}},{"id":451,"name":"Pro děti","type":2,"relas":{"451":1.0}},{"id":452,"name":"Pro rodiče s dětmi","type":2,"relas":{"452":1.0}},{"id":453,"name":"Občerstvení","type":2,"relas":{"453":1.0}},{"id":454,"name":"Vnitřní","type":2,"relas":{"454":1.0}},{"id":455,"name":"Společenské oblečení","type":2,"relas":{"455":1.0}},{"id":456,"name":"Instrumentální","type":2,"relas":{"456":1.0}},{"id":457,"name":"Vokální","type":2,"relas":{"457":1.0}},{"id":458,"name":"Commedia dell''arte","type":2,"relas":{"458":1.0}},{"id":459,"name":"Komedie","type":2,"relas":{"459":1.0}},{"id":460,"name":"Drama","type":2,"relas":{"460":1.0}},{"id":461,"name":"Parodie","type":2,"relas":{"461":1.0}},{"id":462,"name":"Dobrodružný film","type":2,"relas":{"462":1.0}},{"id":463,"name":"Western","type":2,"relas":{"463":1.0}},{"id":464,"name":"Kovbojka","type":1,"relas":{"463":1.0}},{"id":465,"name":"Historický film","type":2,"relas":{"465":1.0}},{"id":466,"name":"Životopisný film","type":2,"relas":{"466":1.0}},{"id":467,"name":"Hudební film","type":2,"relas":{"467":1.0}},{"id":468,"name":"Pohádka","type":2,"relas":{"468":1.0}},{"id":469,"name":"Drak","type":1,"relas":{"468":1.0}},{"id":470,"name":"Princezna","type":1,"relas":{"468":1.0}},{"id":471,"name":"Obr","type":1,"relas":{"468":1.0}},{"id":472,"name":"Čarodějnice","type":1,"relas":{"468":1.0}},{"id":473,"name":"Dračice","type":1,"relas":{"468":1.0}},{"id":474,"name":"Láska","type":2,"relas":{"474":1.0}},{"id":475,"name":"Raut","type":2,"relas":{"475":1.0}},{"id":476,"name":"Obrazy","type":2,"relas":{"476":1.0}},{"id":477,"name":"Architektura","type":2,"relas":{"477":1.0}},{"id":478,"name":"Fotografie","type":2,"relas":{"478":1.0}},{"id":479,"name":"Řemeslo","type":2,"relas":{"479":1.0}},{"id":480,"name":"Románský sloh","type":2,"relas":{"480":1.0}},{"id":481,"name":"Gotický sloh","type":2,"relas":{"481":1.0}},{"id":482,"name":"Novověk","type":2,"relas":{"482":1.0}},{"id":483,"name":"Rokoko","type":2,"relas":{"483":1.0}},{"id":484,"name":"Klasicismus","type":2,"relas":{"484":1.0}},{"id":485,"name":"Romantismus","type":2,"relas":{"485":1.0}},{"id":486,"name":"Realismus","type":2,"relas":{"486":1.0}},{"id":487,"name":"Impresionismus","type":2,"relas":{"487":1.0}},{"id":488,"name":"Symbolismus","type":2,"relas":{"488":1.0}},{"id":489,"name":"Secese","type":2,"relas":{"489":1.0}},{"id":490,"name":"Art deco","type":2,"relas":{"490":1.0}},{"id":491,"name":"Dadaismus","type":2,"relas":{"491":1.0}},{"id":492,"name":"Funkcionalismus","type":2,"relas":{"492":1.0}},{"id":493,"name":"Surrealismus","type":2,"relas":{"493":1.0}},{"id":494,"name":"Vstupné dobrovolné","type":2,"relas":{"494":1.0}},{"id":495,"name":"Sportovní akce","type":2,"relas":{"495":1.0}},{"id":496,"name":"Relaxační","type":2,"relas":{"496":1.0}},{"id":497,"name":"Adrenalinový","type":2,"relas":{"497":1.0}},{"id":498,"name":"Letní","type":2,"relas":{"498":1.0}},{"id":499,"name":"Zimní","type":2,"relas":{"499":1.0}},{"id":500,"name":"Kolektivní","type":2,"relas":{"500":1.0}},{"id":501,"name":"Orientační","type":2,"relas":{"501":1.0}},{"id":502,"name":"Vodní","type":2,"relas":{"502":1.0}},{"id":503,"name":"Míčový","type":2,"relas":{"503":1.0}},{"id":504,"name":"Bojová umění","type":2,"relas":{"504":1.0}},{"id":505,"name":"Silový","type":2,"relas":{"505":1.0}},{"id":506,"name":"Motorismus","type":2,"relas":{"506":1.0}},{"id":507,"name":"Tanced","type":2,"relas":{"507":1.0}},{"id":508,"name":"Turistický","type":2,"relas":{"508":1.0}},{"id":509,"name":"Fandění","type":2,"relas":{"509":1.0}},{"id":510,"name":"První liga","type":2,"relas":{"510":1.0}},{"id":511,"name":"Druhá liga","type":2,"relas":{"511":1.0}},{"id":512,"name":"Extraliga","type":2,"relas":{"512":1.0}},{"id":513,"name":"Mládež","type":2,"relas":{"513":1.0}},{"id":514,"name":"Závod","type":2,"relas":{"514":1.0}},{"id":515,"name":"Mírný terén","type":2,"relas":{"515":1.0}},{"id":516,"name":"Střední terén","type":2,"relas":{"516":1.0}},{"id":517,"name":"Náročný terén","type":2,"relas":{"517":1.0}},{"id":518,"name":"Ceny pro vítěze","type":2,"relas":{"518":1.0}},{"id":519,"name":"Uzavřená akce","type":2,"relas":{"519":1.0}},{"id":520,"name":"Třídní sraz","type":2,"relas":{"520":1.0}},{"id":521,"name":"Pracovní schůzka","type":2,"relas":{"521":1.0}},{"id":522,"name":"Firemní akce","type":2,"relas":{"522":1.0}},{"id":523,"name":"Den otevřených dveří","type":2,"relas":{"523":1.0}},{"id":524,"name":"Tuning","type":2,"relas":{"524":1.0}},{"id":525,"name":"Letecký den","type":2,"relas":{"525":1.0}},{"id":526,"name":"Farmářský trh","type":2,"relas":{"526":1.0}},{"id":527,"name":"Blues","type":2,"relas":{"527":1.0}},{"id":528,"name":"Country","type":2,"relas":{"528":1.0}},{"id":529,"name":"Disco","type":2,"relas":{"529":1.0}},{"id":530,"name":"Dechová hudba","type":2,"relas":{"530":1.0}},{"id":531,"name":"Dechovka","type":1,"relas":{"530":1.0}},{"id":532,"name":"Eva a vašek","type":1,"relas":{"530":1.0}},{"id":533,"name":"Duchovní hudba","type":2,"relas":{"533":1.0}},{"id":534,"name":"Elektronická hudba","type":2,"relas":{"534":1.0}},{"id":535,"name":"Folk","type":2,"relas":{"535":1.0}},{"id":536,"name":"Funk","type":2,"relas":{"536":1.0}},{"id":537,"name":"Hip hop","type":2,"relas":{"537":1.0}},{"id":538,"name":"Jazz","type":2,"relas":{"538":1.0}},{"id":539,"name":"Pop","type":2,"relas":{"539":1.0}},{"id":540,"name":"Reggae","type":2,"relas":{"540":1.0}},{"id":541,"name":"R&b","type":2,"relas":{"541":1.0}},{"id":542,"name":"Ska","type":2,"relas":{"542":1.0}},{"id":543,"name":"Underground","type":2,"relas":{"543":1.0}},{"id":544,"name":"Vážná hudba","type":2,"relas":{"544":1.0}},{"id":545,"name":"World music","type":2,"relas":{"545":1.0}},{"id":546,"name":"Epická hudba","type":2,"relas":{"546":1.0}},{"id":547,"name":"Středověké zbraně","type":2,"relas":{"547":1.0}},{"id":548,"name":"Meč","type":1,"relas":{"547":1.0}},{"id":549,"name":"Luk","type":1,"relas":{"547":1.0}},{"id":550,"name":"Zbroj","type":1,"relas":{"547":1.0}},{"id":551,"name":"Štít","type":1,"relas":{"547":1.0}},{"id":552,"name":"Šíp","type":1,"relas":{"547":1.0}},{"id":553,"name":"Katapult","type":1,"relas":{"547":1.0}},{"id":554,"name":"Počítačové hry","type":2,"relas":{"554":1.0}},{"id":555,"name":"Ork","type":1,"relas":{"554":1.0}},{"id":556,"name":"Warcraft","type":1,"relas":{"554":1.0}},{"id":557,"name":"Wot","type":1,"relas":{"554":1.0}},{"id":558,"name":"Minecraft","type":1,"relas":{"554":1.0}},{"id":559,"name":"Nealko","type":2,"relas":{"559":1.0}},{"id":560,"name":"Kapely","type":2,"relas":{"560":1.0}},{"id":561,"name":"Nightwish","type":1,"relas":{"560":1.0}},{"id":562,"name":"Rammstein","type":1,"relas":{"560":1.0}},{"id":563,"name":"Asonance","type":1,"relas":{"560":1.0}},{"id":564,"name":"Horkýže","type":1,"relas":{"560":1.0}},{"id":565,"name":"Násilí","type":2,"relas":{"565":1.0}},{"id":566,"name":"Erotika","type":2,"relas":{"566":1.0}},{"id":567,"name":"Mystika","type":2,"relas":{"567":1.0}},{"id":568,"name":"Párty","type":2,"relas":{"568":1.0}}]', NULL, '2015-08-15 19:12:18.95987');
+
+
+--
+-- TOC entry 1938 (class 0 OID 0)
+-- Dependencies: 148
+-- Name: tags_id_seq; Type: SEQUENCE SET; Schema: public; Owner: akcnik.thilisar.cz
+--
+
+SELECT pg_catalog.setval('tags_id_seq', 2, true);
+
+
+--
+-- TOC entry 1939 (class 0 OID 0)
+-- Dependencies: 152
+-- Name: tags_id_seq1; Type: SEQUENCE SET; Schema: public; Owner: akcnik.thilisar.cz
+--
+
+SELECT pg_catalog.setval('tags_id_seq1', 1, true);
+
+
+--
+-- TOC entry 1940 (class 0 OID 0)
+-- Dependencies: 146
+-- Name: user_id_seq; Type: SEQUENCE SET; Schema: public; Owner: akcnik.thilisar.cz
+--
+
+SELECT pg_catalog.setval('user_id_seq', 54, true);
+
+
+--
+-- TOC entry 1893 (class 0 OID 48061250)
+-- Dependencies: 147
+-- Data for Name: users; Type: TABLE DATA; Schema: public; Owner: akcnik.thilisar.cz
+--
+
+INSERT INTO users (id, login, password, proven, role, tags, permissions, name, "clientSettings", "serverSettings", "imprintCache", "levelCache", email, address, language, surname, token) VALUES (45, 'Tal', '$2a$10$efBWfxouWxdu2V8ieERCi.eZsggcAGX0tz00OlrA2jpDzbIoRazO.', false, 'none', '[]', '[]', 'Zdeněk', '', '{}', '', '0', 'mlcoch.zdenek@seznam.cz', '', '', 'Mlčoch', NULL);
+INSERT INTO users (id, login, password, proven, role, tags, permissions, name, "clientSettings", "serverSettings", "imprintCache", "levelCache", email, address, language, surname, token) VALUES (50, 'Novi', '$2a$10$dlB.UjmGO3PW1dNyuIMmq..943/FFYVDhH1B4oJgI1eXqzWpSe5EG', false, 'none', '[]', '[]', 'Pavel', '', '{}', '', '0', 'novak.pavlik@goolge.com', '', '', 'Novák', NULL);
+INSERT INTO users (id, login, password, proven, role, tags, permissions, name, "clientSettings", "serverSettings", "imprintCache", "levelCache", email, address, language, surname, token) VALUES (53, 'Bankai', '$2a$10$5o.Gn22uP7Fm9nXeuHz2n.eA2yrfTmGCms5SgllD8Ef5aUbdgJEVC', false, 'none', '[]', '[]', 'Tomáš', '', '{}', '', '0', 'tomas.kubicek69@gmail.com', '', '', 'Kubíček', NULL);
+INSERT INTO users (id, login, password, proven, role, tags, permissions, name, "clientSettings", "serverSettings", "imprintCache", "levelCache", email, address, language, surname, token) VALUES (1, 'taliesin', '$2a$10$VGAmpzveCNL2bLcaeFXCL.3GXS1zkn.7DoxVNF0XpK6sc72Iq9Wvi', true, 'admin', '[]', '[10,13,12,11, "deleteEvent", "editAnyUser", "deleteAnyUser"]', 'Taliesin', NULL, NULL, NULL, NULL, 'email@email.com', NULL, 'en', NULL, NULL);
+INSERT INTO users (id, login, password, proven, role, tags, permissions, name, "clientSettings", "serverSettings", "imprintCache", "levelCache", email, address, language, surname, token) VALUES (2, 'ringael', '$2a$10$VGAmpzveCNL2bLcaeFXCL.3GXS1zkn.7DoxVNF0XpK6sc72Iq9Wvi', true, 'admin', '[]', '[10,13,12,11]', 'Ringael', NULL, NULL, NULL, NULL, 'email2@email.com', NULL, 'en', NULL, NULL);
+INSERT INTO users (id, login, password, proven, role, tags, permissions, name, "clientSettings", "serverSettings", "imprintCache", "levelCache", email, address, language, surname, token) VALUES (5, 'aeorin', '$2a$10$VGAmpzveCNL2bLcaeFXCL.3GXS1zkn.7DoxVNF0XpK6sc72Iq9Wvi', true, 'admin', '[]', '[10,13,12]', 'Aeorin', NULL, NULL, NULL, NULL, 'email3@email.com', NULL, 'en', NULL, NULL);
+INSERT INTO users (id, login, password, proven, role, tags, permissions, name, "clientSettings", "serverSettings", "imprintCache", "levelCache", email, address, language, surname, token) VALUES (7, 'paja', '$2a$10$VGAmpzveCNL2bLcaeFXCL.3GXS1zkn.7DoxVNF0XpK6sc72Iq9Wvi', true, 'admin', '[]', '[10,13,12]', 'Pája', NULL, NULL, NULL, NULL, 'email4@email.com', NULL, 'en', NULL, NULL);
+INSERT INTO users (id, login, password, proven, role, tags, permissions, name, "clientSettings", "serverSettings", "imprintCache", "levelCache", email, address, language, surname, token) VALUES (6, 'tanach', '$2a$10$VGAmpzveCNL2bLcaeFXCL.3GXS1zkn.7DoxVNF0XpK6sc72Iq9Wvi', true, 'admin', '[]', '[10,13]', 'Tanach', NULL, NULL, NULL, NULL, 'email5@email.com', NULL, 'en', NULL, NULL);
+INSERT INTO users (id, login, password, proven, role, tags, permissions, name, "clientSettings", "serverSettings", "imprintCache", "levelCache", email, address, language, surname, token) VALUES (54, 'Crat2', '$2a$10$QiBWX7WCRcIO1P8OuFWKK.zriL/2xeo4Py2.WdykjgT2XXHXLsecG', false, 'none', '[]', '[]', 'Jan', '', '{}', '', '0', 'mlcoch.jan2@gmail.com', '', '', 'Mlčoch', 'ahoj');
+INSERT INTO users (id, login, password, proven, role, tags, permissions, name, "clientSettings", "serverSettings", "imprintCache", "levelCache", email, address, language, surname, token) VALUES (4, 'radar', '$2a$10$VGAmpzveCNL2bLcaeFXCL.3GXS1zkn.7DoxVNF0XpK6sc72Iq9Wvi', true, 'admin', '[]', '[10,13]', 'Luká', NULL, NULL, NULL, NULL, 'saber.leonard@gmail.com', 'Malšovice, Hradec Králové', 'English', 'Kubíček', NULL);
+INSERT INTO users (id, login, password, proven, role, tags, permissions, name, "clientSettings", "serverSettings", "imprintCache", "levelCache", email, address, language, surname, token) VALUES (46, 'Crat', '$2a$10$f/B2UXIuraqmkRFeWFves.53WEa1Y9IieyIKEl0qBwWiskEk.c3j6', false, 'none', '[]', '[]', 'Jan', '', '{}', '', '0', 'mlcoch.jan@gmail.com', '', '', 'Mlčoch', '56894_46');
+
+
+--
+-- TOC entry 1794 (class 2606 OID 48075548)
+-- Name: action_pkey; Type: CONSTRAINT; Schema: public; Owner: akcnik.thilisar.cz
+--
+
+ALTER TABLE ONLY events
+    ADD CONSTRAINT action_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 1782 (class 2606 OID 52965874)
+-- Name: email; Type: CONSTRAINT; Schema: public; Owner: akcnik.thilisar.cz
+--
+
+ALTER TABLE ONLY users
+    ADD CONSTRAINT email UNIQUE (email);
+
+
+--
+-- TOC entry 1784 (class 2606 OID 52965876)
+-- Name: login; Type: CONSTRAINT; Schema: public; Owner: akcnik.thilisar.cz
+--
+
+ALTER TABLE ONLY users
+    ADD CONSTRAINT login UNIQUE (login);
+
+
+--
+-- TOC entry 1800 (class 2606 OID 49535679)
+-- Name: organizer_pkey; Type: CONSTRAINT; Schema: public; Owner: akcnik.thilisar.cz
+--
+
+ALTER TABLE ONLY organizer
+    ADD CONSTRAINT organizer_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 1802 (class 2606 OID 49535697)
+-- Name: organizer_to_user_pkey; Type: CONSTRAINT; Schema: public; Owner: akcnik.thilisar.cz
+--
+
+ALTER TABLE ONLY organizer_in_user
+    ADD CONSTRAINT organizer_to_user_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 1798 (class 2606 OID 49535625)
+-- Name: place_to_event_pkey; Type: CONSTRAINT; Schema: public; Owner: akcnik.thilisar.cz
+--
+
+ALTER TABLE ONLY place_in_event
+    ADD CONSTRAINT place_to_event_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 1796 (class 2606 OID 49535614)
+-- Name: places_pkey; Type: CONSTRAINT; Schema: public; Owner: akcnik.thilisar.cz
+--
+
+ALTER TABLE ONLY place
+    ADD CONSTRAINT places_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 1790 (class 2606 OID 48074943)
+-- Name: tag_master_repository_lock_pkey; Type: CONSTRAINT; Schema: public; Owner: akcnik.thilisar.cz
+--
+
+ALTER TABLE ONLY tag_master_repository_lock
+    ADD CONSTRAINT tag_master_repository_lock_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 1788 (class 2606 OID 48061280)
+-- Name: tags_pkey; Type: CONSTRAINT; Schema: public; Owner: akcnik.thilisar.cz
+--
+
+ALTER TABLE ONLY tag_master_repository
+    ADD CONSTRAINT tags_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 1792 (class 2606 OID 48075396)
+-- Name: tags_pkey1; Type: CONSTRAINT; Schema: public; Owner: akcnik.thilisar.cz
+--
+
+ALTER TABLE ONLY tags
+    ADD CONSTRAINT tags_pkey1 PRIMARY KEY (id);
+
+
+--
+-- TOC entry 1786 (class 2606 OID 48061258)
+-- Name: user_pkey; Type: CONSTRAINT; Schema: public; Owner: akcnik.thilisar.cz
+--
+
+ALTER TABLE ONLY users
+    ADD CONSTRAINT user_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 1803 (class 2606 OID 49535650)
+-- Name: events_insertedById_fkey; Type: FK CONSTRAINT; Schema: public; Owner: akcnik.thilisar.cz
+--
+
+ALTER TABLE ONLY events
+    ADD CONSTRAINT "events_insertedById_fkey" FOREIGN KEY ("insertedById") REFERENCES users(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- TOC entry 1804 (class 2606 OID 50684012)
+-- Name: events_parent_event_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: akcnik.thilisar.cz
+--
+
+ALTER TABLE ONLY events
+    ADD CONSTRAINT events_parent_event_id_fkey FOREIGN KEY ("parentEventId") REFERENCES events(id) ON UPDATE RESTRICT ON DELETE RESTRICT;
+
+
+--
+-- TOC entry 1805 (class 2606 OID 49535634)
+-- Name: place_to_event_id_event_fkey; Type: FK CONSTRAINT; Schema: public; Owner: akcnik.thilisar.cz
+--
+
+ALTER TABLE ONLY place_in_event
+    ADD CONSTRAINT place_to_event_id_event_fkey FOREIGN KEY ("eventId") REFERENCES events(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+SET SESSION AUTHORIZATION 'postgres';
+
+--
+-- TOC entry 1918 (class 0 OID 0)
+-- Dependencies: 3
+-- Name: public; Type: ACL; Schema: -; Owner: postgres
+--
+
+REVOKE ALL ON SCHEMA public FROM PUBLIC;
+REVOKE ALL ON SCHEMA public FROM postgres;
+GRANT ALL ON SCHEMA public TO postgres;
+GRANT ALL ON SCHEMA public TO PUBLIC;
+
+
+-- Completed on 2016-04-03 12:35:06
+
+--
+-- PostgreSQL database dump complete
+--
+

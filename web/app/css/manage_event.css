@@ -1,0 +1,405 @@
+/* container START */
+.sidebarManageEventContainer{
+    height: 100%;
+}
+.appAddEventWidgetCont{
+    height: 100%;
+    width: 800px;
+}
+.manageEventScroll{
+    height: calc(100% - 100px);
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+.manageEventContent{
+    padding: 0 15px;
+}
+.saveEventButton{
+    clear: both;
+    float: right;
+    margin: 0 50px 0 0;
+}
+.manageEventTabs{
+    padding: 8px 0;
+    text-align: center;
+    height: 55px;
+}
+.infoBlock button{
+    margin: 0 0 0 10px;
+}
+.addEventEditIcon{
+    margin: -3px 0 0 5px;
+    width: 15px;
+    height: 15px;
+    /*border: 1px solid #28aadc;*/
+    border-radius: 10px;
+    cursor: pointer;
+}
+/* container END */
+
+.inputWithLabel{
+    margin: 2px 0;
+}
+.inputWithLabel label{
+    width: 90px;
+}
+.inputWithLabel input{
+    margin: 0 40px 0 0;
+}
+.inputWithLongLabel{
+    margin: 2px 0;
+}
+.inputWithLongLabel label{
+    width: 130px;
+}
+.inputWithLongLabel input{
+    margin: 0 20px 0 0;
+}
+.eventLongInput{
+    width: 320px !important;
+}
+.eventShortInput {
+    width: 100px !important;
+}
+
+/* base START */
+
+.eventBaseInfoBlock{
+    width: 480px;
+    padding-top: 15px;
+}
+.tagSmartSelectContainer{
+    display: inline-block;
+}
+.appPlaceSearchResults{
+    position: absolute;
+}
+.appPlaceInEvent.appActivePlace{
+    background-color: #28aadc;
+}
+.appPlacesInEventList{
+    border: 1px solid gray;
+    padding: 5px;
+    font-weight: bold;
+}
+.quickPlaceSector{
+    display: flex;
+    align-items: center;
+}
+.quickPlaceCont{
+    display: inline-block;
+}
+.appPlaceInEvent{
+    width: 100%;
+    overflow: hidden;
+    padding: 4px 2px;
+    height: 30px;
+    box-sizing: border-box;
+    border: 2px solid transparent;
+    cursor:pointer;
+    display: block;
+}
+.appPlaceSearchResultsCont{
+    position: absolute;
+    z-index: 100000;
+    background-color: white;
+    width: 300px;
+    border: 1px solid gray;
+    max-height: 200px;
+    overflow-y: auto;
+}
+.appPlaceInEventRemove{
+    width: 20px;
+    height: 20px;
+    margin: -2px 0 0 7px;
+    font-size: 7pt;
+    padding: 0;
+    border-radius: 10px;
+}
+.placeNameInputAnchor{
+    position: relative;
+    display: inline-block;
+}
+.eventAnnotationBlock{
+    width: 600px;
+}
+.eventAnnotationBlock{
+    margin-bottom: 15px;
+}
+.eventAnnotationBlock textarea{
+    margin: 0 0 0 5px;
+    width: 100%;
+}
+
+.appPlacesContainer .selectInMap{
+    margin-left:340px;
+    display: inline-block;
+}
+    /* base END */
+
+/* extended START */
+.eventQuickOrganizerBlock{
+    padding-top: 15px;
+}
+.eventPhysicalDemandBlock label{
+    width: 160px;
+}
+.eventPhysicalDemandBlock select{
+    width: 135px;
+}
+/* extended END */
+
+/* places START */
+.modifyEventPlaces .appQuickPlaceCreateInputCont{
+    width: 700px;
+}
+.modifyEventPlaces .appQuickPlaceCreateInputCont input{
+    width: 350px !important;
+}
+.chosenPlacesCont{
+    margin: 0 0 20px 0;
+}
+.eventUsedPlacesBlock{
+    margin: 2px 0 0 10px;
+    width: 700px;
+    border: 1px solid gray;
+    padding: 5px 0;
+    font-weight: bold;
+}
+.eventPlaceDetail{
+    padding: 5px;
+}
+.eventPlaceDetail:hover{
+    background-color: #eee;
+}
+.eventPlaceName{
+    width: 350px;
+    float: left;
+}
+.eventPlaceFlag{
+    width: 140px;
+    min-height: 10px;
+    float: left;
+}
+.eventPlaceButtons{
+    width: 180px;
+    float: left;
+}
+.eventPlaceDescription{
+    padding: 2px 10px;
+    color: gray;
+    height: 20px;
+    clear: both;
+}
+.eventUsedPlacesBlock button{
+    float: right;
+    margin: -3px 3px 0 3px;
+}
+.eventPlacesHintsBlock h4{
+    margin: 0;
+}
+.eventPlacesHint{
+    margin: 5px 3px;
+}
+.eventPlacesHint span{
+    margin: 3px 0;
+}
+.eventPlaceDescriptionBlock textarea{
+    margin: 0 0 0 5px;
+}
+.selectInMap{
+    cursor: pointer;
+    border: 1px solid black;
+    padding: 3px;
+}
+    /* places END */
+
+/* admissions and organizers START */
+.eventUsedAdmissionsBlock{
+    margin: 2px 0 0 10px;
+    width: 700px;
+    border: 1px solid gray;
+    padding: 5px 0;
+    font-weight: bold;
+}
+.eventAdmissionDetail{
+    padding: 5px;
+}
+.eventAdmissionDetail:hover{
+    background-color: #eee;
+}
+.eventUsedAdmissionsBlock button{
+    float: right;
+    margin: -3px 3px 0 3px;
+}
+.eventCostFlagCont{
+    float: left;
+}
+.eventAdmissionDescription{
+    color: gray;
+}
+.appCostCont .label{
+    height: 20px;
+    text-align: center;
+    display: block;
+    color: black;
+}
+.priceCont{
+    width: 100px;
+}
+.priceCont input{
+    width: 90px;
+    margin: 0 5px;
+    height: 25px;
+}
+.currencyCont{
+    width: 75px;
+}
+.currencyCont select{
+    height: 25px;
+}
+.flagCont{
+    width: 120px;
+}
+.flagCont select{
+    display: block;
+    height: 25px;
+}
+.descriptionCont{
+    width: 150px;
+}
+.addAdmission{
+    margin-top: 15px;
+}
+.eventOrganizerHeading{
+    margin-top: 50px;
+}
+#eventOrganizerName {
+    width: 227px;
+}
+.eventUsedOrganizersBlock{
+    margin: 2px 0 0 10px;
+    width: 700px;
+    border: 1px solid gray;
+    padding: 5px 0;
+    font-weight: bold;
+}
+.eventUsedOrganizersBlock button{
+    float: right;
+    margin: -3px 3px 0 3px;
+}
+.eventOrganizerDetail{
+    padding: 5px;
+}
+.eventOrganizerDetail:hover{
+    background-color: #eee;
+}
+.addOrganizer{
+    margin-top: 15px;
+}
+/* admissions and organizers END */
+
+/* social START */
+.eventPrivateBlock{
+    margin-top: 15px;
+}
+.modifyEventSocial button{
+    margin: 3px 0 3px 80px;
+}
+/* social END */
+
+/* Facebook START */
+#facebookEventsCont{
+    margin: 20px 0 0 0;
+}
+.facebookEventList{
+    margin: 20px 0;
+}
+.facebookEventCont{
+    width: 750px;
+    height: 130px;
+    padding: 10px 0;
+    border-bottom: 1px solid gray;
+}
+.facebookEventLeft {
+    width: 150px;
+    height: 110px;
+    float: left;
+    overflow: hidden;
+}
+.facebookEventImage{
+    min-height: 110px;
+}
+.facebookEventRight{
+    margin-left: 20px;
+    width: 550px;
+    float: left;
+}
+.facebookEventTop{
+    height: 83px;
+}
+.facebookEventBottom{
+    height: 27px;
+}
+.facebookEventRight h2{
+    font-size: 16pt;
+    margin: 0 0 5px 0;
+    padding: 0;
+}
+/* Facebook END */
+
+/*Image cropper START*/
+.appAddEventWidgetCont #appEventImage {
+    cursor: pointer;
+    width: 200px;
+    padding: 35px 15px 0 10px;
+    /*height: 100px;*/
+}
+.appAddEventWidgetCont #appEventImage:focus {
+    outline: none;
+}
+
+.appAddEventWidgetCont .eventImageBlock {
+    width: 200px;
+    margin: 0 0 0 20px;
+    position: relative;
+    padding-top: 10px;
+}
+
+.appAddEventWidgetCont .eventImageSelected img{
+    max-height: 100px;
+    max-width: 300px;
+    /*border: 1px solid lightblue;*/
+}
+.appAddEventWidgetCont .eventImageToSelect{
+    border-radius: 10px;
+    border: 2px dashed #28aadc;
+    background-color: #fefefe;
+    /*padding: 35px 0 0 10px;*/
+    height: 100px;
+    width: 200px;
+    display: inline-flex;
+}
+
+.appAddEventWidgetCont .eventImageToSelect:hover {
+    background-color: #eee;
+    cursor: pointer;
+}
+
+.appAddEventWidgetCont .imageCancelButton {
+    width: 20px;
+    height: 20px;
+    background: rgba(100,200,200,0.8);
+    position: absolute;
+    left: 0;
+    padding: 0 5px;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+/*Image cropper END*/
+
+
+#eventPlaceName{
+    width:100%
+}

@@ -1,0 +1,1 @@
+<p>{{common.after_note.text_pre}} <a href="{{{server_site}}}">{{{server_name}}}</a> {{common.after_note.text_post}}</p>

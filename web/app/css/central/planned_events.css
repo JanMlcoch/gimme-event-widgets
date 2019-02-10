@@ -1,0 +1,60 @@
+.plannedEventsContainer{
+    width: 750px;
+    margin: 15px;
+    overflow: auto;
+    height: 100%;
+}
+
+.plannedEvent{
+    width: 705px;
+    height: 130px;
+    margin: 15px 10px;
+    background-color: #eef;
+}
+
+.plannedEvent h2{
+    margin: 2px 5px 5px 5px;
+}
+
+.plannedEvent h3{
+    margin: 5px 5px;
+}
+
+.plannedEvent:hover{
+    border-color: #28aadc;
+}
+
+.plannedEventLeft{
+    width: 130px;
+    height: 130px;
+    float: left;
+    overflow: hidden;
+}
+
+.plannedEventImage{
+    width: calc(100% - 4px);
+    height: calc(100% - 4px);
+    margin: 2px;
+}
+
+.plannedEventLeft img{
+    width: 100%;
+    height: 100%;
+    -webkit-transition: all 0.1s ease;
+    -moz-transition: all 0.1s ease;
+    -o-transition: all 0.1s ease;
+    -ms-transition: all 0.1s ease;
+    transition: all 0.1s ease;
+}
+
+.plannedEventLeft:hover img{
+    width: 110% !important;
+    height: 110% !important;
+    margin: -5%;
+}
+
+.plannedEventRight{
+    width: 500px;
+    padding: 0 10px;
+    float: left;
+}

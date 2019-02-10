@@ -1,0 +1,420 @@
+.settingsMainContainer {
+    position: relative;
+    width: 1100px;
+    height: 100%;
+}
+
+/* Left panel START */
+.settingsLeftMenu {
+    float: left;
+    width: 60px;
+}
+
+.settingsMenuItem {
+    border: 1px solid #28aadc;
+    cursor: pointer;
+    width: 60px;
+    height: 60px;
+}
+
+.settingsMenuItem.active {
+    background: #28aadc;
+}
+
+.settingsMenuItem:hover {
+    background: #28aadc;
+}
+
+.settingsMenuItem img {
+    width: 60px;
+    height: 60px;
+    padding: 9px 10px 10px 8px;
+}
+
+.settingsLeftMenu ul {
+    padding: 0;
+}
+
+.settingsLeftMenu li {
+    list-style: none;
+    display: block;
+    margin: 2px;
+    margin-left: 0;
+}
+
+/* Left panel END */
+
+/* Content START */
+.settingsContent {
+    display: inline-block;
+    padding: 2px 0 5px 20px;
+    width: 1000px;
+    height: 100%;
+}
+
+/* Content END */
+
+/* Base settins START */
+.userSettingsLeft {
+    float: left;
+    width: 400px;
+    margin-bottom: 30px;
+}
+
+.userSettingsRight {
+    float: left;
+    width: 400px;
+}
+
+.userSettingsBaseInfo {
+    margin: 30px 0 0 0;
+}
+
+.userSettingsCol {
+    width: 50%;
+    top: 0;
+}
+
+.userSettingsEditIcon {
+    margin: -1px 0 0 5px;
+    width: 20px;
+    height: 20px;
+    border: 1px solid #28aadc;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.userSettingsDetail {
+    width: 400px;
+    font-weight: 700;
+    margin: 7px 0;
+}
+
+.userSettingsLeft .userSettingsDetail label {
+    width: 100px;
+    color: #666;
+}
+
+.userSettingsRight .userSettingsDetail label {
+    width: 150px;
+    color: #666;
+}
+
+.userSettingsDetail .value {
+    display: inline-block;
+    padding: 4px 8px;
+}
+
+.userSettingsDetail .value div {
+    display: inline-block;
+}
+
+.userSettingsEditIcon:hover {
+    background-color: lightblue;
+}
+
+.userSettingsImage img {
+    border-radius: 50px;
+    width: 100px;
+    height: 100px;
+    overflow: hidden;
+}
+
+.userSettingsImage {
+    cursor: pointer;
+    border-radius: 50px;
+    width: 100px;
+    height: 100px;
+    border: 1px solid black;
+    margin: 20px 0 0 0;
+}
+
+.userSettingsImage:hover:after {
+    position: relative;
+    content: "Change";
+    display: block;
+    top: -51px;
+    left: 0;
+    background-color: rgba(50, 50, 50, 0.6);
+    color: white;
+    text-align: center;
+    padding-top: 10px;
+    font-weight: bold;
+    width: 99px;
+    height: 50px;
+
+    -webkit-border-bottom-right-radius: 50px;
+    -webkit-border-bottom-left-radius: 50px;
+    -moz-border-radius-bottomright: 50px;
+    -moz-border-radius-bottomleft: 50px;
+    border-bottom-right-radius: 50px;
+    border-bottom-left-radius: 50px;
+}
+
+.userSettingsDetailHeader {
+    margin: 3px 0 20px 0;
+}
+
+.cityAutocompleteContainer{
+    display: inline-block;
+}
+
+/* CityAutocomplet START */
+
+.cityAutocompleteOptionsList{
+    list-style-type: none;
+}
+
+.cityAutocompleteSelectedValue{
+    display: inline-block;
+}
+
+.cityAutocompleteOptionsList{
+    position: absolute;
+    z-index: 100000;
+    background-color: white;
+    width: 200px;
+    border: 1px solid gray;
+    margin: 0;
+    padding: 0;
+    height: 130px;
+    overflow: auto;
+}
+.cityAutocompleteOptionItem{
+    height: 25px;
+    padding: 4px 2px;
+    cursor: pointer;
+    line-height: 1.5em;
+    overflow: hidden;
+}
+.cityAutocompleteOptionItem:hover{
+    background-color: lightblue;
+}
+
+/* CityAutocomplet END */
+
+/* Base settings END */
+
+/* My events settings START */
+.userSettingsEvents {
+    width: 1000px;
+    height: calc(100% - 65px);
+}
+
+.userSettingsEvents .eventContainer {
+    display: flex;
+    align-items: center;
+    margin: 5px 0;
+}
+
+.userSettingsEvents .timeSeparator{
+    margin-top: 30px;
+    padding-left: 20px;
+    width: 100%;
+    border-top: 1px solid black;
+}
+
+.userSettingsEvents .eventDate {
+    width: 100px;
+}
+
+.userSettingsEvents .eventContent {
+    border: 1px dotted black;
+    width: 700px;
+}
+
+.userSettingsEvents .eventContent:hover {
+    border-style: solid;
+}
+
+.userSettingsEvents .eventContentLeft {
+    float: left;
+    width: 120px;
+    height: 120px;
+}
+.userSettingsEvents .eventContentLeft .eventIconImage, .userSettingsEvents .eventContentLeft .eventIconImage img {
+    width: 100%;
+    max-height: 100%;
+}
+
+.userSettingsEvents .eventContentMiddle {
+    padding: 5px 5px 5px 10px;
+    float: left;
+    width: 480px;
+}
+.userSettingsEvents .eventContentMiddle h3 {
+    font-size: 16pt;
+    padding: 0;
+    margin: 0;
+    cursor: pointer;
+}
+.userSettingsEvents .eventContentPlace {
+    padding: 0;
+    margin: 5px 0 10px 10px;
+}
+
+.userSettingsEvents .showMoreLink{
+    cursor: pointer;
+}
+
+.userSettingsEvents .eventContentRight {
+    float: left;
+    width: 80px;
+    text-align: center;
+    padding: 10px 0 0 0;
+}
+.userSettingsEvents .eventContentRight .akcButton{
+    margin: 3px 0;
+    width: 70px;
+}
+.userSettingsEvents .eventsLeft {
+    float: left;
+    border-left: 1px solid black;
+    width: 800px;
+    margin: 0 20px 0 0;
+    height: 100%;
+    overflow-y: auto;
+}
+
+.userSettingsEvents .eventsRight {
+    float: left;
+    width: 100px;
+}
+
+/* My events settings END */
+
+/* User places and organizers START */
+
+.expandButton {
+    color: blue;
+    cursor: pointer;
+}
+
+.expandButton:hover {
+    text-decoration: underline;
+}
+
+.userSettingsPlaces {
+    width: 1000px;
+    height: calc(100% - 65px);
+}
+
+.userSettingsPlaces .placesLeft {
+    float: left;
+    width: 850px;
+    height: 100%;
+    background-color: #fdfdfd;
+    overflow-y: scroll;
+}
+
+.userSettingsPlaces .placesRight {
+    float: left;
+    width: 100px;
+}
+
+.userSettingsPlaces .placeContainer {
+    border: 1px solid black;
+    padding: 5px;
+    margin: 10px 10px 0 0;
+    position: relative;
+}
+
+.userSettingsPlaces .placeImg {
+    float: left;
+    width: 100px;
+    height: 100px;
+}
+
+.userSettingsPlaces .placeInfoRow {
+    float: left;
+    height: 100px;
+    width: 100%;
+}
+
+.userSettingsPlaces .placeInfoRow h2 {
+    padding: 0;
+    margin: 0 0 10px 10px;
+    font-size: 2em;
+}
+
+.userSettingsPlaces .placeInfoLeft {
+    width: 50%;
+    float: left;
+}
+
+.userSettingsPlaces .placeInfoRight {
+    width: 50%;
+    float: left;
+    text-align: center;
+}
+.userSettingsPlaces .placeInfoUsed{
+    color: orange;
+    font-size: 16px;
+}
+
+.userSettingsPlaces .placeDescriptionRow {
+    clear: both;
+    padding: 8px;
+    overflow-y: auto;
+}
+
+.userSettingsPlaces .editPlaceBtn {
+    float: right;
+    position: absolute;
+    right: 5px;
+}
+
+/* User places and organizers END */
+
+/* User preferences START */
+.userSettingsPreferences .tagsBox {
+    width: 800px;
+    height: 100px;
+    border: 1px solid black;
+    margin-left: 20px;
+    border-radius: 5px;
+    padding: 5px;
+}
+
+.userSettingsPreferences .tag {
+    display: inline-block;
+    margin: 0 3px 5px 0;
+    border: 1px solid gray;
+    padding: 2px 8px;
+    border-radius: 15px;
+}
+
+.userSettingsPreferences .genres {
+    margin: 0 20px;
+}
+
+.userSettingsPreferences .genres input {
+    margin-right: 8px;
+}
+
+.userSettingsPreferences .genre {
+    width: 190px;
+    display: inline-block;
+}
+
+/* User preferences END */
+
+/* User calendar START */
+.userSettingsCalendar .calendarFrequencies {
+    width: 400px;
+}
+
+.userSettingsCalendar .calendarFrequencies input {
+    margin-right: 8px;
+}
+
+.userSettingsCalendar .calendarFrequency {
+    width: 190px;
+    display: inline-block;
+
+}
+.userSettingsSocial .userSettingsError{
+    display: none;
+}
+
+/* User calendar END */

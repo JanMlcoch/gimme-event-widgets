@@ -1,0 +1,26 @@
+.centerAlign{
+  text-align: center;
+}
+
+.removedRelationInTr{
+  background-color: lightgray;
+  color: darkgray;
+}
+
+.hiddenElement{
+  display: none;
+}
+
+.hiddenClass{
+  display: none;
+}
+
+.smartList{
+  position: absolute;
+  background-color: white;
+  opacity: 5;
+}
+
+.hoverSmartOpt{
+  background-color: deepskyblue;
+}

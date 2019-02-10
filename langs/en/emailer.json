@@ -1,0 +1,42 @@
+{
+  "mailer": {
+    "server_site": "http://akcnik.cz",
+    "on_portal": " on portal Akcnik.cz",
+    "server_name": "Akcnik.cz",
+    "common": {
+      "here": "HERE",
+      "contact": {
+        "text": "In case of any questions or notes contact us on",
+        "email": "mailto:akcnikservice@gmail.com",
+        "label": "akcnikservice@gmail.com"
+      },
+      "after_note": {
+        "text_pre": "We wish you a lot of fun and We believe that",
+        "text_post": "will help you with finding the best events for You."
+      }
+    },
+    "reset_password": {
+      "header": "Reset password",
+      "text_click_on": "For change of password, click",
+      "url": "/app/#reset_password?token="
+    },
+    "confirm_user": {
+      "header": "Email validation",
+      "text": "Thank you for the registration on Akcnik.cz portal. As a last step of registration, please validate you e-mail address by clicking",
+      "url": "/app/#confirm_user?token="
+    },
+    "recommended_events": {
+      "header": "Recommended events",
+      "pre_text": "Our SIDOS machine recommended You following events:",
+      "from": "Start",
+      "post_text": "We hope that these events are good match for you."
+    },
+    "merge_users":{
+      "header":"Merge users",
+      "text": "Merging of your account have been requested. .",
+      "warning": "If it's not you who make this action do not click on the link",
+      "url":"/app/#merge_users?token=",
+      "middle_url":"&second_token="
+    }
+  }
+}

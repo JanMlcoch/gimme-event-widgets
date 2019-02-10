@@ -1,0 +1,167 @@
+.sidebarEventDetail{
+    width: 800px;
+    z-index: 1;
+    position: fixed;
+    background: white;
+    height: calc(100% - 50px);
+    overflow-y: auto;
+    border-left: 2px solid #28aadc;
+
+    -webkit-box-shadow: 2px 0px 30px 0px rgba(0,0,0,0.5);
+    -moz-box-shadow: 2px 0px 30px 0px rgba(0,0,0,0.5);
+    box-shadow: 2px 0px 30px 0px rgba(0,0,0,0.5);
+}
+.eventDetailBackToEvents{
+    margin: 2px 0 20px 0;
+    width: 100%;
+}
+.eventDetailHeaderImage{
+    height: 160px;
+    width: 170px;
+    float: left;
+    overflow: hidden;
+}
+.eventDetailHeaderImage img{
+    width: 150px;
+    max-height:150px;
+    margin: 5px 10px;
+    border: 1px solid gray;
+}
+.eventDetailHeaderBody {
+    float: left;
+    max-width: 600px;
+}
+.eventDetailHeaderBody h2{
+    margin: 0 0 5px 0;
+}
+.eventDetailHeaderLeft{
+    margin: 3px 0 0 0;
+    float: left;
+    width: 480px;
+}
+.eventDetailHeaderLeft > div{
+    padding: 0 0 4px 0;
+    height: 32px;
+    align-items: center;
+    display: flex;
+}
+.eventDetailHeaderLeft img{
+    float: left;
+    margin: 0 3px 0 0;
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+}
+.eventDetailHeaderRight{
+    float: left;
+    width: 120px;
+    /*text-align: center;*/
+}
+.eventDetailLeft{
+    float: left;
+    width: 650px;
+    clear: left;
+    padding: 0 5px;
+}
+.eventDetailRight{
+    float: left;
+    width: 100px;
+}
+.eventDetailTagsBlock{
+    margin: 15px 0 0 20px;
+}
+.eventDetailTag{
+    display: inline-block;
+    margin: 0 3px 0 0;
+    border: 1px solid gray;
+    padding: 2px 8px;
+    border-radius: 15px;
+    background-color: #eee;
+    cursor: default;
+}
+.eventDetailTag:hover{
+    background-color: #ddd;
+}
+.eventDetailDate {
+    margin: 7px 10px;
+    font-size: 10pt;
+}
+.eventDetailDate .dateLabel{
+    font-weight: bold;
+    color: #555;
+    float: left;
+    padding-right: 5px;
+}
+.eventDetailAnnotation{
+    clear: both;
+    line-height: 2em;
+    padding-top: 7px;
+}
+.eventDetailDescription{
+    clear: both;
+    line-height: 2em;
+    padding-top: 7px;
+}
+.eventDetailFrom{
+    font-weight: bold;
+}
+.eventDetailAdvertisement img{
+    height: 600px;
+    width: 120px;
+    margin: 5px 0 0 6px;
+}
+.eventDetailStars{
+    width: 70px;
+    float: left;
+    font-size: 25pt;
+}
+
+.eventDetailAttendBlock{
+    text-align: center;
+    width: 130px;
+}
+
+.eventDetailAttend{
+    margin: 15px 0 0 0;
+}
+
+/* Event detail rating START */
+.eventDetailRatingBlock{
+    width: 130px;
+}
+
+.eventDetailRatingBlock .rating{
+    height: 30px;
+    margin: 12px 0 3px;
+}
+
+.eventDetailRatingBlock button{
+    width: 130px;
+    margin: 5px 0;
+}
+/* Event detail rating END */
+
+/* Event widgets START */
+.eventDetailWidgetsBlock{
+    text-align: center;
+}
+.eventDetailWidget{
+    width: 280px;
+    display: inline-block;
+    margin: 10px 15px;
+    border: 1px solid #ddd;
+}
+.eventDetailWidget .header{
+    height: 30px;
+    border-bottom: 2px solid #28aadc;
+}
+.eventDetailWidget .header h3{
+    padding: 5px 10px;
+    font-size: 12pt;
+    margin: 0;
+}
+.eventDetailWidget .content{
+    text-align: left;
+    padding: 5px 5px 25px 5px;
+}
+/* Event widgets END */

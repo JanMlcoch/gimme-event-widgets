@@ -1,0 +1,37 @@
+{
+  "leftSidebar": {
+    "removePlaceFilter": "Remove place filter",
+    "closeSidebar": "Hide sidebar",
+    "events": {
+      "emptyEventsText": "No events found",
+      "unknownPlace": "Unknown place",
+      "bestRecommendation": "We recommend",
+      "goodRecommendation": "You would be interested in",
+      "casualRecommendation": "You might also like"
+    },
+    "eventsFilter": {
+      "inputPlaceholder": "filter"
+    },
+    "eventDetail": {
+      "loading": "Loading",
+      "backToList": "Back to events",
+      "doCenterMap": "Center map",
+      "webpageLink": "Odkaz",
+      "fbLink": "FB",
+      "admission": "Admission",
+      "admissionNote": "Note",
+      "organizer": "Organizer",
+      "noOrganizers": "Unknown organizer",
+      "contactUs": "Contact us",
+      "email": "Email",
+      "phone": "Phone",
+      "defaultFlag": "Base cost",
+      "from": "From",
+      "to": "To",
+      "date": "Date",
+      "attend": "Attend this event",
+      "recommendedRight": "Good recommedation",
+      "recommendedWrong": "Wrong recommedation"
+    }
+  }
+}

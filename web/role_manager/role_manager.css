@@ -1,0 +1,38 @@
+#role_login_cont {
+  margin-bottom: 20px;
+}
+
+table {
+  border-collapse: collapse;
+}
+
+th {
+  background-color: #4CAF50;
+  color: white;
+}
+
+table, th, td {
+  border: 1px solid black;
+}
+
+select {
+  width: 100%;
+}
+
+.role-permission-option-any, .role-permission-select-any {
+  background-color: #44ff44;
+}
+
+.role-permission-option-none, .role-permission-select-none {
+  background-color: #ff4444;
+}
+
+.role-permission-option-own, .role-permission-select-own {
+  background-color: #ffff44;
+}
+.role-permission-option-own-unused, .role-permission-select-own-unused {
+  background-color: #cc99ff;
+}
+.role-permission-option-unused, .role-permission-select-unused {
+  background-color: #99ccff;
+}
